@@ -1,0 +1,236 @@
+#facebookLoginPrompt {
+    margin: 2em 0 0 8em !important; 
+}
+
+
+#commentsHeader{
+    text-align: center; 
+    margin: 1em 0 0em 0;
+    font-size: 35px; 
+
+}
+
+#commentPanelMaster {
+    height: 40em;
+    overflow: scroll;
+    padding: 0px; 
+}
+
+.addCommentPanel{
+    width: 75%; 
+    margin: 1em auto; 
+    padding: 1em; 
+    /* border: 1px solid rgba(119, 136, 153, 0.29);  */
+    /* box-shadow: 1px 1px 2px rgba(119, 136, 153, 0.507);  */
+    background: rgba(245, 245, 245, 0.502); 
+
+}
+
+
+
+.addCommentPicAndResponse{
+    margin: -.5em 0 0 0; 
+    padding: .5em; 
+}
+
+.addCommentPic{
+    height: 50px;
+    width: 50px; 
+    margin-left: 0em; 
+    margin-top: -2.5em; 
+    display: 'inline-block'; 
+}
+
+.addCommentResponseField{
+   width: 90%; 
+   margin-left: 2em; 
+   margin-top: 1em; 
+   display: inline-block; 
+   border: 1px solid rgba(119, 136, 153, 0.29); 
+}
+
+.addCommentButton{
+    margin: 0 0 0 89%;
+    
+}
+
+/* IF A COMMENT IS A REPLY:  */
+.addCommentPanelReply{
+    width: 70%; 
+    margin: 1em auto; 
+    padding: 1em; 
+    /* border: 1px solid rgba(119, 136, 153, 0.29);  */
+    /* box-shadow: 1px 1px 2px rgba(119, 136, 153, 0.507);  */
+    background: rgba(245, 245, 245, 0.502); 
+
+}
+
+.addCommentPanelReply .addCommentPic{
+    height: 50px;
+    width: 50px; 
+    margin-left: 0em; 
+    margin-top: -2.5em; 
+    display: 'inline-block'; 
+}
+
+.addCommentPanelReply .addCommentResponseField {
+    width: 85%; 
+    margin-left: 2em; 
+    margin-top: 1em; 
+    display: inline-block; 
+    border: 1px solid rgba(119, 136, 153, 0.29); 
+}
+
+.addCommentPanelReply .addCommentButton {
+    margin: 0 0 0 84%;
+}
+
+
+.commentPanelWrapper {
+    width: 80% !important; 
+    margin: 1em auto; 
+    
+}
+
+.commentPanel1 {
+    width: 100% !important; 
+    margin-top: 1em auto; 
+    margin-bottom: 1em auto; 
+    margin-left: 0em; 
+    /* border: none;  */
+    box-shadow: none; 
+    /* background-color: yellow; */  
+}
+
+.commentPanel2 {
+    width: 100% !important; 
+    margin-top: 1em auto; 
+    margin-bottom: 1em auto; 
+    margin-left: 5em; 
+    /* border: none;  */
+    box-shadow: none; 
+    /* background-color: yellow; */  
+}
+
+.commentPanel3 {
+    width: 100% !important; 
+    margin-top: 1em auto; 
+    margin-bottom: 1em auto; 
+    margin-left: 10em; 
+    /* border: none;  */
+    box-shadow: none; 
+    /* background-color: yellow; */  
+}
+
+.commentPanel4 {
+    width: 100% !important; 
+    margin-top: 1em auto; 
+    margin-bottom: 1em auto; 
+    margin-left: 15em; 
+    /* border: none;  */
+    box-shadow: none; 
+    /* background-color: yellow; */  
+}
+
+.commentComment {
+    margin-top: 1em;
+    width: 70% !important; 
+    display: inline-block; 
+    background: rgba(245, 245, 245, 0.502); 
+
+
+}
+
+.commentPic {
+    /* border: 1px solid red;  */
+    display: inline-block; 
+    margin-top: 1em;
+    float: left;
+    display: inline-block; 
+}
+
+.userName {
+    color: #337AB7;
+    margin-left: 0em;
+    margin-bottom: 1em;
+}
+
+.commentTextWrapper {
+    margin-top: -0.5em;
+}
+
+.commentText {
+    font-size: 0.8em;
+    margin-left: 1em;
+
+}
+
+.referenceText {
+    font-size: 0.7em;
+    font-style: italic;
+    margin-left: 1.5em;
+}
+
+.referenceTextCommentList {
+    font-size: 0.7em;
+    font-style: italic;
+}
+
+.referenceTextCommentContainerContrib1 {
+    padding: 1em;
+    border-radius: 10px; 
+    margin: 1.5em 1em 1em 1em; 
+    background-color: #00666629;
+}
+
+.referenceTextCommentContainerContrib2 {
+    padding: 1em;
+    border-radius: 10px; 
+    margin: 1.5em 1em 1em 1em; 
+    background-color: #66660035;
+}
+
+.commentButtons{
+    float: right; 
+    display: inline-block;
+    margin: .5em;
+}
+
+.commentButton {
+    margin: 5px
+}
+
+.referenceText {
+    font-size: 0.7em;
+    font-style: italic;
+    margin-left: 1.5em;
+}
+
+.referenceTextContrib1 {
+    font-size: 0.8em;
+    font-style: italic;
+    margin-left: 5.5em;
+    margin-bottom: 0; 
+    max-width: 90% !important; 
+    padding: 1em;
+    border: 2px solid #006666;
+    background-color: #00666629;
+    /* display: inline-block;  */
+}
+
+.referenceTextContrib2 {
+    font-size: 0.8em;
+    font-style: italic;
+    margin-left: 5.5em;
+    margin-bottom: 0; 
+    max-width: 90% !important; 
+    padding: 1em;
+    border: 2px solid #666600;
+    background-color: #66660035;
+    /* display: inline-block;  */
+}
+
+
+
+
+

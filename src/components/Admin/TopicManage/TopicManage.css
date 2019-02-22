@@ -1,0 +1,68 @@
+/* TOPIC MANAGE PAGE */
+
+
+.newTopicButton{
+    display: inline;
+    margin-left: 2em; 
+}
+
+.addTopicButtonDiv{
+    height: 15em;
+    border: 1px solid red; 
+}
+
+#addTopicButton {
+    color: rgb(75, 160, 75) !important;
+    padding-left: .6em; 
+    padding-top: .6em; 
+    font-size: 10em !important; 
+
+}
+
+/* PANELS */
+
+.topicManagePanel{
+    font-size: 15px; 
+    width: 100%; 
+    margin: 1em 1em 0 0; 
+    height: 28em; 
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 1px 1px 2px rgb(204, 207, 210); 
+    transition-duration: 0.3s;
+    transition-property: box-shadow;
+    overflow: hidden;
+}
+
+.topicManagePanel:hover {
+    box-shadow: 10px 10px 10px -10px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.topicManagePanelHeading {
+    min-height: 2em;
+    text-align: left; 
+    padding: 1em 0 1em 1em;
+    /* overflow: hidden; */
+    background: rgb(204, 207, 210) !important; 
+}
+
+.topicManagePanelText{
+    height: 20em;
+    overflow: hidden; 
+    text-align: center;
+}
+
+.topicManageButtongroup{
+    position: absolute;
+    bottom: 1em; 
+    margin: 1em 0 0 0; 
+}
+
+.alertContent{
+    margin: 1em 0 0 0;
+}
+
+.alertButtons{
+    margin: 1em 0 0 0;
+}

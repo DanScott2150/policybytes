@@ -1,0 +1,964 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.3
+-- Dumped by pg_dump version 10.3
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: comments_general; Type: TABLE; Schema: public; Owner: DK
+--
+
+CREATE TABLE public.comments_general (
+    id integer NOT NULL,
+    date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    person_id integer,
+    topic_id integer,
+    comment character varying(5000),
+    approved boolean DEFAULT false,
+    "order" character varying(5000),
+    likes integer,
+    owner integer,
+    key_claim_id integer,
+    stream_id integer,
+    proposal_id integer
+);
+
+
+ALTER TABLE public.comments_general OWNER TO "DK";
+
+--
+-- Name: comments_general_id_seq; Type: SEQUENCE; Schema: public; Owner: DK
+--
+
+CREATE SEQUENCE public.comments_general_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_general_id_seq OWNER TO "DK";
+
+--
+-- Name: comments_general_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: DK
+--
+
+ALTER SEQUENCE public.comments_general_id_seq OWNED BY public.comments_general.id;
+
+
+--
+-- Name: contributor; Type: TABLE; Schema: public; Owner: DK
+--
+
+CREATE TABLE public.contributor (
+    id integer NOT NULL,
+    first_name character varying(50),
+    last_name character varying(50),
+    bio character varying(1000),
+    photo_url character varying(5000)
+);
+
+
+ALTER TABLE public.contributor OWNER TO "DK";
+
+--
+-- Name: contributor_id_seq; Type: SEQUENCE; Schema: public; Owner: DK
+--
+
+CREATE SEQUENCE public.contributor_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.contributor_id_seq OWNER TO "DK";
+
+--
+-- Name: contributor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: DK
+--
+
+ALTER SEQUENCE public.contributor_id_seq OWNED BY public.contributor.id;
+
+
+--
+-- Name: key_claim; Type: TABLE; Schema: public; Owner: DK
+--
+
+CREATE TABLE public.key_claim (
+    id integer NOT NULL,
+    topic_id integer,
+    contributor_id integer,
+    claim character varying(5000),
+    claim_order integer
+);
+
+
+ALTER TABLE public.key_claim OWNER TO "DK";
+
+--
+-- Name: key_claim_id_seq; Type: SEQUENCE; Schema: public; Owner: DK
+--
+
+CREATE SEQUENCE public.key_claim_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.key_claim_id_seq OWNER TO "DK";
+
+--
+-- Name: key_claim_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: DK
+--
+
+ALTER SEQUENCE public.key_claim_id_seq OWNED BY public.key_claim.id;
+
+
+--
+-- Name: like; Type: TABLE; Schema: public; Owner: DK
+--
+
+CREATE TABLE public."like" (
+    id integer NOT NULL,
+    person_id integer,
+    key_claim_id integer,
+    stream_id integer,
+    comments_general_id integer,
+    proposal_id integer,
+    count integer
+);
+
+
+ALTER TABLE public."like" OWNER TO "DK";
+
+--
+-- Name: like_id_seq; Type: SEQUENCE; Schema: public; Owner: DK
+--
+
+CREATE SEQUENCE public.like_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.like_id_seq OWNER TO "DK";
+
+--
+-- Name: like_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: DK
+--
+
+ALTER SEQUENCE public.like_id_seq OWNED BY public."like".id;
+
+
+--
+-- Name: love; Type: TABLE; Schema: public; Owner: DK
+--
+
+CREATE TABLE public.love (
+    id integer NOT NULL,
+    person_id integer,
+    key_claim_id integer,
+    stream_id integer,
+    comments_general_id integer,
+    proposal_id integer
+);
+
+
+ALTER TABLE public.love OWNER TO "DK";
+
+--
+-- Name: love_id_seq; Type: SEQUENCE; Schema: public; Owner: DK
+--
+
+CREATE SEQUENCE public.love_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.love_id_seq OWNER TO "DK";
+
+--
+-- Name: love_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: DK
+--
+
+ALTER SEQUENCE public.love_id_seq OWNED BY public.love.id;
+
+
+--
+-- Name: person; Type: TABLE; Schema: public; Owner: DK
+--
+
+CREATE TABLE public.person (
+    id integer NOT NULL,
+    username character varying(100),
+    password character varying(1000),
+    fb_id character varying(5000),
+    fb_display_name character varying(1000),
+    fb_picture character varying(500),
+    email character varying(500),
+    first_name character varying(50),
+    last_name character varying(50),
+    status integer
+);
+
+
+ALTER TABLE public.person OWNER TO "DK";
+
+--
+-- Name: person_id_seq; Type: SEQUENCE; Schema: public; Owner: DK
+--
+
+CREATE SEQUENCE public.person_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.person_id_seq OWNER TO "DK";
+
+--
+-- Name: person_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: DK
+--
+
+ALTER SEQUENCE public.person_id_seq OWNED BY public.person.id;
+
+
+--
+-- Name: proposal; Type: TABLE; Schema: public; Owner: DK
+--
+
+CREATE TABLE public.proposal (
+    id integer NOT NULL,
+    topic_id integer,
+    contributor_id integer,
+    proposal character varying(1000)
+);
+
+
+ALTER TABLE public.proposal OWNER TO "DK";
+
+--
+-- Name: proposal_id_seq; Type: SEQUENCE; Schema: public; Owner: DK
+--
+
+CREATE SEQUENCE public.proposal_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.proposal_id_seq OWNER TO "DK";
+
+--
+-- Name: proposal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: DK
+--
+
+ALTER SEQUENCE public.proposal_id_seq OWNED BY public.proposal.id;
+
+
+--
+-- Name: stream; Type: TABLE; Schema: public; Owner: DK
+--
+
+CREATE TABLE public.stream (
+    id integer NOT NULL,
+    key_claim_id integer,
+    contributor_id integer,
+    stream_comment character varying(5000),
+    stream_evidence character varying(5000),
+    stream_order integer
+);
+
+
+ALTER TABLE public.stream OWNER TO "DK";
+
+--
+-- Name: stream_id_seq; Type: SEQUENCE; Schema: public; Owner: DK
+--
+
+CREATE SEQUENCE public.stream_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.stream_id_seq OWNER TO "DK";
+
+--
+-- Name: stream_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: DK
+--
+
+ALTER SEQUENCE public.stream_id_seq OWNED BY public.stream.id;
+
+
+--
+-- Name: topic; Type: TABLE; Schema: public; Owner: DK
+--
+
+CREATE TABLE public.topic (
+    id integer NOT NULL,
+    topic_title character varying(100),
+    premise character varying(1000),
+    common_ground character varying(1000),
+    published_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    published boolean DEFAULT false,
+    contributor1_id integer,
+    contributor2_id integer,
+    featured boolean DEFAULT false,
+    archive_summary character varying(5000),
+    archive_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    icon_url character varying(5000)
+);
+
+
+ALTER TABLE public.topic OWNER TO "DK";
+
+--
+-- Name: topic_id_seq; Type: SEQUENCE; Schema: public; Owner: DK
+--
+
+CREATE SEQUENCE public.topic_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.topic_id_seq OWNER TO "DK";
+
+--
+-- Name: topic_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: DK
+--
+
+ALTER SEQUENCE public.topic_id_seq OWNED BY public.topic.id;
+
+
+--
+-- Name: comments_general id; Type: DEFAULT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.comments_general ALTER COLUMN id SET DEFAULT nextval('public.comments_general_id_seq'::regclass);
+
+
+--
+-- Name: contributor id; Type: DEFAULT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.contributor ALTER COLUMN id SET DEFAULT nextval('public.contributor_id_seq'::regclass);
+
+
+--
+-- Name: key_claim id; Type: DEFAULT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.key_claim ALTER COLUMN id SET DEFAULT nextval('public.key_claim_id_seq'::regclass);
+
+
+--
+-- Name: like id; Type: DEFAULT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public."like" ALTER COLUMN id SET DEFAULT nextval('public.like_id_seq'::regclass);
+
+
+--
+-- Name: love id; Type: DEFAULT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.love ALTER COLUMN id SET DEFAULT nextval('public.love_id_seq'::regclass);
+
+
+--
+-- Name: person id; Type: DEFAULT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.person ALTER COLUMN id SET DEFAULT nextval('public.person_id_seq'::regclass);
+
+
+--
+-- Name: proposal id; Type: DEFAULT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.proposal ALTER COLUMN id SET DEFAULT nextval('public.proposal_id_seq'::regclass);
+
+
+--
+-- Name: stream id; Type: DEFAULT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.stream ALTER COLUMN id SET DEFAULT nextval('public.stream_id_seq'::regclass);
+
+
+--
+-- Name: topic id; Type: DEFAULT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.topic ALTER COLUMN id SET DEFAULT nextval('public.topic_id_seq'::regclass);
+
+
+--
+-- Data for Name: comments_general; Type: TABLE DATA; Schema: public; Owner: DK
+--
+
+COPY public.comments_general (id, date, person_id, topic_id, comment, approved, "order", likes, owner, key_claim_id, stream_id, proposal_id) FROM stdin;
+48	2018-06-04 16:31:49.3963-05	18	10	My own experience supports this statement. Thanks for framing it this way!	t	48	380	48	37	\N	\N
+49	2018-06-04 16:32:33.899496-05	17	10	I've been working in the industry for 5 years as a server, and I haven't seen this reflected.	t	48-49	52	48	\N	\N	\N
+51	2018-06-04 16:45:09.381113-05	17	10	An alternate viewpoint on this would be appreciated. Can I see more evidence to the contrary?	t	50-51	115	50	\N	\N	\N
+50	2018-06-04 16:44:41.220673-05	16	10	I agree with this whole-heartedly, but check your sources.	t	50	190	50	\N	126	\N
+52	2018-06-04 16:45:18.118884-05	2	10	Sure, we'll send you some more information!	t	50-51-52	220	50	\N	\N	\N
+\.
+
+
+--
+-- Data for Name: contributor; Type: TABLE DATA; Schema: public; Owner: DK
+--
+
+COPY public.contributor (id, first_name, last_name, bio, photo_url) FROM stdin;
+3				
+4				
+1				
+2				
+5				
+6				
+9	Eli	Harrison	Eli has been a restaurant worker for over a decade, including service side of counter service, full-service fine dining; as a dishes washer, prep cook, and front-of-house staff manager and he is currently an organizer for Restaurant Opportunities Centers United fighting the “tip penalty”  	https://cdn.filestackcontent.com/X8XdzsGaQVuYzw8EPnhg
+10	Jennifer	Osters	Jennifer has been a server/bartender for 17 years in various concept styles and cities throughout the Twin Cities/metro area. She was instrumental in organizing 7,000 servers and bartenders in the fight for a “tip credit” in Minneapolis. Jennifer is currently mobilizing the community in St. Paul for the same cause.	https://cdn.filestackcontent.com/wwxPdXgPQxa5XuXCOEne
+11	Eli	Harrison	Eli has a PhD in Economics from the University of Minnesota, and has worked as a Financial Analyst at Ameriprise Financial for 15 years.	/assets/headshot1.jpeg
+12	Jennifer	Osters	Jennifer currently teaches Microeconomics at St. Thomas University, and has a PhD in Economic Theory from Georgetown University.	/assets/headshot2.jpeg
+13	Eli	Harrison	Eli has a PhD in Economics from the University of Minnesota, and has worked as a Financial Analyst at Ameriprise Financial for 15 years.	/assets/headshot1.jpeg
+14	Jennifer	Osters	Jennifer currently teaches Microeconomics at St. Thomas University, and has a PhD in Economic Theory from Georgetown University.	/assets/headshot2.jpeg
+15				
+16				
+17	Eli	Harrison	Eli has a PhD in Economics from the University of Minnesota, and has worked as a Financial Analyst at Ameriprise Financial for 15 years.	/assets/headshot1.jpeg
+18	Jennifer	Osters	Jennifer currently teaches Microeconomics at St. Thomas University, and has a PhD in Economic Theory from Georgetown University.	/assets/headshot2.jpeg
+19	Eli	Harrison	Eli has been a restaurant worker for over a decade, including service side of counter service, full-service fine dining; as a dishes washer, prep cook, and front-of-house staff manager and he is currently an organizer for Restaurant Opportunities Centers United fighting the “tip penalty”	https://cdn.filestackcontent.com/xLyigc23SniHsVd7paMR
+20	Jennifer	Osters	Jennifer has been a server/bartender for 17 years in various concept styles and cities throughout the Twin Cities/metro area. She was instrumental in organizing 7,000 servers and bartenders in the fight for a “tip credit” in Minneapolis. Jennifer is currently mobilizing the community in St. Paul for the same cause.	https://cdn.filestackcontent.com/xk9aPaCQSdyZJem1WGJk
+\.
+
+
+--
+-- Data for Name: key_claim; Type: TABLE DATA; Schema: public; Owner: DK
+--
+
+COPY public.key_claim (id, topic_id, contributor_id, claim, claim_order) FROM stdin;
+2	2	4		0
+1	1	2		0
+3	3	6		0
+43	10	20	To make up for increases labor costs, menu prices would have to go up, prices going up leads to a loss of customers and sustainability.	6
+44	10	20	There will be additional costs of doing business due to the overriding minimum wage increases that impact our vendors and service providers	7
+45	10	20	Minnesota is unique among neighboring states on a variety of important metrics.	8
+46	10	20	Tipping is an unenforceable cultural norm, a wage is the law. Further, workers with higher wages get tipped equally well or better compared to states with subminimum wage. 	9
+37	10	19	Front of House wages increases leads to the loss of support staff positions/jobs.	0
+38	10	19	Wage increase of $10,400 per employee in the Front of House (tipped staff), will eliminate merit based increases for the Back of House (non-tipped support staff).	1
+39	10	19	Servers are already guaranteed minimum wage and prefer to generate better personal income with tips.	2
+40	10	19	Many attempts to absorb the minimum wage increase negatively impacts tipped workers	3
+41	10	19	Safeguarding the culture, flexibility, and treatment of tips as income and the tip credit wage in America’s full service restaurants is paramount to saving the industry.	4
+42	10	20	A labor heavy, full service restaurant financial model is dependent upon having Prime Costs under 65% for viability and most profit margins for restaurants are between 2-6%.	5
+\.
+
+
+--
+-- Data for Name: like; Type: TABLE DATA; Schema: public; Owner: DK
+--
+
+COPY public."like" (id, person_id, key_claim_id, stream_id, comments_general_id, proposal_id, count) FROM stdin;
+35	\N	\N	131	\N	\N	4398
+33	\N	\N	141	\N	\N	5000
+31	\N	\N	143	\N	\N	4717
+27	\N	\N	124	\N	\N	1399
+21	\N	\N	127	\N	\N	234
+22	\N	\N	128	\N	\N	990
+15	\N	\N	\N	\N	19	1302
+53	\N	\N	\N	\N	20	520
+32	\N	\N	142	\N	\N	289
+46	\N	43	\N	\N	\N	3489
+50	\N	\N	156	\N	\N	348
+45	\N	\N	149	\N	\N	4327
+43	\N	\N	147	\N	\N	819
+48	\N	\N	154	\N	\N	338
+18	\N	39	\N	\N	\N	329
+17	\N	38	\N	\N	\N	22
+41	\N	\N	145	\N	\N	22
+36	\N	\N	132	\N	\N	86
+52	\N	\N	162	\N	\N	439
+40	\N	42	\N	\N	\N	3242
+34	\N	\N	140	\N	\N	27
+47	\N	\N	150	\N	\N	438
+29	\N	\N	126	\N	\N	77
+42	\N	\N	146	\N	\N	77
+38	\N	\N	134	\N	\N	772
+37	\N	\N	133	\N	\N	82
+25	\N	\N	122	\N	\N	2340
+51	\N	\N	157	\N	\N	4388
+20	\N	41	\N	\N	\N	548
+23	\N	\N	129	\N	\N	889
+19	\N	40	\N	\N	\N	393
+16	\N	37	\N	\N	\N	239
+28	\N	\N	125	\N	\N	239
+26	\N	\N	123	\N	\N	99
+44	\N	\N	148	\N	\N	238
+49	\N	\N	155	\N	\N	399
+24	\N	\N	130	\N	\N	90
+39	\N	\N	135	\N	\N	2399
+30	\N	\N	144	\N	\N	281
+\.
+
+
+--
+-- Data for Name: love; Type: TABLE DATA; Schema: public; Owner: DK
+--
+
+COPY public.love (id, person_id, key_claim_id, stream_id, comments_general_id, proposal_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: person; Type: TABLE DATA; Schema: public; Owner: DK
+--
+
+COPY public.person (id, username, password, fb_id, fb_display_name, fb_picture, email, first_name, last_name, status) FROM stdin;
+1	\N	\N	10155309928021160	David Kesler	https://lookaside.facebook.com/platform/profilepic/?asid=10155309928021160&height=50&width=50&ext=1527470748&hash=AeSPmGfY953u5YTq	thedavidkesler@gmail.com	David	Kesler	1
+2	david	$2a$10$Phyha9m9wbU.impgicWN0ONZDHWRSQRoOFpInQICc/3SRNcH/PQba	\N	Citizen's League	/assets/CLLogo.jpg	\N	\N	\N	2
+16	\N	\N	119465015599690	Bob Roberts	/assets/noamchomsky.png	bob_smgxbeg_roberts@tfbnw.net	Bob	Roberts	1
+17	\N	\N	106201656933055	Mike M Bushakwitz	/assets/dalilama.png	mike_xvoldwc_bushakwitz@tfbnw.net	Mike	Bushakwitz	1
+18	\N	\N	106648990221586	Jennifer A Goldmanescu	/assets/oprahwinfrey.png	jennifer_bhaaubq_goldmanescu@tfbnw.net	Jennifer	Goldmanescu	1
+\.
+
+
+--
+-- Data for Name: proposal; Type: TABLE DATA; Schema: public; Owner: DK
+--
+
+COPY public.proposal (id, topic_id, contributor_id, proposal) FROM stdin;
+3	2	3	
+4	2	4	
+1	1	1	
+2	1	2	
+5	3	5	
+6	3	6	
+20	10	20	The majority of the restaurant community fully supports the Fight for 15 in St. Paul with one caveat. We want a Tip Credit. According to a 2017 Minnesota Restaurant Association survey, support staff positions (such as busboys and hosts) make $12.64 on average, line cooks average $13.89, and tipped workers average $28.56. The restaurant industry excels in providing an accessible path to ownership and management without a formal education, and for women and people of color. Safeguarding the culture, flexibility, and treatment of tips as income and the tip credit wage in America’s full service restaurants is paramount to saving the industry and crucial to the protection of well-paying tipped jobs.
+19	10	19	What restaurant owners might refer to as a tip credit, is a tip penalty for workers since they must discount tips from their wage. A tip penalty in St. Paul should not be considered; it would roll back 30 years of worker protections and leave tipped workers in a more vulnerable position. I support a $15 minimum wage in St. Paul that leaves no worker behind.
+\.
+
+
+--
+-- Data for Name: stream; Type: TABLE DATA; Schema: public; Owner: DK
+--
+
+COPY public.stream (id, key_claim_id, contributor_id, stream_comment, stream_evidence, stream_order) FROM stdin;
+2	2	4			0
+1	1	2			0
+3	3	6			0
+125	37	19	The wage in St. Paul will gradually increase throughout a multiyear phase-in, any increases in labor costs, in any industry, will be absorbed over the course of that time. 	Counter example: the continued growth in the number of full service establishments in California- in particular, in Alameda County (Oakland) the number of full service establishments increased in 2016.	3
+122	37	19	Front of House wages increases leads to the loss of support staff positions/jobs.	Red Robin Staff Cuts due to increased minimum wage. Each dollar increase in minimum wage = 14% more likely to close. In the Bay Area, with $15/hr without a tip credit,  it resulted in closures city-wide.\n	0
+124	37	19	The restaurant industry has been coping with the cost increases to the current $9.50/hr minimum wage, but increasing the wage to $15/hr is a huge increase that will kill the growth that has been possible so far.	Wage increase of $10,400 per employee in the Front of House (tipped staff), will eliminate merit based increases for the Back of House (non-tipped support staff).<br/><br/>In response to the 3rd set of articles offered as evidence of the connection to higher wages and restaurant closures: the owner indicates that they had “missteps”, and that some closures were “long in the making”. This one example should not be persuasive in the face of many counter examples. 	2
+134	39	20	Raising the wage is not about ending or changing tipping. It is about whether or not an employer should pay a higher wage to their employee.	In Minnesota, when compared to neighboring states, wages are higher for restaurant industry workers across the board.	3
+162	45	20	Currently, and over the last 30-plus years, despite rising costs in rent and other listed expenses impacted by wage increases, our industry continues to grow in employment and sales. <br/><br/>Restaurant sales in Minnesota are projected to increase by 3.4 percent.	To make up for increases labor costs, menu prices would have to go up, prices going up leads to a loss of customers and sustainability.	4
+123	37	20	Minnesota has already experienced full service restaurant and overall restaurant employment growth in the midst of 30 years of being a one wage state.  Given our growth, why do you think that wage increases negatively impact employment rates? 	  In response to the Red Robin article cited: There are many Red Robins in states that have NOT experienced an increase in the minimum wage, much less the tipped minimum wage. The shared article merely speculates correlation, but it’s touted it as if it is proof of causation. It is important to consider how many establishments Red Robin has in states that have and have not experienced a minimum wage increase.<br/><br/> In response to the Harvard study cited: The study is not focused on the tip credit, the article uses the word tips twice. The study finds that when the minimum wage increases by a dollar, establishments already suffering from poor reputations are more likely to close. The study also found that there is no discernable impact for restaurants with higher ratings, and that “a one-star increase in rating is associated with more than a 50% decrease in the likelihood of going out of business.”	1
+126	37	20	In Minnesota, when compared to neighboring states, wages are higher for restaurant industry workers across the board.	The median wage for Back-of-the-house (BOH) workers in Minnesota is $10.62, compared to $9.62 in Wisconsin.	4
+127	38	19	Wage increase of $10,400 per employee in the Front of House (tipped staff), will eliminate merit based increases for the Back of House (non-tipped support staff).	The wage in St. Paul will gradually increase throughout a multiyear phase-in, any increases in labor costs, in any industry, will be absorbed over the course of that time. <br/><br/>In Minnesota, when compared to neighboring states, wages are higher for restaurant industry workers across the board.<br/><br/>The median wage for Back-of-the-house (BOH) workers in Minnesota is $10.62, compared to $9.62 in Wisconsin.	0
+128	38	20	Minnesota is unique among neighboring states on a variety of important metrics.	DEED data comparisons	1
+129	38	19	In response to the 3rd set of articles offered as evidence of the connection to higher wages and restaurant closures: the owner indicates that they had “missteps”, and that some closures were “long in the making”. 	This one example should not be persuasive in the face of many counter examples.	2
+164	46	19	Full service restaurant establishment (FSR) and employment (FSRE) numbers show an increase. <br/><br/>Growth rates of the former led to the industry comprise 9% of the total workforce.	Restaurants lose customers when they increase prices.	1
+135	39	19	Servers are already guaranteed minimum wage and prefer to generate better personal income with tips.	The restaurant industry excels in providing an accessible path to ownership and management without a formal education, and for women and people of color.	4
+136	40	19	Raising the wage is not about ending or changing tipping. It is about whether or not an employer should pay a higher wage to their employee. Tipping is an unenforceable cultural norm, a wage is the law. Further, workers with higher wages get tipped equally well or better compared to states with subminimum wage. <br/><br/>In addition, in states with a subminimum wage, the tip penalty leads to some of the highest rates of wage theft of any other industry.	Servers are already guaranteed minimum wage and prefer to generate better personal income with tips.	0
+137	40	20	Raising the wage is not about ending or changing tipping. It is about whether or not an employer should pay a higher wage to their employee. Tipping is an unenforceable cultural norm, a wage is the law. Further, workers with higher wages get tipped equally well or better compared to states with subminimum wage. 	In addition, in states with a subminimum wage, the tip penalty leads to some of the highest rates of wage theft of any other industry.	1
+138	40	19	Safeguarding the culture, flexibility, and treatment of tips as income and the tip credit wage in America’s full service restaurants is paramount to saving the industry.	Support staff positions (such as busboys and hosts) make $12.64 on average.	2
+139	40	20	Tipping is an unenforceable cultural norm, a wage is the law. Further, workers with higher wages get tipped equally well or better compared to states with subminimum wage.	A labor heavy, full service restaurant financial model is dependent upon having Prime Costs under 65% for viability and most profit margins for restaurants are between 2-6%.	3
+140	41	19	Red Robin Staff Cuts due to increased minimum wage. Each dollar increase in minimum wage = 14% more likely to close. In the Bay Area, with $15/hr without a tip credit,  it resulted in closures city-wide.	Higher wages and restaurant closures lead to more attrition. <br/><br/> The owner indicates that they had “missteps”, and that some closures were “long in the making”.	0
+141	41	20	The over 50% increase in wage makes a huge difference in a market with as thin of profit margins as restaurants. 	Full service restaurant establishment (FSR) and employment (FSRE) numbers increase, from 2011-2016 the latter increased by 13 percent<br/><br/>Growth rates of the former led to the industry comprising 9% of the total workforce.	1
+142	41	19	A recently leaked poll conducted by the National Restaurant Association found that 71 percent of people believed that minimum wages should increase even if the cost of food and service increases.	Consider the following leaked poll.	2
+143	41	20	Full service restaurant establishment (FSR) and employment (FSRE) numbers increase, from 2011-2016 the latter increased by 13 percent<br/><br/>Growth rates of the former led to the industry comprising 9% of the total workforce.	The over 50% increase in wage makes a huge difference in a market with as thin of profit margins as restaurants. 	3
+165	46	20	It is important to consider how many establishments have and have not experienced a minimum wage increase.	Given our growth, why do you think that wage increases negatively impact employment rates? 	2
+166	46	19	Public opinion doesn’t have anything to do with the basic fact that restaurants lose customers when they increase prices.	A recently leaked poll conducted by the National Restaurant Association found that 71 percent of people believed that minimum wages should increase even if the cost of food and service increases.	3
+130	38	20	The wage in St. Paul will gradually increase throughout a multiyear phase-in, any increases in labor costs, in any industry, will be absorbed over the course of that time. 	U.S. Department of Labor reported that 83.8 percent of restaurants had some kind of wage and hour violation, including over 1,000 tip credit violations, which led to nearly $5.5 million in back wages.	3
+131	39	19	Servers are already guaranteed minimum wage and prefer to generate better personal income with tips.	Servers prefer the traditional tipping model.	0
+132	39	20	Raising the wage is not about ending or changing tipping. It is about whether or not an employer should pay a higher wage to their employee. Tipping is an unenforceable cultural norm, a wage is the law. Further, workers with higher wages get tipped equally well or better compared to states with subminimum wage. <br/><br/>In addition, in states with a subminimum wage, the tip penalty leads to some of the highest rates of wage theft of any other industry.	In Minnesota the median tipped wage is $10.17, compared to $9.62 in Wisconsin and $9.96 in North Dakota.<br/><br/>U.S. Department of Labor reported that 83.8 percent of restaurants had some kind of wage and hour violation, including over 1,000 tip credit violations, which led to nearly $5.5 million in back wages.<br/><br/>American Express Restaurant Trade Survey on attitudes towards tipping.\n	1
+133	39	19	The cultural norm of tipping has been around for a sufficiently long period of time to rely on. Changing the wages will have a negative impact on that culture in the long run.	The primary utility of these systems is to increase check sizes and offer an opportunity to collect customer feedback – efficiencies that could result in greater employment. 	2
+161	45	19	FICA, Medicare, unemployment insurance,  sales tax, insurance and credit card processing fees are an hard on small businesses.	The reason why costs of labor is the most important issue to profitability is because the other issues are mostly outside of the restaurants control.	3
+147	42	20	 PEOD value in full service restaurants =2.3 meaning for every 1% menu price increase there is a loss of 2.3% of customers.	The reason why costs of labor is the most important issue to profitability is because the other issues are mostly outside of the restaurants control.	2
+149	42	19	These numbers are based on a $9.50/hr minimum wage, not the much higher $15/hr wage that is being discussed now. 	The over 50% increase in wage makes a huge difference in a market with as thin of profit margins as restaurants. 	4
+150	43	20	Currently, and over the last 30-plus years, despite rising costs in rent and other listed expenses impacted by wage increases, our industry continues to grow in employment and sales. 	Public opinion doesn’t have anything to do with the basic fact that restaurants lose customers when they increase prices.	0
+158	45	20	There will be additional costs of doing business due to the overriding minimum wage increases that impact our vendors and service providers	To make up for increases labor costs, menu prices would have to go up, prices going up leads to a loss of customers and sustainability.	0
+144	41	19	A labor heavy, full service restaurant financial model is dependent upon having Prime Costs under 65% for viability and most profit margins for restaurants are between 2-6%.	Raising the wage is not about ending or changing tipping. It is about whether or not an employer should pay a higher wage to their employee.	4
+145	42	20	Raising the wage is not about ending or changing tipping. It is about whether or not an employer should pay a higher wage to their employee. Tipping is an unenforceable cultural norm, a wage is the law. Further, workers with higher wages get tipped equally well or better compared to states with subminimum wage. <br/><br/>In addition, in states with a subminimum wage, the tip penalty leads to some of the highest rates of wage theft of any other industry.	Servers are already guaranteed minimum wage and prefer to generate better personal income with tips.	0
+146	42	19	Servers are already guaranteed minimum wage and prefer to generate better personal income with tips.	Raising the wage is not about ending or changing tipping. It is about whether or not an employer should pay a higher wage to their employee. Tipping is an unenforceable cultural norm, a wage is the law. Further, workers with higher wages get tipped equally well or better compared to states with subminimum wage. <br/><br/>In addition, in states with a subminimum wage, the tip penalty leads to some of the highest rates of wage theft of any other industry.	1
+148	42	19	Food and beverage, linens, paper products, payroll tax liability, workers comp, liquor liability, FICA, Medicare, unemployment insurance,  sales tax, insurance and credit card processing fees 	Full service restaurant establishment (FSR) and employment (FSRE) numbers increase, from 2011-2016 the latter increased by13 percent and growth rates of the former led to the industry comprising 9% of the total workforce.<br/><br/>\nAdditionally, in 2017 restaurant sales in Minnesota were projected to increase by 3.4 percent. <br/><br/>When looking at the seven states with one wage as an aggregate, from 2011-2016 FRSE rates increased by 20.4 percent, and their 2017 sales were expected to increase by 5.1 percent.\n	3
+151	43	19	According to a 2017 Minnesota Restaurant Association survey, support staff positions (such as busboys and hosts) make $12.64 on average, line cooks average $13.89, and tipped workers average $28.56.	The shared article merely speculates correlation, but it’s touted it as if it is proof of causation. 	1
+152	43	20	Given our growth, why do you think that wage increases negatively impact employment rates? 	Public opinion doesn’t have anything to do with the basic fact that restaurants lose customers when they increase prices.	2
+153	43	19	The restaurant industry excels in providing an accessible path to ownership and management without a formal education, and for women and people of color. 	Safeguarding the culture, flexibility, and treatment of tips as income and the tip credit wage in America’s full service restaurants is paramount to saving the industry and crucial to the protection of well-paying tipped jobs. 	3
+154	44	20	In response to the 3rd set of articles offered as evidence of the connection to higher wages and restaurant closures: the owner indicates that they had “missteps”, and that some closures were “long in the making”. 	This one example should not be persuasive in the face of many counter examples. 	0
+155	44	19	Safeguarding the culture, flexibility, and treatment of tips as income and the tip credit wage in America’s full service restaurants is paramount to saving the industry	Restaurants lose customers when they increase prices.	1
+156	44	20	The continued growth in the number of full service establishments in California- in particular, in Alameda County (Oakland) the number of full service establishments increased in 2016.	See ad claims et all in the origin articles on service workers in New York State.	2
+157	44	19	Businesses with solid reputation are insulated from market shocks.	Recent article in Forbes points to business reputation as indicator of competitiveness in market.	3
+159	45	19	Workers with higher wages get tipped equally well or better compared to states with subminimum wage. <br/><br/>In addition, in states with a subminimum wage, the tip penalty leads to some of the highest rates of wage theft of any other industry.	The reason why costs of labor is the most important issue to profitability is because the other issues are mostly outside of the restaurants control.	1
+160	45	20	 Economic reports estimating changes in the restaurant industry illustrate the difficulty of implementation.	To make up for increases labor costs, menu prices would have to go up, prices going up leads to a loss of customers and sustainability. <br/><br/>Our industry continues to grow in employment and sales.	2
+163	46	20	Given our growth, why do you think that wage increases negatively impact employment rates? 	Servers are already guaranteed minimum wage and prefer to generate better personal income with tips.	0
+\.
+
+
+--
+-- Data for Name: topic; Type: TABLE DATA; Schema: public; Owner: DK
+--
+
+COPY public.topic (id, topic_title, premise, common_ground, published_date, published, contributor1_id, contributor2_id, featured, archive_summary, archive_date, icon_url) FROM stdin;
+3	Census Survey			2018-06-04 08:54:50.028375-05	t	5	6	f	Kim Lee and Jamar Reynolds talk about the upcoming census survey, discuss its implications, and propose scopes and approaches.	2018-06-04 08:54:50.028375-05	https://cdn.filestackcontent.com/NN8270xJTaS1uemz5KLt
+1	Public Transit			2018-06-04 08:47:50.165197-05	t	1	2	f	Hector Chavez and Josepine Lampone propose policy plans surrounding public transit in the Twin Cities and discuss the implications, (dis)advantages and solvency of each plan. 	2018-06-04 08:47:50.165197-05	https://cdn.filestackcontent.com/YepH3mpdSrOqP0YHZrI5
+2	City Council Task Force			2018-06-04 08:51:17.010387-05	t	3	4	f	Nico Swenson and Fred Moinihan discuss the new city council task force being created and weigh in on the pros and cons.	2018-06-04 08:51:17.010387-05	https://cdn.filestackcontent.com/2VTlMu4SSkeG1ilsX19W
+10	How should tips be treated in St. Paul Restaurants?	Most servers and bartenders make a vast percentage of their income from tips. As the minimum wage continues to rise, in some states as high as $15 per hour, it is important to discuss the future of tipping in Minnesota's restaurants. Should businesses be able to pay tipped employees a lower minimum wage than non-tipped workers?	$15.00 minimum wage for back-of-house staff.<br/><br/>\nThriving restaurant industry for staff and owners.<br/><br/>\nPreservation of tipping culture.	2018-06-04 14:31:53.815563-05	f	19	20	t	Eli Harrison and Jennifer Osters discuss raising the minimum wage and tip credits in Minnesota restaurants. Should tipped workers be paid a lower wage?	2018-06-04 14:31:53.815563-05	
+\.
+
+
+--
+-- Name: comments_general_id_seq; Type: SEQUENCE SET; Schema: public; Owner: DK
+--
+
+SELECT pg_catalog.setval('public.comments_general_id_seq', 55, true);
+
+
+--
+-- Name: contributor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: DK
+--
+
+SELECT pg_catalog.setval('public.contributor_id_seq', 20, true);
+
+
+--
+-- Name: key_claim_id_seq; Type: SEQUENCE SET; Schema: public; Owner: DK
+--
+
+SELECT pg_catalog.setval('public.key_claim_id_seq', 46, true);
+
+
+--
+-- Name: like_id_seq; Type: SEQUENCE SET; Schema: public; Owner: DK
+--
+
+SELECT pg_catalog.setval('public.like_id_seq', 53, true);
+
+
+--
+-- Name: love_id_seq; Type: SEQUENCE SET; Schema: public; Owner: DK
+--
+
+SELECT pg_catalog.setval('public.love_id_seq', 1, false);
+
+
+--
+-- Name: person_id_seq; Type: SEQUENCE SET; Schema: public; Owner: DK
+--
+
+SELECT pg_catalog.setval('public.person_id_seq', 18, true);
+
+
+--
+-- Name: proposal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: DK
+--
+
+SELECT pg_catalog.setval('public.proposal_id_seq', 20, true);
+
+
+--
+-- Name: stream_id_seq; Type: SEQUENCE SET; Schema: public; Owner: DK
+--
+
+SELECT pg_catalog.setval('public.stream_id_seq', 166, true);
+
+
+--
+-- Name: topic_id_seq; Type: SEQUENCE SET; Schema: public; Owner: DK
+--
+
+SELECT pg_catalog.setval('public.topic_id_seq', 10, true);
+
+
+--
+-- Name: comments_general comments_general_pkey; Type: CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.comments_general
+    ADD CONSTRAINT comments_general_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: contributor contributor_pkey; Type: CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.contributor
+    ADD CONSTRAINT contributor_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: key_claim key_claim_pkey; Type: CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.key_claim
+    ADD CONSTRAINT key_claim_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: like like_pkey; Type: CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public."like"
+    ADD CONSTRAINT like_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: love love_pkey; Type: CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.love
+    ADD CONSTRAINT love_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: person person_pkey; Type: CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.person
+    ADD CONSTRAINT person_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: person person_username_key; Type: CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.person
+    ADD CONSTRAINT person_username_key UNIQUE (username);
+
+
+--
+-- Name: proposal proposal_pkey; Type: CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.proposal
+    ADD CONSTRAINT proposal_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stream stream_pkey; Type: CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.stream
+    ADD CONSTRAINT stream_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: topic topic_pkey; Type: CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.topic
+    ADD CONSTRAINT topic_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comments_general comments_general_person_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.comments_general
+    ADD CONSTRAINT comments_general_person_id_fkey FOREIGN KEY (person_id) REFERENCES public.person(id);
+
+
+--
+-- Name: key_claim key_claim_contributor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.key_claim
+    ADD CONSTRAINT key_claim_contributor_id_fkey FOREIGN KEY (contributor_id) REFERENCES public.contributor(id);
+
+
+--
+-- Name: key_claim key_claim_topic_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.key_claim
+    ADD CONSTRAINT key_claim_topic_id_fkey FOREIGN KEY (topic_id) REFERENCES public.topic(id) ON DELETE CASCADE;
+
+
+--
+-- Name: like like_comments_general_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public."like"
+    ADD CONSTRAINT like_comments_general_id_fkey FOREIGN KEY (comments_general_id) REFERENCES public.comments_general(id);
+
+
+--
+-- Name: like like_key_claim_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public."like"
+    ADD CONSTRAINT like_key_claim_id_fkey FOREIGN KEY (key_claim_id) REFERENCES public.key_claim(id);
+
+
+--
+-- Name: like like_person_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public."like"
+    ADD CONSTRAINT like_person_id_fkey FOREIGN KEY (person_id) REFERENCES public.person(id);
+
+
+--
+-- Name: like like_proposal_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public."like"
+    ADD CONSTRAINT like_proposal_id_fkey FOREIGN KEY (proposal_id) REFERENCES public.proposal(id);
+
+
+--
+-- Name: like like_stream_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public."like"
+    ADD CONSTRAINT like_stream_id_fkey FOREIGN KEY (stream_id) REFERENCES public.stream(id);
+
+
+--
+-- Name: love love_comments_general_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.love
+    ADD CONSTRAINT love_comments_general_id_fkey FOREIGN KEY (comments_general_id) REFERENCES public.comments_general(id);
+
+
+--
+-- Name: love love_key_claim_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.love
+    ADD CONSTRAINT love_key_claim_id_fkey FOREIGN KEY (key_claim_id) REFERENCES public.key_claim(id);
+
+
+--
+-- Name: love love_person_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.love
+    ADD CONSTRAINT love_person_id_fkey FOREIGN KEY (person_id) REFERENCES public.person(id);
+
+
+--
+-- Name: love love_proposal_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.love
+    ADD CONSTRAINT love_proposal_id_fkey FOREIGN KEY (proposal_id) REFERENCES public.proposal(id);
+
+
+--
+-- Name: love love_stream_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.love
+    ADD CONSTRAINT love_stream_id_fkey FOREIGN KEY (stream_id) REFERENCES public.stream(id);
+
+
+--
+-- Name: proposal proposal_contributor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.proposal
+    ADD CONSTRAINT proposal_contributor_id_fkey FOREIGN KEY (contributor_id) REFERENCES public.contributor(id);
+
+
+--
+-- Name: proposal proposal_topic_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.proposal
+    ADD CONSTRAINT proposal_topic_id_fkey FOREIGN KEY (topic_id) REFERENCES public.topic(id) ON DELETE CASCADE;
+
+
+--
+-- Name: stream stream_contributor_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.stream
+    ADD CONSTRAINT stream_contributor_id_fkey FOREIGN KEY (contributor_id) REFERENCES public.contributor(id);
+
+
+--
+-- Name: stream stream_key_claim_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.stream
+    ADD CONSTRAINT stream_key_claim_id_fkey FOREIGN KEY (key_claim_id) REFERENCES public.key_claim(id) ON DELETE CASCADE;
+
+
+--
+-- Name: topic topic_contributor1_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.topic
+    ADD CONSTRAINT topic_contributor1_id_fkey FOREIGN KEY (contributor1_id) REFERENCES public.contributor(id);
+
+
+--
+-- Name: topic topic_contributor2_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: DK
+--
+
+ALTER TABLE ONLY public.topic
+    ADD CONSTRAINT topic_contributor2_id_fkey FOREIGN KEY (contributor2_id) REFERENCES public.contributor(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -1,0 +1,16 @@
+#topicEditMaster h1 {
+    margin: 1em;
+}
+
+#topicEditMaster textArea {
+    margin: .7em auto .7em auto; 
+    min-height: 5em !important; 
+}
+
+#topicEditMaster select {
+    margin: .7em auto .7em auto; 
+}
+
+#topicEditMaster p {
+    font-weight: bold; 
+}
