@@ -4,6 +4,7 @@ import { Panel, Glyphicon, Button, ButtonGroup } from 'react-bootstrap';
 
 import LikeButtonStream from './LikeButtons/LikeButtonStream.jsx'
 
+import Linkify from 'linkifyjs/react';
 
 class StreamItem extends Component {
   constructor(props, context) {
@@ -47,6 +48,10 @@ class StreamItem extends Component {
       streamItemClass += " contrib2Stream"
     }
 
+    let linkifyText = (
+      <Linkify tagName="p"> { this.props.streamItem.streamEvidence }</Linkify>
+    );
+
     // console.log(this.props.streamItem);
 
     return (
@@ -63,8 +68,8 @@ class StreamItem extends Component {
             </div>
             <Panel.Collapse>
               <br />
-
-              <p dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamEvidence }} />
+                  {/* <p dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamEvidence }} /> */}
+                <Linkify tagName="p"> {this.props.streamItem.streamEvidence}</Linkify>
               <br />
 
               <Panel.Footer className="keyClaimFooter">
