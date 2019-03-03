@@ -38,6 +38,9 @@
     "redux-promise-middleware": "^5.1.1",
     "redux-saga": "^0.16.0"
   },
+  "engines": {
+    "node": "10.7.0"
+  },
   "scripts": {
     "start": "node server/server.js",
     "client": "set HTTPS=true&&react-scripts start",
