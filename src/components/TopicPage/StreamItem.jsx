@@ -71,6 +71,7 @@ class StreamItem extends Component {
               <br />
                   {/* <p dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamEvidence }} /> */}
                 <Linkify tagName="p">E: {this.props.streamItem.streamEvidence}</Linkify>
+                Other Text
               <br />
 
               <Panel.Footer className="keyClaimFooter">
