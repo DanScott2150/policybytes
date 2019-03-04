@@ -59,7 +59,8 @@ class StreamItem extends Component {
 
         <Panel className={streamItemClass} expanded={this.state.open}>
           <Panel.Body>
-            <div dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamComment }} />
+            {/* <div dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamComment }} /> */}
+            <Linkify tagName="div">{this.props.streamItem.streamComment }</Linkify>
             <br/>
             <div className="evidenceTag">
               <span>
