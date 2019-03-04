@@ -70,8 +70,7 @@ class StreamItem extends Component {
             <Panel.Collapse>
               <br />
                   {/* <p dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamEvidence }} /> */}
-                <Linkify tagName="p">E: {this.props.streamItem.streamEvidence}</Linkify>
-                Other Text
+                <Linkify tagName="p">{this.props.streamItem.streamEvidence}</Linkify>
               <br />
 
               <Panel.Footer className="keyClaimFooter">
