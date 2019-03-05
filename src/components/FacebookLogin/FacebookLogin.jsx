@@ -26,16 +26,16 @@ class FacebookLogin extends Component {
     render() {
 
         // dev version
-        return (
-            <div style={{ 'padding': '10px' }}> <a href="https://localhost:3000.com/api/facebook/send" className="btn btn-lg btn-social btn-facebook">
-                <i class="fa fa-facebook fa-fw"></i> Sign in with Facebook</a></div>
-        );
+        // return (
+        //     <div style={{ 'padding': '10px' }}> <a href="https://localhost:3000.com/api/facebook/send" className="btn btn-lg btn-social btn-facebook">
+        //         <i class="fa fa-facebook fa-fw"></i> Sign in with Facebook</a></div>
+        // );
 
         //deploy version
-    //    return (
-    //         <div style={{ 'padding': '10px' }}> <a href="https://policybytes.herokuapp.com/api/facebook/send" className="btn btn-lg btn-social btn-facebook">
-    //             <i class="fa fa-facebook fa-fw"></i>  Sign in with Facebook</a></div>
-    //     );
+       return (
+            <div style={{ 'padding': '10px' }}> <a href="https://policybytes-beta.herokuapp.com/api/facebook/send" className="btn btn-lg btn-social btn-facebook">
+                <i class="fa fa-facebook fa-fw"></i>  Sign in with Facebook</a></div>
+        );
     }
 }
 
