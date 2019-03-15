@@ -52,3 +52,20 @@ To Do's:
 FileStack
 danscott2150@gmail.com
 EDir20m!
+
+
+
+-- headache on deploying new version to heroku. Wouldn't update with <Linkify> component. Had to re-run npm run build to re-build the 'build' folder.
+
+https://stackoverflow.com/questions/20508898/how-can-i-import-a-sql-file-into-my-heroku-postgres-database
+import psql to heroku
+heroku pg:psql --app YOUR_APP_NAME_HERE < updates.sql
+
+
+pg_dump -U postgres policybytes > pbexport2.psql
+
+pg_dump -U USERNAME DATABASE backup.sql
+pg_dump policybytes
+
+
+Facebook login func

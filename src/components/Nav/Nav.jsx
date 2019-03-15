@@ -63,30 +63,55 @@ class Nav extends Component {
 
 
   render() {
-
-
-
-
-
     return (
-      <div className="navbar">
-        <div>
+      <div>
+        <div className="navbar">
+          <div className="container">
+            <div className="navMenu">
+              <ul style={{ display: 'inline-block'}}>
+                <li>Join</li>
+                <li>Events</li>
+                <li>News & Media</li>
+                <li>Publications</li>
+                <li>Donate</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="container">
+            <img src="/assets/CL-logo-horizontal.jpg" />
+            <div className="nav-1">
+              <ul>
+                <li>Home</li>
+                <li>Current Conversation</li>
+                <li>Topic Archive</li>
+                <li>Contact Us</li>
+              </ul>
+            </div>
+        </div>
+
+      <div className="header-banner">
+        <h2>Policy Bytes</h2>
+        {/* <img src="/assets/header-banner.png" /> */}
+      </div>
+        {/* <div>
           <ul>
             <li>
               <Link to="/home">
-                <img src="/assets/policybytes_logo.png" alt="" height="100" />
+                {/* <img src="/assets/policybytes_logo.png" alt="" height="100" />
               </Link>
             </li>
 
-            {/* {this.renderAdminNav()} */}
+            {/* {this.renderAdminNav()} 
 
             <li className="loginButton">
               {this.renderLoginItems()}
             </li>
 
           </ul>
+        </div> */}
         </div>
-      </div>
     );
 
   }

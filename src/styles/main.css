@@ -32,7 +32,7 @@ table {
 body {
     -webkit-text-size-adjust: none;
     /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-    background-color: rgba(228, 226, 226, 0.447); 
+    background-color: #fff; 
     /* font-family: Helvetica, sans-serif;  */
     font-family: 'Montserrat', sans-serif;
 
@@ -81,14 +81,6 @@ input[type="submit"] {
 
 .message:nth-child(even) {
     background-color: #f8f8f8;
-}
-
-.navbar {
-  background-color: #CA4A00;
-  width: 100%;
-  border-radius: 0px;
-  /* padding: 1em 1em 0em 1em;  */
-  margin-bottom: 0em; 
 }
 
 ul {
