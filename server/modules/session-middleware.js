@@ -1,7 +1,6 @@
-// No changes should be required in this file
+// Session Middleware: Keeps user logged in throughout their session
 
-const cookieSession = require('cookie-session');
-const warnings = require('../constants/warnings');
+const cookieSession = require('cookie-session');      // https://www.npmjs.com/package/cookie-session
 
 /*
   The cookie session makes it so a user can enter their username and password one time,
@@ -15,17 +14,30 @@ const warnings = require('../constants/warnings');
 
 const serverSessionSecret = () => {
   if (!process.env.SERVER_SESSION_SECRET ||
-      process.env.SERVER_SESSION_SECRET.length < 8 ||
-      process.env.SERVER_SESSION_SECRET === warnings.exampleBadSecret) {
+      process.env.SERVER_SESSION_SECRET.length < 8 ) {
     // Warning if user doesn't have a good secret
-    console.log(warnings.badSecret);
+    
+    const badSecretWarning = `
+      ----------------------------
+      *** WARNING ***
+      Your application is not very secure.
+      You need to set SERVER_SESSION_SECRET to a better secret
+      Please follow the README and add a .env file
+      
+      It should be longer than 8 characters
+      
+      If this warning is showing on Heroku,
+      add or change your SERVER_SESSION_SECRET environment variable!
+      ----------------------------`;
+
+    console.log(badSecretWarning);
   }
 
   return process.env.SERVER_SESSION_SECRET;
 };
 
 module.exports = cookieSession({
-  secret: serverSessionSecret() || 'secret', // please set this in your .env file
+  secret: serverSessionSecret() || 'secret', // set this in .env file
   key: 'user', // this is the name of the req.variable. 'user' is convention, but not required
   resave: 'false',
   saveUninitialized: false,

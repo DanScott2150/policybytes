@@ -2,127 +2,77 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-//gets all topics from database
+// Get all topics from database
 router.get('/alltopics', (req, res) => {
 
-    //checks to see if the user has an account in the database;
-    //if they don't, a forbidden message is displayed and he or she
-    //will not have access to the results from the following query
-
-    // if(req.isAuthenticated()){
-
-    //queryText is the query text that will get all of the topics from the 
-    //topic table in the database
     const queryText = `SELECT * from topic ORDER BY id asc;`
-
-    //pool.query is the method that sends the queryText to the database and 
-    //stores the results in the variable result
-    pool.query(queryText).then((result) => {
-
-        //all of the topics are stored in result.rows; therefore we will send back
-        //result.rows
-        res.send(result.rows)
-
-        //if there was an error in getting the topics from the database,
-        //the error will be displayed in the console log
-    }).catch((error) => {
-        console.log('Error in getting topics: ', error);
-
-    })
-    // } else{
-
-    //     //if req.isAuthenticated() is false, the forbidden error will appear
-    //     //on the webpage
-    //     res.sendStatus(403)
-    // }
+    pool.query(queryText)
+        .then((result) => {
+            res.send(result.rows)
+        })
+        .catch((error) => {
+            console.log('Error in getting topics: ', error);
+        });
 });
 
-//gets the featured topic from database
-//for explanation of any variables or methods in the following get request, see
-//router.get('/alltopics') as the same variables and methods are used there
-router.get('/featuredtopic', (req, res) => {
-
-    // if(req.isAuthenticated()){
-
-    const queryText = `;`
-
-    pool.query(queryText).then((result) => {
-        res.send(result.rows)
-
-    }).catch((error) => {
-        console.log('Error in getting loves: ', error);
-
-    })
-    // } else{
-
-    //     //if req.isAuthenticated() is false, the forbidden error will appear
-    //     //on the webpage
-    //     res.sendStatus(403)
-    // }
-});
-
-//gets the featured topic from database
-//for explanation of any variables or methods in the following get request, see
-//router.get('/alltopics') as the same variables and methods are used there
+// Landing Page: Get featured topic
 router.get('/featuredlanding', (req, res) => {
-    console.log('Inside featuredlanding');
-    
+    console.log('/featuredlanding Endpoint');
 
-    // if(req.isAuthenticated()){
+    const queryText = `
+        SELECT "topic"."id", 
+                "topic_title", 
+                "published_date", 
+                "first_name", 
+                "last_name", 
+                "bio", 
+                "photo_url" 
+        FROM "topic" 
+        JOIN "contributor" 
+        ON "topic"."contributor1_id" = "contributor"."id" 
+        OR "topic"."contributor2_id" = "contributor"."id" 
+        WHERE "featured" = true;`;
 
-    const queryText = `SELECT "topic"."id", "topic_title", "published_date", "first_name", "last_name", "bio", "photo_url" 
-    FROM "topic" JOIN "contributor" ON "topic"."contributor1_id" = "contributor"."id" OR 
-    "topic"."contributor2_id" = "contributor"."id" WHERE "featured" = true;`
-
-    pool.query(queryText).then((result) => {
-        console.log('result.rows: ', result.rows);
-        
-        res.send(result.rows)
-
-    }).catch((error) => {
-        console.log('Error in getting loves: ', error);
-    })
-    // } else{
-
-    //     //if req.isAuthenticated() is false, the forbidden error will appear
-    //     //on the webpage
-    //     res.sendStatus(403)
-    // }
+    pool.query(queryText)
+        .then((result) => {
+            res.send(result.rows)
+        })
+        .catch((error) => {
+            console.log('Error in getting featured topic for landing page: ', error);
+        });
 });
 
-//gets archived topics from database to display on landing page
-router.get('/archived', (req, res)=>{
-    console.log('in archive GET LP');
-    // if(req.isAuthenticated()){
-    let queryText = `SELECT "topic"."id", "topic_title", "published_date", "icon_url", "archive_summary" FROM "topic"
-                    WHERE "featured" = 'false' AND "published" = 'true' ORDER BY published_date DESC;`
-    pool.query(queryText).then((result) => {
-        console.log('result.rows:', result.rows);
-        res.send(result.rows)
-    }).catch((error)=> {
-        console.log('error get archived for LP:', error);
-    })
-      // } else{
+// Landing Page: Get archive topics
+router.get('/archived', (req, res) => {
+    console.log('/archived Endpoint');
 
-    //     //if req.isAuthenticated() is false, the forbidden error will appear
-    //     //on the webpage
-    //     res.sendStatus(403)
-    // }
+    let queryText = `
+        SELECT "topic"."id", 
+               "topic_title", 
+               "published_date", 
+               "icon_url", 
+               "archive_summary" 
+        FROM "topic"
+        WHERE "featured" = 'false' AND "published" = 'true' 
+        ORDER BY published_date DESC;`;
+
+    pool.query(queryText)
+        .then((result) => {
+            res.send(result.rows);
+        })
+        .catch((error)=> {
+            console.log('Error in getting archived topics for landing page: ', error);
+        });
 });
 
-/**
- * POST route template
- */
+// TOPIC POST ROUTES
 
+// Create New Topic
 router.post('/newtopic', (req, res) => {
     console.log('Inside postroute');
-    
 
-    // if(req.isAuthenticated){
-    //game is the newInput object from state in GameInfo.js
     const topic = req.body;
     console.log('topic: ', topic);
-
 
     (async () => {
         //client does not allow the program to proceed until it is connected to the database
@@ -131,207 +81,263 @@ router.post('/newtopic', (req, res) => {
         try {
             await client.query('BEGIN');
 
-            //text for posting contributor info to the database
-            let queryText1 = `INSERT INTO "contributor" ("first_name", "last_name", "bio", "photo_url")
-                 VALUES($1, $2, $3, $4) RETURNING "id";`;
-            console.log('topic.contributor1FirstName: ', topic.contributor1FirstName);
+            // Insert Contributor 1 into database
+            let queryText1 = `
+                INSERT INTO "contributor" (
+                    "first_name", 
+                    "last_name", 
+                    "bio", 
+                    "photo_url")
+                VALUES($1, $2, $3, $4) 
+                RETURNING "id";`;
 
-            const contributor1Result = await client.query(queryText1, [topic.contributor1FirstName,
-            topic.contributor1LastName, topic.bio1, topic.photo1]);
-            console.log('successfully posted contributor1');
+            const contributor1Result = await client.query(queryText1, [
+                topic.contributor1FirstName,
+                topic.contributor1LastName, 
+                topic.bio1, 
+                topic.photo1]);
 
             const contributor1Id = contributor1Result.rows[0].id
 
-            let queryText2 = `INSERT INTO "contributor" ("first_name", "last_name", "bio", "photo_url")
-                 VALUES($1, $2, $3, $4) RETURNING "id";`;
-            const contributor2Result = await client.query(queryText2, [topic.contributor2FirstName,
-            topic.contributor2LastName, topic.bio2, topic.photo2]);
-            console.log('successfully posted contributor12');
+            // Insert Contributor 2 into database
+            let queryText2 = `
+                INSERT INTO "contributor" (
+                    "first_name", 
+                    "last_name", 
+                    "bio", 
+                    "photo_url")
+                VALUES($1, $2, $3, $4) 
+                RETURNING "id";`;
+
+            const contributor2Result = await client.query(queryText2, [
+                topic.contributor2FirstName,
+                topic.contributor2LastName, 
+                topic.bio2, 
+                topic.photo2]);
 
             const contributor2Id = contributor2Result.rows[0].id
 
-            //creates an entry in the topic table in the database
-            let queryText = `INSERT INTO "topic" ("topic_title", "premise", "common_ground", "contributor1_id",
-                 "contributor2_id", "archive_summary", "icon_url") VALUES($1, $2, $3, $4, $5, $6, $7)  RETURNING "id";`;
-            const topicResult = await client.query(queryText, [topic.topicTitle, topic.topicPremise, topic.topicCommonGround,
-                contributor1Id, contributor2Id, topic.topicSummary, topic.topicReadMore]); //<---- TOPIC READ MORE IS ACTUALLY ICON URL
-            console.log('successfully posted topic');
+            // Insert Topic into database
+            let queryText = `
+                INSERT INTO "topic" (
+                    "topic_title", 
+                    "premise", 
+                    "common_ground", 
+                    "contributor1_id",
+                    "contributor2_id", 
+                    "archive_summary", 
+                    "icon_url") 
+                VALUES($1, $2, $3, $4, $5, $6, $7)  
+                RETURNING "id";`;
 
-            //the id of the topic that was created in topicResult
+            const topicResult = await client.query(queryText, [
+                topic.topicTitle, 
+                topic.topicPremise, 
+                topic.topicCommonGround,
+                contributor1Id, 
+                contributor2Id, 
+                topic.topicSummary, 
+                topic.topicReadMore]); //<---- TOPIC READ MORE IS ACTUALLY ICON URL [what does this mean?]
+
             const topicId = topicResult.rows[0].id
 
-            let queryText3 = `INSERT INTO "proposal" ("topic_id", "contributor_id", "proposal") VALUES($1,
-                    $2, $3);`
+            // Insert Proposal for Contributor 1
+            let queryText3 = `
+                INSERT INTO "proposal" (
+                    "topic_id", 
+                    "contributor_id", 
+                    "proposal") 
+                VALUES($1, $2, $3);`;
 
-            await client.query(queryText3, [topicId, contributor1Id, topic.proposal1])
-            console.log("successfully posted contributor1's proposal");
+            await client.query(queryText3, [
+                topicId, 
+                contributor1Id, 
+                topic.proposal1]);
 
-            let queryText4 = `INSERT INTO "proposal" ("topic_id", "contributor_id", "proposal") VALUES($1,
-                    $2, $3);`
+            // Insert Proposal for Contributor 2
+            let queryText4 = `
+                INSERT INTO "proposal" (
+                    "topic_id", 
+                    "contributor_id", 
+                    "proposal") 
+                VALUES($1, $2, $3);`;
 
-            await client.query(queryText4, [topicId, contributor2Id, topic.proposal2])
-            console.log("successfully posted contributor2's proposal");
+            await client.query(queryText4, [
+                topicId, 
+                contributor2Id, 
+                topic.proposal2]);
 
-            //key is each property in keyClaims e.g. 0:{topicId: 1, ...}, 1:{topicId: 2, ...}, ...
+            // Insert Key Claims (i.e. establish a new discussion thread)
+            // for loop since each topic can have a variable amount of key claims
             for (key in topic.keyClaims) {
-                console.log('key: ', key);
-                console.log('topic.keyClaims: ', topic.keyClaims);
 
                 let claim_order = key;
-                //keyData is the value of a property in the keyClaims object e.g. 
-                //{claimDbId: '0', claimContributor: 'contributor1', keyClaim: 'text', streamData: {}}
                 let keyData = topic.keyClaims[key]
-                console.log('keyData: ', keyData);
-
                 let keyClaimData = [];
-
+                
+                // Parse data into its own array 
                 for (prop in keyData) {
-                    //keyDataProp is the value of a property in the keyData object e.g.
-                    //'0', 'contributor1', 'text' 
                     let keyDataProp = keyData[prop]
-                    console.log(' HIIIIIIII prop: ', prop);
-                    console.log(' MMMMMMMMEEEEEE  keyData at prop: ', keyDataProp);
-                    
+                    // console.log(' HIIIIIIII prop: ', prop);
+                    // console.log(' MMMMMMMMEEEEEE  keyData at prop: ', keyDataProp);
                     keyClaimData.push(keyDataProp);
                 }
-                console.log('JJJJJJJKKKKKKKKK keyClaimDataArray: ', keyClaimData);
+                // console.log('JJJJJJJKKKKKKKKK keyClaimDataArray: ', keyClaimData);
                 
-                //end for loop of for(prop in keyData)
+                // Insert Key Claim into database
+                let queryText5 = `
+                    INSERT INTO "key_claim" (
+                        "topic_id", 
+                        "contributor_id", 
+                        "claim", 
+                        "claim_order")
+                    VALUES($1, $2, $3, $4) 
+                    RETURNING "id";`;
 
-                let queryText5 = `INSERT INTO "key_claim" ("topic_id", "contributor_id", "claim", "claim_order")
-                    VALUES($1, $2, $3, $4) RETURNING "id";`;
+                // Establish which contributor the key claim is for
                 let contributor;
                 if (keyClaimData[1] === 'contributor1') {
                     contributor = contributor1Id
                 } else {
                     contributor = contributor2Id
                 }
-                const keyClaimResult = await client.query(queryText5, [topicId, contributor, keyClaimData[2], claim_order])
-                console.log("successfully posted key claim");
+
+                // ^^Possible refactor:
+                // let contributor = keyClaimData[1] === 'contributor1' ? contributor1Id : contributor2Id;
+
+                const keyClaimResult = await client.query(queryText5, [
+                    topicId, 
+                    contributor, 
+                    keyClaimData[2],    // "claim"
+                    claim_order]);
+
+                console.log("Key Claim added to database");
 
                 const keyClaimId = keyClaimResult.rows[0].id
 
-                let streamData = keyClaimData[3]
+                let streamData = keyClaimData[3];   //"claim_order"
 
-                console.log('streamDataaaaaaaaaaaaaa: ', streamData);
-
+                //Build out stream for each key claim
                 for (stream in streamData) {
                     let stream_order = stream; //<-- local stream Id number
 
                     let streamDataObj = streamData[stream] //<--all content for a single stream
                     
+                    let queryText6 = `
+                        INSERT INTO "stream" (
+                            "key_claim_id", 
+                            "contributor_id", 
+                            "stream_comment", 
+                            "stream_evidence", 
+                            "stream_order")
+                        VALUES ($1, $2, $3, $4, $5)`;
 
-                    let queryText6 = `INSERT INTO "stream" ("key_claim_id", "contributor_id", "stream_comment", 
-                    "stream_evidence", "stream_order")
-                    VALUES ($1, $2, $3, $4, $5)`
+                    // Establish which contributor it's for
                     if (streamDataObj.streamContributor === 'contributor1') {
                         contributor = contributor1Id;
                     } else {
                         contributor = contributor2Id
                     }
-                    await client.query(queryText6, [keyClaimId, contributor, streamDataObj.streamComment, streamDataObj.streamEvidence, stream_order])
-                    console.log("successfully posted stream claim");
-                }
-            }
+
+                    // ^^Possible refactor? =>
+                    // let contributor = keyClaimData[1] === 'contributor1' ? contributor1Id : contributor2Id;
+
+                    await client.query(queryText6, [
+                        keyClaimId, 
+                        contributor, 
+                        streamDataObj.streamComment, 
+                        streamDataObj.streamEvidence, 
+                        stream_order]);
+                }   //for(stream in streamData)
+            }//for(key in topic.keyClaims)
 
             await client.query('COMMIT');
             res.sendStatus(201);
 
         } catch (e) {
-
-            //checks for errors at any point within the try block; if errors are found,
-            //all the data is cleared to prevent data corruption
-            console.log('ROLLBACK', e);
+            // If any errors, ROLLBACK clears the data to prevent corruption
+            console.log('Error - ROLLBACK: ', e);
             await client.query('ROLLBACK');
             throw e;
         } finally {
-
             //allows res.sendStatus(201) to be sent
             client.release();
         }
-
-        //if an error occurs in posting the game info to the database, the error will
-        //appear in the console log
     })().catch((error) => {
         console.log('CATCH', error);
         res.sendStatus(500);
     })
-    // }
-
-});
+}); //router.post('/newtopic')
 
 
-//WRITTEN BY ATTICUS
-//TOGGLES PUBLISHED STATUS IN TOPIC TABLE
+// Toggle "published" status on given topic
+// Unpublished topics will show in the Admin panel, but not on the main site
 router.put('/togglePublished', (req, res) => {
-    console.log('in /api/topics/togglePublished', req.body);
-
-    //topicId contains the id of the topic whose status of published or not published
-    //we want to change
+    // console.log('in /api/topics/togglePublished', req.body);
     let topicId = req.body.id;
-    let queryText = `UPDATE topic SET published = NOT published WHERE id = $1;`
+
+    // Set query text to change published status to opposite
+    let queryText = `
+        UPDATE topic 
+        SET published = NOT published 
+        WHERE id = $1;`;
 
     pool.query(queryText, [topicId])
         .then((result) => {
-            console.log('successful PUT /api/topic/togglePublished');
             res.sendStatus(200);
         })
-
         .catch((err) => {
             console.log('error in PUT /api/topic/togglePublished');
             res.sendStatus(500);
         })
-})
+});
 
-
-
-//WRITTEN BY ATTICUS
-//TOGGLES FEATURED STATUS IN TOPIC TABLE (SETS ALL TO UNFEATURED, SETS SELECTED TO FEATURED)
+// Toggle "Featured" Post, which appears on landing page
 router.put('/toggleFeatured', (req, res) => {
-    console.log('in /api/topics/toggleFeatured', req.body);
-
-    //topicId contains the id of the topic whose status of featured
-    //we want to change
+    // console.log('in /api/topics/toggleFeatured', req.body);
     let topicId = req.body.id;
 
-    //since we can only have one topic be the featured topic, we will start off
-    //by setting the featured status of every topic to false via firstQueryText;
-    //then we will change the status of the topic we want to be the featured topic
-    //to true via the secondQueryText
-    let firstQueryText = `UPDATE topic SET featured = FALSE;`
-    let secondQueryText = `UPDATE topic SET featured = TRUE WHERE id = $1;`
+    // We can only have one topic be featured at any given moment
+    // Because of that, we start off by setting the 'featured' status of EVERY topic
+    // to false via firstQueryText, then change to true for the topic we want
+
+    let firstQueryText = `
+        UPDATE topic 
+        SET featured = FALSE;`;
+
+    let secondQueryText = `
+        UPDATE topic 
+        SET featured = TRUE 
+        WHERE id = $1;`;
 
     pool.query(firstQueryText)
         .then((result) => {
-
-            //topicId tells the topic table which topic we want to change to the featured topic
             pool.query(secondQueryText, [topicId])
                 .then((result) => {
-                    console.log('successful PUT /api/topic/toggleFeatured');
                     res.sendStatus(200);
                 })
-
                 .catch((err) => {
                     console.log('error in PUT /api/topic/toggleFeatured');
                     res.sendStatus(500);
                 })
         })
-
         .catch((err) => {
             console.log('error in PUT /api/topic/toggleFeatured');
             res.sendStatus(500);
         })
-})
+});
 
-//WRITTEN BY ATTICUS
-//DELETES SELECTED TOPIC
+// Delete selected Topic
 router.delete('/deleteTopic/:id', (req, res) => {
     let topicId = req.params.id;
     
     //queryText deletes the topic with the same topic id as topicId;
     //this will delete everything associated with that topic except for 
     //the contributors
-    let queryText = `DELETE FROM "topic" WHERE id = $1;`
+    let queryText = `
+        DELETE FROM "topic" 
+        WHERE id = $1;`;
+
     pool.query(queryText, [topicId])
         .then((result) => {
             console.log('successful DELETE /api/topic/deleteTopic');
@@ -343,104 +349,154 @@ router.delete('/deleteTopic/:id', (req, res) => {
         })
 })
 
-//updates topic in database
+// Update topic
 router.put('/updatetopic', (req, res) => {
-    console.log('inside putroute');
-    
     let topic = req.body;
-    console.log('topic: ', topic);
-    
-
-    // if(req.isAuthenticated){
 
     (async () => {
-        //client does not allow the program to proceed until it is connected to the database
         const client = await pool.connect();
 
         try {
             await client.query('BEGIN');
 
-            //text for posting contributor info to the database
-            let queryText1 = `UPDATE "contributor" SET "first_name" = $1, "last_name" = $2, "bio" = $3, "photo_url" = $4
-            WHERE "id" = $5;`;
+            //Post updates to contributor1 & contributor2
+            let queryText1 = `
+                UPDATE "contributor" 
+                SET "first_name" = $1, 
+                    "last_name" = $2, 
+                    "bio" = $3, 
+                    "photo_url" = $4
+                WHERE "id" = $5;`;
 
-            await client.query(queryText1, [topic.contributor1FirstName,
-                topic.contributor1LastName, topic.bio1, topic.photo1, topic.contributor1DbId]);
-            console.log('successfully posted contributor1');
+            await client.query(queryText1, [
+                topic.contributor1FirstName,
+                topic.contributor1LastName, 
+                topic.bio1, 
+                topic.photo1, 
+                topic.contributor1DbId]);
 
-            let queryText2 = `UPDATE "contributor" SET "first_name" = $1, "last_name" = $2, "bio" = $3, "photo_url" = $4
-            WHERE "id" = $5;`;
-            console.log('first name: ', topic.contributor2FirstName);
-            console.log('contributor2 id: ', topic.contributor2DbId);
+            console.log('successfully updated contributor1');
+
+            let queryText2 = `
+                UPDATE "contributor" 
+                SET "first_name" = $1, 
+                    "last_name" = $2, 
+                    "bio" = $3, 
+                    "photo_url" = $4
+                WHERE "id" = $5;`;
             
-            await client.query(queryText2, [topic.contributor2FirstName,
-                topic.contributor2LastName, topic.bio2, topic.photo2, topic.contributor2DbId]);
-            console.log('successfully posted contributor2');
+            await client.query(queryText2, [
+                topic.contributor2FirstName,
+                topic.contributor2LastName, 
+                topic.bio2, 
+                topic.photo2, 
+                topic.contributor2DbId]);
 
-            //creates an entry in the topic table in the database
-            let queryText = `UPDATE "topic" SET "topic_title" = $1, "premise" = $2, "common_ground" = $3, 
-            "archive_summary" = $4, "icon_url" = $5 WHERE "id" = $6;`;
-            await client.query(queryText, [topic.topicTitle, topic.topicPremise, topic.topicCommonGround, 
-                topic.topicSummary, topic.topicReadMore, topic.topicDbId]);
-            console.log('successfully posted topic');
+            console.log('successfully updated contributor2');
 
-            let queryText3 = `UPDATE "proposal" SET "proposal" = $1 WHERE "id" = $2;`
-            await client.query(queryText3, [topic.proposal1, topic.proposal1DbId])
-            console.log("successfully posted contributor1's proposal");
+            // Post update to topic info
+            let queryText = `
+                UPDATE "topic" 
+                SET "topic_title" = $1, 
+                    "premise" = $2, 
+                    "common_ground" = $3, 
+                    "archive_summary" = $4, 
+                    "icon_url" = $5 
+                WHERE "id" = $6;`;
 
-            let queryText4 = `UPDATE "proposal" SET "proposal" = $1 WHERE "id" = $2;`
+            await client.query(queryText, [
+                topic.topicTitle, 
+                topic.topicPremise, 
+                topic.topicCommonGround, 
+                topic.topicSummary, 
+                topic.topicReadMore, 
+                topic.topicDbId]);
 
-            await client.query(queryText4, [topic.proposal2, topic.proposal2DbId])
-            console.log("successfully posted contributor2's proposal");
+            console.log('successfully updated topic info');
 
-            //key is each property in keyClaims e.g. 0:{topicId: 1, ...}, 1:{topicId: 2, ...}, ...
+            // Post update to Proposal
+            let queryText3 = `
+                UPDATE "proposal" 
+                SET "proposal" = $1 
+                WHERE "id" = $2;`;
+
+            await client.query(queryText3, [
+                topic.proposal1, 
+                topic.proposal1DbId]);
+
+            console.log("Updated contributor1's proposal");
+
+            let queryText4 = `
+                UPDATE "proposal" 
+                SET "proposal" = $1 
+                WHERE "id" = $2;`;
+
+            await client.query(queryText4, [
+                topic.proposal2, 
+                topic.proposal2DbId]);
+
+            console.log("Updated contributor2's proposal");
+
+            //Update Key claims
             for (key in topic.keyClaims) {
-                console.log('key: ', key);
-                console.log('topic.keyClaims: ', topic.keyClaims);
 
-                let claim_order = key;
-                //keyData is the value of a property in the keyClaims object e.g. 
-                //{claimDbId: '0', claimContributor: 'contributor1', keyClaim: 'text', streamData: {}}
+                let claim_order = key;  // Broken?
                 let keyData = topic.keyClaims[key]
                 console.log('keyData: ', keyData);
 
                 let keyClaimData = [];
 
                 for (prop in keyData) {
-                    //keyDataProp is the value of a property in the keyData object e.g.
-                    //'0', 'contributor1', 'text' 
                     let keyDataProp = keyData[prop]
                     keyClaimData.push(keyDataProp);
                 }
-                //end for loop of for(prop in keyData)
 
-                let queryText5 = `UPDATE "key_claim" SET "contributor_id" = $1, "claim" = $2 WHERE "id" = $3;`;
+                let queryText5 = `
+                    UPDATE "key_claim" 
+                    SET "contributor_id" = $1, 
+                        "claim" = $2 
+                    WHERE "id" = $3;`;
+
                 let contributor;
-                console.log('keyClaimData[1]: ', keyClaimData[1]);
                 
                 if (keyClaimData[1] === 'contributor1') {
                     contributor = topic.contributor1DbId
                 } else {
                     contributor = topic.contributor2DbId
                 }
-                const keyClaimResult = await client.query(queryText5, [contributor, keyClaimData[2], keyClaimData[0]])
+                
+                const keyClaimResult = await client.query(queryText5, [
+                    contributor, 
+                    keyClaimData[2], 
+                    keyClaimData[0]]);
+
                 console.log("successfully posted key claim");
 
                 let streamData = keyClaimData[3]
 
                 for (stream in streamData) {
-                    let stream_order = stream; //<-- local stream Id number
+                    let stream_order = stream;
 
-                    let streamDataObj = streamData[stream] //<--all content for a single stream
+                    let streamDataObj = streamData[stream];
 
-                    let queryText6 = `UPDATE "stream" SET "contributor_id" = $1, "stream_comment" = $2, 
-                    "stream_evidence" = $3 WHERE "id" = $4;`
+                    let queryText6 = `
+                        UPDATE "stream" 
+                        SET "contributor_id" = $1, 
+                            "stream_comment" = $2, 
+                            "stream_evidence" = $3 
+                        WHERE "id" = $4;`;
+
                     if (streamDataObj.streamContributor === 'contributor1') {
                         contributor = topic.contributor1DbId;
                     } else {
                         contributor = topic.contributor2DbId
                     }
-                    await client.query(queryText6, [contributor, streamDataObj.streamComment, streamDataObj.streamEvidence, streamDataObj.streamDbId])
+                    await client.query(queryText6, [
+                        contributor, 
+                        streamDataObj.streamComment, 
+                        streamDataObj.streamEvidence, 
+                        streamDataObj.streamDbId]);
+
                     console.log("successfully posted stream claim");
                 }
             }
@@ -449,31 +505,22 @@ router.put('/updatetopic', (req, res) => {
             res.sendStatus(201);
 
         } catch (e) {
-
-            //checks for errors at any point within the try block; if errors are found,
-            //all the data is cleared to prevent data corruption
             console.log('ROLLBACK', e);
             await client.query('ROLLBACK');
             throw e;
         } finally {
-
             //allows res.sendStatus(201) to be sent
             client.release();
         }
-
-        //if an error occurs in posting the game info to the database, the error will
-        //appear in the console log
     })().catch((error) => {
         console.log('CATCH', error);
         res.sendStatus(500);
     })
-    // }
-})
+});
 
 //THIS IS ALSO BEING USED TO POPULATE THE TOPIC PAGE - SAGA TYPE FETCH_TOPIC_PAGE_CONTENT
 //FETCHES SELCTED TOPICS INFO TO POPULATE TOPICEDIT PAGE (BASED ON URL)
 router.get(`/fetchEditTopicInfo/:id`, (req, res) => {
-    // console.log('HELLO',req.params.id);
     
     let topicId = req.params.id;
     //selectedTopicToSend is the master object exported at the end of the async function.
@@ -628,9 +675,5 @@ router.get(`/fetchEditTopicInfo/:id`, (req, res) => {
 
     console.log('in /api/topics/editTopicInfo, ID:', topicId);
 })
-
-
-
-
 
 module.exports = router;

@@ -1,8 +1,14 @@
+// PolicyBytes Server
+
+// Need to configure based on whether server is running on localhost for development,
+// or a live production deployment. Comment in/out lines at bottom of file accordingly
+
+// Basic config
 const express = require('express');
 require('dotenv').config();
 
-const https = require('https');
-const fs = require('fs');
+// const https = require('https');
+// const fs = require('fs');
 const app = express();
 const bodyParser = require('body-parser');
 const sessionMiddleware = require('./modules/session-middleware');
@@ -15,7 +21,8 @@ const userRouter = require('./routes/user.router');
 const facebookRouter = require('./routes/facebook.router');
 const topicRouter = require('./routes/topic.router')
 const commentsRouter = require('./routes/comments.router')
-const likesRouter = require('./routes/likes.router')
+const likesRouter = require('./routes/likes.router');
+const landingPageRouter = require('./routes/landingpage.router');
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -36,6 +43,7 @@ app.use('/api/facebook', facebookRouter);
 app.use('/api/topic', topicRouter);
 app.use('/api/comments', commentsRouter);
 app.use('/api/likes', likesRouter);
+// app.use('/api/landingpage', landingPageRouter);
 
 
 // Serve static files
@@ -44,23 +52,34 @@ app.use(express.static('build'));
 // App Set //
 const PORT = process.env.PORT || 5000;
 
-// var options, var server, and server.listen are for localhost development
-//for running an https server.
 
-var options = {
-  key: fs.readFileSync( './localhost.key' ),
-  cert: fs.readFileSync( './localhost.cert' ),
-  requestCert: false,
-  rejectUnauthorized: false
-};
 
-var server = https.createServer( options, app );
+// START of localhost development configuration
+// Configures to use HTTPS on localhost
+// Can comment out the following block for production
+// ----------------------------->
+    const https = require('https');     // https://nodejs.org/api/https.html
+    const fs = require('fs');
 
- server.listen(PORT, () => {
-   console.log(`Listening on port: ${PORT}`);
- }); 
+    var options = {
+      key: fs.readFileSync( './localhost.key' ),
+      cert: fs.readFileSync( './localhost.cert' ),
+      requestCert: false,
+      rejectUnauthorized: false
+    };
 
-// app.listen is for heroku
-// app.listen(PORT, () => {
-//   console.log(`Listening on port: ${PORT}`);
-// }); 
+    var server = https.createServer( options, app );
+
+    server.listen(PORT, () => {
+      console.log(`DEVELOPMENT server listening on port: ${PORT}`);
+    });
+// <------------------------------
+// END of localhost configuration
+
+// START of production configuration, for when deployed to heroku
+// ----------------------------->
+      // app.listen(PORT, () => {
+      //   console.log(`PRODUCTION server listening on port: ${PORT}`);
+      // }); 
+// <------------------------------
+// END of heroku configuration

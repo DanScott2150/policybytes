@@ -1,19 +1,17 @@
-/* the only line you likely need to change is
+// Establishes connection to PostgreSQL database
 
- database: 'prime_app',
-
- change `prime_app` to the name of your database, and you should be all set!
-*/
-
-const pg = require('pg');
-const url = require('url');
+const pg = require('pg');     // https://github.com/brianc/node-pg-pool
+const url = require('url');   // https://nodejs.org/api/url.html
 
 let config = {};
 
+// For Heroku deployment, set environment variable DATABASE_URL to point at psql database
+// If DATABASE_URL not found, config will default to localhost 
+
 if (process.env.DATABASE_URL) {
-  // Heroku gives a url, not a connection object
-  // https://github.com/brianc/node-pg-pool
+  // Heroku gives a url, not a connection object. Need to parse URL
   const params = url.parse(process.env.DATABASE_URL);
+
   const auth = params.auth.split(':');
 
   config = {
@@ -27,23 +25,23 @@ if (process.env.DATABASE_URL) {
     idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
   };
 } else {
+  // If DATABASE_URL not set, set config to localhost:
   config = {
-    host: 'localhost', // Server hosting the postgres database
-    port: 5432, // env var: PGPORT
-    database: 'policybytes', // CHANGE THIS LINE! env var: PGDATABASE, this is likely the one thing you need to change to get up and running
+    host: 'localhost', 
+    port: 5432,
+    database: 'policybytes',
     user: 'postgres',
     password: 'asdf',
-    max: 10, // max number of clients in the pool
-    idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
+    max: 10,
+    idleTimeoutMillis: 30000,
   };
 }
 
-// this creates the pool that will be shared by all other modules
 const pool = new pg.Pool(config);
 
-// the pool will log when it connects to the database
+// Confirm that pool connection has been created
 pool.on('connect', () => {
-  console.log('Postgesql connected');
+  console.log('/server/pool.js -- Pool connected to host: ', config.host);
 });
 
 // the pool with emit an error on behalf of any idle clients
