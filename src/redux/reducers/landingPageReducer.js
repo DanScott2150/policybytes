@@ -1,10 +1,29 @@
+// Landing Page Reducer
+// Handles displaying the Featured Topic & Archived Topics
+
 import { combineReducers } from 'redux';
 
-let defaultStateArray = [{id: 0, topic_title: '', published_date: '', first_name: '', 
-last_name: '', bio: '', photo_url: ''}, {id: 0, topic_title: '', published_date: '', first_name: '', 
-last_name: '', bio: '', photo_url: ''}]
-//featuredLandingPage contains the information needed to display the featured topic
-//the featured topic on the landing page
+let defaultStateArray = [
+    {
+        id: 0, 
+        topic_title: '', 
+        published_date: '', 
+        first_name: '', 
+        last_name: '', 
+        bio: '', 
+        photo_url: ''
+    }, {
+        id: 0, 
+        topic_title: '', 
+        published_date: '', 
+        first_name: '', 
+        last_name: '', 
+        bio: '', 
+        photo_url: ''
+    }
+];
+
+// Display 'Featured Topic' on landing page
 const featuredLandingPage = (state = defaultStateArray, action) => {
 
     //sets state of featuredLandingPage to an array of objects where each object is a section
