@@ -42,6 +42,22 @@ router.get('/featuredlanding', (req, res) => {
         });
 });
 
+// Get landing page intro paragraph
+router.get('/meta', (req, res) => {
+    let queryText = `
+        SELECT "header"
+        FROM "meta"`;
+
+    pool.query(queryText)
+        .then((result) => {
+            console.log(result.rows);
+            res.send(result.rows);
+        })
+        .catch((error) => {
+            console.log("Error in getting site header: ", error);
+        });
+});
+
 // Landing Page: Get archive topics
 router.get('/archived', (req, res) => {
     console.log('/archived Endpoint');

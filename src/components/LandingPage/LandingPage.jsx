@@ -6,7 +6,7 @@ import { Panel, Grid, Col, Row, Jumbotron, Image } from 'react-bootstrap';
 
 import LandingPageFeaturedTopic from './LandingPageFeaturedTopic.jsx'
 import LandingPageArchive from './LandingPageArchive.jsx'
-import LandingPageHeader from './LandingPageHeader';
+import LandingPageHeader from './LandingPageHeader.jsx';
 
 import './LandingPage.css'
 
