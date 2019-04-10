@@ -32,6 +32,20 @@ function* fetchLandingHeader(action){
     }
 }
 
+function* fetchEditLanding(action) {
+    console.log("2) [landingPageSaga] fetchEditLanding()")
+    try {
+        const editLanding = yield call(axios.get, `/api/topic/meta`);
+        yield put({
+            type: 'CACHE_LANDING_EDIT',
+            payload: editLanding.data
+        })
+
+    } catch (error) {
+        console.log('Error fetchEditLandingSaga: ', error);
+    }
+}
+
 // Fetches all archived topics from the database, which then gets displayed on the landing page
 function* fetchArchivedTopics(action){
     try {
@@ -54,6 +68,7 @@ function* landingSaga() {
     yield takeLatest('FETCH_NEW_TOPIC_LANDING_PAGE', fetchFeaturedTopicLanding)
     yield takeLatest('FETCH_ARCHIVED_TOPICS', fetchArchivedTopics)
     yield takeLatest('FETCH_LANDING_HEADER', fetchLandingHeader)
+    yield takeLatest('FETCH_LANDING_CACHE', fetchEditLanding)
 }
 
 export default landingSaga;

@@ -6,6 +6,8 @@ import TopicManagePanel from './TopicManagePanel.jsx'
 import RegisterModal from '../RegisterModal/RegisterModal.js'
 import TopicManageAddPanel from './TopicManageAddPanel.jsx'
 
+import SiteInformationPanel from '../SiteInformation/SiteInformation';
+
 import './TopicManage.css'; 
 
 import { Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon, Modal, Grid, Row, Col } from 'react-bootstrap'; 
@@ -58,7 +60,7 @@ class TopicManage extends Component {
 
   render() {
     
-
+    console.log("topic manage render");
     let topicsArray = this.props.state.topics.allTopics;
     let topicPanels = topicsArray.map((topic) => {
       return <TopicManagePanel key={topic.id}
@@ -71,10 +73,11 @@ class TopicManage extends Component {
       <div>
         <div className="wrapper">
 
-        <h1>
+        <h2>
           Topic Manage Page
           <RegisterModal/>
-        </h1>   
+        </h2>   
+
 
         <Grid>
           <Row>

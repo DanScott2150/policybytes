@@ -3,6 +3,8 @@
 
 import { combineReducers } from 'redux';
 
+let defaultHeaderText = '';
+
 let defaultStateArray = [
     {
         id: 0, 
@@ -49,6 +51,10 @@ const landingPageHeader = ( state = defaultHeader, action ) => {
     if (action.type === 'SET_LANDING_PAGE_HEADER'){
         return action.payload;
     }
+
+    if (action.type === 'CACHE_LANDING_EDIT'){
+        return action.payload;
+    }
     return state;
 }
 
@@ -66,9 +72,33 @@ const archivedTopics = (state = [], action) => {
     return state
 } 
 
+const landingPageEditCache = (state = defaultHeaderText, action) => {
+    switch (action.type) {
+
+        //RETURN CURRENT STATE ITEM
+        // case 'FETCH_LANDING_CACHE':
+        //     return state;
+
+
+        
+        //
+        case 'CHANGE_LANDING_HEADER':
+            console.log("LANDINGPAGE REDUCER");
+            console.log("name: ", action.payload.name);
+            console.log("value: ", action.payload.value);
+            return {
+                ...state,
+                [action.payload.name]: action.payload.value,
+            }
+
+        default:
+            return state
+    }
+}
 
 export default combineReducers({
     featuredLandingPage,
     archivedTopics,
-    landingPageHeader
+    landingPageHeader,
+    landingPageEditCache
 })
