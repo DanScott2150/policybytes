@@ -18,7 +18,6 @@ class LandingPageHeader extends Component {
 
   render() {
     let headerText = this.props.state.landing.landingPageHeader;
-    // console.log("Header Text: ", headerText);
 
     return (
       <div>

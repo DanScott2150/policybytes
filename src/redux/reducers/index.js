@@ -6,7 +6,6 @@ import comments from './commentReducer';
 import cacheEdit from './atticusTopicEditReducer'; 
 import topicPageContent from './topicPageReducer.js';
 import landing from './landingPageReducer';
-import landingCacheEdit from './landingPageEditReducer';
 
 
 const store = combineReducers({
@@ -15,7 +14,6 @@ const store = combineReducers({
   topics,
   comments,
   cacheEdit,
-  landingCacheEdit,
   topicPageContent,
   landing
 

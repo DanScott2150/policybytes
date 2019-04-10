@@ -17,7 +17,6 @@ import TopicEdit from './components/Admin/TopicEdit/TopicEdit.jsx';
 // import CommentManage from './components/Admin/CommentManage/CommentManage.jsx';
 import Images from './components/Images/Images.jsx';
 import Nav from './components/Nav/Nav.jsx'
-import LandingEdit from './components/Admin/LandingPageEdit/LandingPageEdit';
 
 import './styles/main.css';
 
@@ -41,14 +40,14 @@ const App = () => (
             path="/admin"
             component={TopicManage}
           />
-          <Route
-            path="/editlanding"
-            component={LandingEdit}
-          />
           {/* <Route
             path="/commentManage"
             component={CommentManage}
           /> */}
+          <Route
+            path="/landingEdit"
+            component={LandingEdit}
+            />
           <Route
             path="/topicEdit/:id?"  //<-- optional route param is id of topic to populate edit
             component={TopicEdit}
