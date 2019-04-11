@@ -17,6 +17,7 @@ import TopicEdit from './components/Admin/TopicEdit/TopicEdit.jsx';
 // import CommentManage from './components/Admin/CommentManage/CommentManage.jsx';
 import Images from './components/Images/Images.jsx';
 import Nav from './components/Nav/Nav.jsx'
+import LandingEdit from './components/Admin/LandingEdit/LandingEdit';
 
 import './styles/main.css';
 

@@ -9,6 +9,7 @@ function* fetchFeaturedTopicLanding(action){
         // Due to the way it's configured, only one topic will ever be returned
         const topicResponse = yield call(axios.get, '/api/topic/featuredlanding');
 
+        console.log("Fetch Saga: ", topicResponse.data);
         // Send data to landingPageReducer.js
         yield put({
             type: 'SET_FEATURED_TOPIC_LANDING_PAGE',
@@ -29,6 +30,32 @@ function* fetchLandingHeader(action){
         });
     } catch (error) {
         console.log('[landingPageSaga] Error in getting site header', error);
+    }
+}
+
+// Get landing page text. Editable via Admin Panel
+function* fetchLandingEdit(action) {
+    try {
+        const landingEdit = yield call(axios.get, '/api/topic/meta');
+        yield put({
+            type: 'SET_LANDING_PAGE_EDIT',
+            payload: landingEdit.data
+        });
+    } catch (error) {
+        console.log('[landingPageSaga] Error in getting site header', error);
+    }
+}
+
+function* updateLanding(action) {
+    try {
+        console.log("Update Saga: ", action.payload);
+        yield call(axios.put, '/api/topic/meta', action.payload)
+        yield put({
+            type: 'FETCH_LANDING_HEADER'
+        })
+
+    } catch (error) {
+        console.log('Error in updating topic: ', error);
     }
 }
 
@@ -54,6 +81,8 @@ function* landingSaga() {
     yield takeLatest('FETCH_NEW_TOPIC_LANDING_PAGE', fetchFeaturedTopicLanding)
     yield takeLatest('FETCH_ARCHIVED_TOPICS', fetchArchivedTopics)
     yield takeLatest('FETCH_LANDING_HEADER', fetchLandingHeader)
+    yield takeLatest('FETCH_LANDING_EDIT', fetchLandingEdit)
+    yield takeLatest('UPDATE_LANDING', updateLanding)
 }
 
 export default landingSaga;

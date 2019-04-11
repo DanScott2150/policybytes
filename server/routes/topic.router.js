@@ -534,6 +534,42 @@ router.put('/updatetopic', (req, res) => {
     })
 });
 
+router.put('/meta', (req, res) => {
+    console.log("Header update route");
+    console.log("req.body: ", req.body);
+    let landing = req.body;
+
+    (async () => {
+        const client = await pool.connect();
+
+        try {
+            await client.query('BEGIN');
+
+            let queryText = `
+                UPDATE "meta"
+                SET "header" = $1`;
+
+            await client.query(queryText, 
+                [landing]);
+
+            console.log('successfully updated landing text');
+
+            await client.query('COMMIT');
+            res.sendStatus(201);
+        } catch (e) {
+            console.log('ROLLBACK', e);
+            await client.query('ROLLBACK');
+            throw e;
+        } finally {
+            //allows res.sendStatus(201) to be sent
+            client.release();
+        }
+    })().catch((error) => {
+        console.log('CATCH', error);
+        res.sendStatus(500);
+    })
+});
+
 //THIS IS ALSO BEING USED TO POPULATE THE TOPIC PAGE - SAGA TYPE FETCH_TOPIC_PAGE_CONTENT
 //FETCHES SELCTED TOPICS INFO TO POPULATE TOPICEDIT PAGE (BASED ON URL)
 router.get(`/fetchEditTopicInfo/:id`, (req, res) => {

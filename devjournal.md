@@ -69,3 +69,8 @@ pg_dump policybytes
 
 
 Facebook login func
+
+
+
+04.10:
+Trouble with getting the editable landing page text. Started going in circles. Going to hit the reset button and start over. Goal is to have an option in the Admin panel to edit the text that's on the landing page.

@@ -49,6 +49,23 @@ const landingPageHeader = ( state = defaultHeader, action ) => {
     if (action.type === 'SET_LANDING_PAGE_HEADER'){
         return action.payload;
     }
+    return state;
+}
+
+// 
+const landingPageEdit = (state = defaultHeader, action) => {
+    if (action.type === 'SET_LANDING_PAGE_EDIT') {
+        return action.payload;
+    }
+
+    if (action.type === 'CHANGE_LANDING_EDIT'){
+        return {
+            ...state,
+            "0": {
+                [action.payload.name]: action.payload.value
+            }
+        }
+    }
 
     return state;
 }
@@ -70,5 +87,6 @@ const archivedTopics = (state = [], action) => {
 export default combineReducers({
     featuredLandingPage,
     archivedTopics,
-    landingPageHeader
+    landingPageHeader,
+    landingPageEdit
 })

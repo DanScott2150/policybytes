@@ -18,7 +18,7 @@ class LandingPageHeader extends Component {
 
   render() {
     let headerText = this.props.state.landing.landingPageHeader;
-
+    console.log(headerText);
     return (
       <div>
         <h1><strong>The Policy Bytes Format</strong></h1>
