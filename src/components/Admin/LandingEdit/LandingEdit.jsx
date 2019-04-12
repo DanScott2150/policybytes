@@ -40,11 +40,11 @@ class LandingEdit extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Update Landing Text: ", this.props.state.landing.landingPageEdit[0].header)
+        console.log("Update Landing Text: ", this.props.state.landing.landingPageEdit)
 
         this.props.dispatch({
             type: 'UPDATE_LANDING',
-            payload: this.props.state.landing.landingPageEdit[0].header,
+            payload: this.props.state.landing.landingPageEdit
         })
         this.setState({
             submitAlert: true,
@@ -59,7 +59,7 @@ class LandingEdit extends Component {
 
                     <h1>Topic Edit</h1>
                     {/* SHOW STATE ON DOM */}
-                    <pre>state: {JSON.stringify(this.props.state, null, 3)}</pre>
+                    {/* <pre>state: {JSON.stringify(this.props.state, null, 3)}</pre> */}
 
                     <form action="" onSubmit={this.handleSubmit}>
                         <Button type="submit" bsStyle="primary">Submit!</Button>
@@ -69,7 +69,7 @@ class LandingEdit extends Component {
                                 <ControlLabel>Landing Page Text</ControlLabel>
                                 <FormControl onChange={this.handleTextChange}
                                     name="header"
-                                    value={this.props.state.landing.landingPageEdit[0].header}
+                                    value={this.props.state.landing.landingPageEdit.header}
                                     componentClass="textarea" />
                             </Panel.Body>
                         </Panel>

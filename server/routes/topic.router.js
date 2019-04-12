@@ -50,8 +50,8 @@ router.get('/meta', (req, res) => {
 
     pool.query(queryText)
         .then((result) => {
-            console.log(result.rows);
-            res.send(result.rows);
+            console.log("API route result: ", result.rows[0]);
+            res.send(result.rows[0]);
         })
         .catch((error) => {
             console.log("Error in getting site header: ", error);
@@ -535,9 +535,8 @@ router.put('/updatetopic', (req, res) => {
 });
 
 router.put('/meta', (req, res) => {
-    console.log("Header update route");
-    console.log("req.body: ", req.body);
-    let landing = req.body;
+    let update = req.body;
+    console.log('req.body: ', update);
 
     (async () => {
         const client = await pool.connect();
@@ -550,7 +549,7 @@ router.put('/meta', (req, res) => {
                 SET "header" = $1`;
 
             await client.query(queryText, 
-                [landing]);
+                [update.header]);
 
             console.log('successfully updated landing text');
 

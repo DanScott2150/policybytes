@@ -17,13 +17,16 @@ class LandingPageHeader extends Component {
   }
 
   render() {
-    let headerText = this.props.state.landing.landingPageHeader;
-    console.log(headerText);
+    // console.log(this.props.state.LandingPageHeader)
+    let headerText = this.props.state.landing.landingPageHeader.header;
+    // console.log(headerText);
     return (
       <div>
+        {/* <pre>state: {JSON.stringify(this.state, null, 3)}</pre>
+         <pre>state: {JSON.stringify(this.props.state, null, 3)}</pre> */}
         <h1><strong>The Policy Bytes Format</strong></h1>
             <p>
-                {headerText[0].header}
+                {headerText}
             </p>
       </div>
     )

@@ -47,6 +47,7 @@ const featuredLandingPage = (state = defaultStateArray, action) => {
 // Display text on landing page
 const landingPageHeader = ( state = defaultHeader, action ) => {
     if (action.type === 'SET_LANDING_PAGE_HEADER'){
+        console.log("Reducer: ", action.payload);
         return action.payload;
     }
     return state;
@@ -59,11 +60,9 @@ const landingPageEdit = (state = defaultHeader, action) => {
     }
 
     if (action.type === 'CHANGE_LANDING_EDIT'){
+        console.log("Change Edit: ", action.payload.name, action.payload.value);
         return {
-            ...state,
-            "0": {
-                [action.payload.name]: action.payload.value
-            }
+            [action.payload.name]: action.payload.value
         }
     }
 

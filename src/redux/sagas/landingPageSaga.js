@@ -24,6 +24,7 @@ function* fetchFeaturedTopicLanding(action){
 function* fetchLandingHeader(action){
     try{
         const landingHeader = yield call(axios.get, '/api/topic/meta');
+        console.log("Landing Saga: ", landingHeader);
         yield put({
             type: 'SET_LANDING_PAGE_HEADER',
             payload: landingHeader.data
