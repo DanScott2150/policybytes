@@ -42,3 +42,13 @@ https://node-postgres.com/features/pooling
 
 
 npm run client >> launches index.js
+
+
+
+
+Deployment to Heroku:
+server/server.js - comment lines in/out for server config
+package.json: scripts-client: "set HTTPS=true&&"react-scripts start
+npm run build
+git master push
+heroku dashboard > deploy from github
