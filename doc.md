@@ -52,3 +52,18 @@ package.json: scripts-client: "set HTTPS=true&&"react-scripts start
 npm run build
 git master push
 heroku dashboard > deploy from github
+
+
+
+https://devcenter.heroku.com/articles/heroku-postgresql
+
+Heroku CLI
+$ heroku login  [prompt login via browser page]
+$ heroku pg:psql
+
+
+Connect to database:
+heroku pg:psql postgresql-crystalline-80137 --app policybytes-beta
+
+
+heroku pg:pull HEROKU_POSTGRESQL_MAGENTA mylocaldb --app sushi

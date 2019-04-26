@@ -43,7 +43,7 @@ app.use('/api/facebook', facebookRouter);
 app.use('/api/topic', topicRouter);
 app.use('/api/comments', commentsRouter);
 app.use('/api/likes', likesRouter);
-// app.use('/api/landingpage', landingPageRouter);
+app.use('/api/landingpage', landingPageRouter);
 
 
 // Serve static files
@@ -58,28 +58,28 @@ const PORT = process.env.PORT || 5000;
 // Configures to use HTTPS on localhost
 // Can comment out the following block for production
 // ----------------------------->
-    // const https = require('https');     // https://nodejs.org/api/https.html
-    // const fs = require('fs');
+    const https = require('https');     // https://nodejs.org/api/https.html
+    const fs = require('fs');
 
-    // var options = {
-    //   key: fs.readFileSync( './localhost.key' ),
-    //   cert: fs.readFileSync( './localhost.cert' ),
-    //   requestCert: false,
-    //   rejectUnauthorized: false
-    // };
+    var options = {
+      key: fs.readFileSync( './localhost.key' ),
+      cert: fs.readFileSync( './localhost.cert' ),
+      requestCert: false,
+      rejectUnauthorized: false
+    };
 
-    // var server = https.createServer( options, app );
+    var server = https.createServer( options, app );
 
-    // server.listen(PORT, () => {
-    //   console.log(`DEVELOPMENT server listening on port: ${PORT}`);
-    // });
+    server.listen(PORT, () => {
+      console.log(`DEVELOPMENT server listening on port: ${PORT}`);
+    });
 // <------------------------------
 // END of localhost configuration
 
 // START of production configuration, for when deployed to heroku
 // ----------------------------->
-      app.listen(PORT, () => {
-        console.log(`PRODUCTION server listening on port: ${PORT}`);
-      }); 
+      // app.listen(PORT, () => {
+      //   console.log(`PRODUCTION server listening on port: ${PORT}`);
+      // }); 
 // <------------------------------
 // END of heroku configuration

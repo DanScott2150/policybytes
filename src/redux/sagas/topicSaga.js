@@ -172,10 +172,6 @@ function* fetchTopicPageContentSaga(action) {
 }
 
 
-
-
-
-
 function* topicSaga() {
     yield takeLatest('FETCH_ALL_TOPICS', fetchAllTopics)
     // yield takeLatest('FETCH_ALL_KEY_CLAIMS', fetchAllKeyClaims)
