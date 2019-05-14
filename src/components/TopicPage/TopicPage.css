@@ -1,25 +1,21 @@
 /* TITLE CONTENT */
 
 h1{
-    margin-bottom: .5em !important; 
     font-family: 'Montserrat', sans-serif;
-    text-align: center;
-    font-size: 2em !important;  
-
 }
 
-.titleJumbotron{
+/* .titleJumbotron{
     text-align: justify; 
     width: 100% !important; 
-    /* background-color: inherit !important;  */
+    background-color: inherit !important; 
     background-color: white !important; 
     margin: 0px 0px;
     padding-left: 8em; 
     padding-right: 8em; 
     font-family: 'Montserrat', sans-serif;
-}
+} */
 
-.commonGroundJumbotron{
+/* .commonGroundJumbotron{
     text-align: center; 
     width: 100% !important; 
     background-color: inherit !important; 
@@ -28,22 +24,18 @@ h1{
     padding-right: 11em; 
     border-top: 1px solid rgba(128, 128, 128, 0.289);  
     border-bottom: 1px solid rgba(128, 128, 128, 0.289);  
-}
+} */
 
-.titleLogo{
+/* .titleLogo{
     display: inline-block; 
-}
-
-
-
-
+} */
 
 
 /* CONTRIBUTORS SECTION */
 
-.contributorCard{
+/* .contributorCard{
     height: 100%;
-}
+} */
 
 .contributorCardLeft{
     height: 100%;
@@ -76,7 +68,7 @@ h1{
     padding: 1em; 
 }
 
-.contributorText h3 {
+.contributorName{
     font-weight: bold;
     text-align: center;
 } 
@@ -95,6 +87,7 @@ h1{
     height: auto; 
     border: 3px solid skyblue;
     float: left;
+    margin-right: 1em;
 }
 
 .arenaPhotoContrib2{
@@ -102,6 +95,15 @@ h1{
     height: auto; 
     border: 3px solid forestgreen;
     float: left;
+    margin-right: 1em;
+}
+
+.arenaProposal h3{
+    font-weight: bold;
+}
+
+.arenaProposal p{
+    font-size: 1.1em;
 }
 
 .arenaSummary{
@@ -128,21 +130,14 @@ h1{
 /* KEY CLAIMS */
 
 .keyClaimsContainer {
-    width: 40%;
     height: 40em; 
-    margin: 0 0 2% 0%; 
-    padding: 2% 2% 2% 2%; 
-    /* border: 2px solid red;  */
-    overflow: scroll;
-    display: inline-block; 
+    overflow: auto;
 }
-
 
 .keyClaimPanel{
     width: 90%; 
-    background-color: lightgrey !important; 
-    display: inline-block; 
-    padding-top: 1% !important;  
+    margin: 10px 0;
+    background: lightgray;
 }
 
 .keyClaimFooter{
@@ -167,30 +162,26 @@ h1{
 
 /* STREAM ITEMS */
 
-.streamItemsContainer{
-    width: 53%;
+.streamItemsContainer{  
     height: 40em; 
-    margin: 0 0 2% 2%; 
-    padding: 5% 3% 1% 3%; 
-    /* border: 2px solid red;  */
-    background-color: rgb(240, 240, 240); 
-    border-radius: 10px; 
-    overflow: scroll;
-    display: inline-block; 
+
+    /* border-radius: 10px;  */
+    overflow: auto;
+    /* display: inline-block;  */
 }
 
 .arenaMini1{
-    padding: 0px; 
-    position: relative; 
-    left: 30px;
-    top: -30px;
+    /* margin-top: 5px;
+    margin-left: 5px; */
+    float: left;
+    margin: 5px;
 }
 
 .arenaMini2{
-    padding: 0px; 
-    position: relative; 
-    left: 440px;
-    top: -30px;
+    /* left: 440px;
+    top: -30px; */
+    float: right;
+    margin: 5px;
 }
 
 .streamItem{
@@ -217,26 +208,26 @@ h1{
 /* CONTRIBUTOR STUFF */
 
 .contrib1 {
-    border: 4px solid #006666 !important;
+    /* border: 2px solid skyblue !important; */
 }
 
 
 .contrib2 {
-    border: 4px solid #666600 !important;
+    /* border: 2px solid forestgreen !important; */
 }
 
 
 .contrib1Stream {
     border: 2px solid #006666;
     background-color: #00666629;
-    width: 80%; 
-    margin-right: 10em; 
+    width: 65%; 
+    margin: 1em auto 0em 1em;
 }
 
 
 .contrib2Stream {
     border: 2px solid #666600;
     background-color: #66660035;
-    width: 80%; 
-    margin-left: 6.5em; 
+    width: 65%; 
+    margin: 1em 1em 0em auto; 
 }

@@ -90,3 +90,26 @@ let dummyTopicCache = {
 }
 
 export default dummyTopicCache
+
+/*
+    < Card.Footer className = "keyClaimFooter" >
+        <ButtonGroup className="keyClaimFooterButtons">
+            {this.props.user.userInfo ?
+                <Button className="keyClaimFooterItem">
+                    <LoveModal topicPageContent={this.props.topicPageContent} contributor={this.state.contributorSelect} />
+                </Button> :
+                <Button disabled className="keyClaimFooterItem">
+
+                </Button>
+            }
+
+
+
+            <LikeButtonProposal id={arenaProposalId} />
+            <Button a href="/topicPage#commentCardMaster" onClick={() => this.handleCommentProposal(arenaProposal, arenaProposalId)}
+                className="keyClaimFooterItem">
+
+            </Button>
+        </ButtonGroup>
+                      </Card.Footer >
+                      */

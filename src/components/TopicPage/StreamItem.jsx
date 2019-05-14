@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Button, ButtonGroup } from 'react-bootstrap';
+import { Card, Button, ButtonGroup, Collapse } from 'react-bootstrap';
 
 import LikeButtonStream from './LikeButtons/LikeButtonStream.jsx'
 
@@ -48,12 +48,6 @@ class StreamItem extends Component {
       streamItemClass += " contrib2Stream"
     }
 
-    let linkifyText = (
-      <Linkify tagName="p"> { this.props.streamItem.streamEvidence }</Linkify>
-    );
-
-    // console.log(this.props.streamItem);
-
     return (
       <div onClick={this.handleOpen}>
 
@@ -64,10 +58,10 @@ class StreamItem extends Component {
             <br/>
             <div className="evidenceTag">
               <span>
-              Evidence {(this.state.open === true) ? <i class="fa fa-caret-up" aria-hidden="true"></i> : <i class="fa fa-caret-down" aria-hidden="true"></i>}
+              Evidence {(this.state.open === true) ? <i className="fa fa-caret-up" aria-hidden="true"></i> : <i className="fa fa-caret-down" aria-hidden="true"></i>}
               </span>    
             </div>
-            <Card.Collapse>
+            {/* <Collapse in={this.state.open}> */}
               <br />
                   {/* <p dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamEvidence }} /> */}
                 <Linkify tagName="p">{this.props.streamItem.streamEvidence}</Linkify>
@@ -82,7 +76,7 @@ class StreamItem extends Component {
                   </Button>
                 </ButtonGroup>
               </Card.Footer>
-            </Card.Collapse>
+            {/* </Collapse> */}
           </Card.Body>
 
         </Card>

@@ -15,7 +15,7 @@ export default class TopicContributors extends Component {
                     thumbnail 
                     roundedCircle />
                   <div className="contributorText">
-                    <h3>
+                    <h3 className="contributorName">
                       {this.props.topicPageContent.contributor1FirstName} {this.props.topicPageContent.contributor1LastName}
                     </h3>
                     <p className="text-justify">
@@ -35,7 +35,7 @@ export default class TopicContributors extends Component {
                   thumbnail
                   roundedCircle />
                 <div className="contributorText">
-                  <h3>
+                  <h3 className="contributorName">
                     {this.props.topicPageContent.contributor2FirstName} {this.props.topicPageContent.contributor2LastName}
                   </h3>
                   <p className="text-justify">

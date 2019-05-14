@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import StreamItem from './StreamItem.jsx'
 
-import { Panel, Tab, Tabs, Button, ButtonGroup } from 'react-bootstrap';
+// import { Panel, Tab, Tabs, Button, ButtonGroup } from 'react-bootstrap';
 
 
 export default class componentName extends Component {

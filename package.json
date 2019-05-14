@@ -36,7 +36,9 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^5.1.1",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "simplebar": "^4.0.0-alpha.9",
+    "simplebar-react": "^1.0.0-alpha.9"
   },
   "engines": {
     "node": "10.7.0"

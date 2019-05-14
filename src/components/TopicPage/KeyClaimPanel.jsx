@@ -1,22 +1,23 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+// Key Claim component
+// In discussion arena, left-hand panel
+// Selecting a Key Claim will reveal a discussion thread
 
-import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import LikeButtonKeyClaim from './LikeButtons/LikeButtonKeyClaim.jsx'
-import './TopicPage.css'
+import { Button, ButtonGroup, Card } from 'react-bootstrap';
 
+import LikeButtonKeyClaim from './LikeButtons/LikeButtonKeyClaim.jsx';
 
+import './TopicPage.css';
 
 export class KeyClaimPanel extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       open: false
     }
   }
-
 
   handleMouseEnter = (event) => {
     this.props.handleHoverShowStream(this.props.keyClaimId)
@@ -54,9 +55,9 @@ export class KeyClaimPanel extends Component {
 
   render() {
 
-
     //if a keyClaim is locked open, and the keyClaimId === the Id of the stream being shown, change class info
-    let keyClaimClass = "keyClaimPanel"
+    let keyClaimClass = "keyClaimPanel";
+
     if (this.props.keyClaimLocked && this.props.keyClaimId === this.props.showStreamForClaim) {
       keyClaimClass += " locked"
     }
@@ -69,34 +70,32 @@ export class KeyClaimPanel extends Component {
 
 
     return (
-      <div>
 
-        {/* <Panel className={keyClaimClass}
+        <Card 
+          className={keyClaimClass}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           expanded={this.state.open}>
-          <Panel.Body onClick={this.toggleLockKeyClaim}>
-            <p dangerouslySetInnerHTML={{__html: this.props.keyClaim.keyClaim}}/>
-          </Panel.Body>
-          <Panel.Collapse>
-            <Panel.Footer className="keyClaimFooter">
-              <ButtonGroup className="keyClaimFooterButtons">
-                <LikeButtonKeyClaim id={this.props.keyClaim.claimDbId}/>
-                <Button a href="/topicPage#commentPanelMaster" onClick={() => this.handleCommentKeyClaim(this.props.keyClaim)}
-                  className="keyClaimFooterItem">
-                  <Glyphicon glyph="comment" />
-                </Button>
+
+          <Card.Body onClick={this.toggleLockKeyClaim}>
+            <p className="mb-0">{this.props.keyClaim.keyClaim}</p>
+          </Card.Body>
+
+          {/* <Card.Collapse> */}
+            {/* <Card.Footer className="keyClaimFooter">
+              <ButtonGroup className="keyClaimFooterButtons"> */}
+                {/* <LikeButtonKeyClaim id={this.props.keyClaim.claimDbId}/> */}
+                {/* <Button a href="/topicPage#commentPanelMaster" onClick={() => this.handleCommentKeyClaim(this.props.keyClaim)}
+                  className="keyClaimFooterItem"> */}
+                  {/* <Glyphicon glyph="comment" /> */}
+                {/* </Button>
               </ButtonGroup>
 
-            </Panel.Footer>
-          </Panel.Collapse>
-        </Panel> */}
+            </Card.Footer> */}
+          {/* </Card.Collapse> */}
+        </Card>
 
-
-
-
-      </div>
-    )
+    );
   }
 }
 

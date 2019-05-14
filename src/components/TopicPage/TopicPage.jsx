@@ -13,13 +13,18 @@ import StreamItem from './StreamItem.jsx'
 import TopicTitleContent from './TopicTitleContent.jsx'
 import StreamItemFactory from './StreamItemFactory.jsx'
 import TopicContributors from './TopicContributors.jsx'
+import TopicCommonGround from './TopicCommonGround.jsx'
 import CommentSection from './CommentSection/CommentSection.jsx'
 import LoveModal from './LoveModal/LoveModal.jsx'
 import LikeButtonProposal from './LikeButtons/LikeButtonProposal.jsx'
 
 // Styling & Bootstrap
 import { Card, Tab, Tabs, Button, ButtonGroup, Image, Container, Col, Row } from 'react-bootstrap';
-import './TopicPage.css'
+import './TopicPage.css';
+
+import SimpleBar from 'simplebar-react';
+
+import 'simplebar/dist/simplebar.min.css';
 
 //TO-DO replace hard-coded topic_id in CommentSection component
 
@@ -145,13 +150,14 @@ export class TopicPage extends Component {
   render() {
 
     // Populate Key Claims
-    let keyClaimsArray = []
+    let keyClaimsArray = [];
+
     for (const keyClaimId in this.props.topicPageContent.keyClaims) {
-      // Select only claims for a given contributor
+      // Select claims for given contributor
       if (this.state.contributorSelect === this.props.topicPageContent.keyClaims[keyClaimId].claimContributor) {
-        // For each Key Claim, create a component:
         keyClaimsArray.push(
-          <KeyClaimPanel key={keyClaimId}
+          <KeyClaimPanel 
+            key={keyClaimId}
             keyClaimId={keyClaimId}
             keyClaim={this.props.topicPageContent.keyClaims[keyClaimId]}
             showStreamForClaim={this.state.showStreamForClaim}
@@ -205,6 +211,10 @@ export class TopicPage extends Component {
         <TopicContributors topicPageContent={this.props.topicPageContent} />
 
         <hr/>
+
+        <TopicCommonGround topicPageContent={this.props.topicPageContent} />
+
+        <hr/>
         
         <Container>
           <Tabs 
@@ -222,70 +232,57 @@ export class TopicPage extends Component {
           </Tabs>
 
           {/* ARENA */}
-          {/* <Card> */}
-            
           <Container>
-            <Row style={{ border: '1px solid #000' }}>
-            <Card>
-              <Card.Body>
-                <Image
-                  className={arenaPhotoClass}
-                  src={arenaPicture}
-                  thumbnail
-                  roundedCircle />
-              <div>
-              <h3>{selectedContributor}'s Proposal: </h3>
-              <p>{arenaProposal}</p>
+            <Row>
+              <Card>
+                <Card.Body>
+                  <Image
+                    className={arenaPhotoClass}
+                    src={arenaPicture}
+                    thumbnail
+                    roundedCircle />
+                  <div className="arenaProposal">
+                    <h3>{selectedContributor}'s Proposal: </h3>
+                    <p>{arenaProposal}</p>
                   </div>
                 </Card.Body>
               </Card>
+            </Row>
+          </Container>
+
+          <hr/>
+
+          <Container className="p-0">
+            <Row>
+              <Col xs={4} style={{}}>
+                <h4 className="text-center">{selectedContributor}'s Key Claims</h4>
+                <div className="keyClaimsContainer">
+                  <SimpleBar style={{ height: '100%' }}>
+                      {keyClaimsArray} 
+                  </SimpleBar>
+                </div>
+              </Col>
+              <Col>
+                <h4 className="text-center">Discussion Thread</h4>
+                <div className={streamContainerClass}>
+                  <SimpleBar style={{ height: '100%' }}>
+
+                  <Image className="arenaMini1" src={this.props.topicPageContent.photo1} width="55" />
+                  <Image className="arenaMini2" src={this.props.topicPageContent.photo2} width="55" />
+
+                  
+                    <StreamItemFactory 
+                      keyClaims={this.props.topicPageContent.keyClaims}
+                      showStreamForClaim={this.state.showStreamForClaim} />
+                  </SimpleBar>
+                </div>
+              </Col>
+            </Row>
+          </Container>
+
+
 
               
-
-            {/* ARENA SUMMARY Card */}
-                  <Col xs={12} md={9}>
-                    <Card className={arenaSummaryClass}>
-                      <Card.Body>
-                        <p><strong>{selectedContributor}'s Proposal: </strong></p>
-                        <p>{arenaProposal}</p>
-                    </Card.Body>
-                      <Card.Footer className="keyClaimFooter">
-                        <ButtonGroup className="keyClaimFooterButtons">
-                        {this.props.user.userInfo ? 
-                          <Button className="keyClaimFooterItem">
-                          <LoveModal topicPageContent={this.props.topicPageContent} contributor={this.state.contributorSelect}/> 
-                          </Button>: 
-                          <Button disabled className="keyClaimFooterItem">
-                            
-                            </Button>
-                          }
-
-                          
-
-                          <LikeButtonProposal id={arenaProposalId}/>
-                          <Button a href="/topicPage#commentCardMaster" onClick={() => this.handleCommentProposal(arenaProposal, arenaProposalId)}
-                            className="keyClaimFooterItem">
-                            
-                          </Button>
-                        </ButtonGroup>
-                      </Card.Footer>
-                    </Card>
-                  </Col>
-                </Row>
-              </Container>
-
-              <div className="keyClaimsContainer">
-                {keyClaimsArray}
-              </div>
-
-              <div className={streamContainerClass}>
-
-              <Image className="arenaMini1" src={this.props.topicPageContent.photo1} width="55"/>
-              <Image className="arenaMini2" src={this.props.topicPageContent.photo2} width="55"/>
-
-                <StreamItemFactory keyClaims={this.props.topicPageContent.keyClaims}
-                  showStreamForClaim={this.state.showStreamForClaim} />
-              </div>
 
           {/* </Card> */}
 
