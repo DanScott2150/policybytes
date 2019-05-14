@@ -2,56 +2,53 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import axios from 'axios';
 
-import { Panel, Button, ButtonGroup } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 import '../TopicPage.css'
 
 class LikeButtonStream extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            likedStream: false,
-            count: 0
-        };
+    this.state = {
+        likedStream: false,
+        count: 0
+    };
+  }
+
+  componentDidMount = () => {
+    if (this.props.id) {
+      this.getStreamLikes(this.props.id);
+      // console.log('componentDidMount, this.props.id', this.props.id);
     }
+  }
 
-    componentDidMount = () => {
-        if (this.props.id) {
-            this.getStreamLikes(this.props.id);
-            console.log('componentDidMount, this.props.id', this.props.id);
+  componentWillReceiveProps = (nextProps) => {
+    if (this.props.id == !nextProps.id) {
+      this.getStreamLikes(nextProps.id);
+      console.log('nextProps', nextProps.id);
+      console.log('this.props', nextProps.id);
+    }
+  }
 
+  getStreamLikes = (id) => {
+    axios.get(`/api/likes/get/stream/${id}`)
+      .then((response) => {
+        // console.log('here is response from axios.get', response.data);
+        if (!response.data[0]) {
+          this.setState({
+              count: 0
+          })
+        } else {
+          this.setState({
+              count: response.data[0].count
+          })
         }
-    }
-
-    componentWillReceiveProps = (nextProps) => {
-
-        if (this.props.id == !nextProps.id) {
-            this.getStreamLikes(nextProps.id);
-            console.log('nextProps', nextProps.id);
-            console.log('this.props', nextProps.id);
-        }
-    }
-
-    getStreamLikes = (id) => {
-        axios.get(`/api/likes/get/stream/${id}`)
-            .then((response) => {
-                console.log('here is response from axios.get', response.data);
-                if (!response.data[0]) {
-                    this.setState({
-                        count: 0
-                    })
-                } else {
-                    this.setState({
-                        count: response.data[0].count
-                    })
-                }
-                console.log('this is state.count', this.state.count);
-            }).catch((err) => {
-                console.log(err)
-            });
-
-    }
+        // console.log('this is state.count', this.state.count);
+      }).catch((err) => {
+          console.log(err)
+      });
+  }
 
     likeStream = (id) => {
 
@@ -90,27 +87,41 @@ class LikeButtonStream extends Component {
         })
     }
 
-    render() {
-        return (
-            <div>
-                <h2>PLaceholder</h2>
-            </div>
-        )
-        // if (this.props.user.userInfo) {
+  render() {
+    if (this.props.user.userInfo) {
+      return (
+        <span>
+          { !this.state.likedStream ? 
+            <Button 
+              className="keyClaimFooterItem" 
+              onClick={() => this.likeStream(this.props.id)} >
 
-        //     return (
-
-        //         <span>{!this.state.likedStream ? <Button className="keyClaimFooterItem" onClick={() => this.likeStream(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button> : <Button className="keyClaimFooterItem" bsStyle="success" onClick={() => this.unlikeStream(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button>}</span>
-
-        //     )
-        // } else {
-        //     return (
-
-        //         <span> <Button disabled className="keyClaimFooterItem" onClick={() => this.likeKeyClaim(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button></span>
-
-        //     )
-        // }
+              <i className="fa fa-thumbs-up" /> &nbsp;
+              {this.state.count}
+              </Button> : 
+              <Button 
+                className="keyClaimFooterItem" 
+                bsStyle="success" 
+                onClick={() => this.unlikeStream(this.props.id)} >
+                <i className="fa fa-thumbs-up" /> &nbsp;
+                {this.state.count}
+              </Button>}
+          </span>
+      );
+    } else {
+      return (
+        <span>
+          <Button 
+            disabled 
+            variant="light"
+            onClick={() => this.likeKeyClaim(this.props.id)} >
+            <i className="fa fa-thumbs-up" /> &nbsp;
+              {this.state.count}
+          </Button>
+        </span>
+      );
     }
+  }
 }
 
 const mapStateToProps = state => ({

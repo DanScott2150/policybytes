@@ -221,7 +221,9 @@ export class TopicPage extends Component {
             defaultActiveKey='contributor1'
             id="contributorSelectTabs"
             onSelect={this.handleTabSelect}
-            animation={false}>
+            animation={false}
+            style={{paddingLeft: '1em'}}
+            >
 
             <Tab 
               eventKey='contributor1' 
@@ -232,28 +234,34 @@ export class TopicPage extends Component {
           </Tabs>
 
           {/* ARENA */}
+
+          {/* Proposals */}
+          <Card className="border-top-0" style={{backgroundColor: 'lightyellow', borderTopLeftRadius: '0'}}>
+            <Container>
+              <Row>
+                <Card className="border-0" style={{ backgroundColor: 'inherit' }}>
+                  <Card.Body>
+                    <Image
+                      className={arenaPhotoClass}
+                      src={arenaPicture}
+                      thumbnail
+                      roundedCircle />
+                    <div className="arenaProposal">
+                      <h3>{selectedContributor}'s Proposal: </h3>
+                      <p className="mb-0">{arenaProposal}</p>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Row>
+            </Container>
+
+            <hr className="arenaDivider"/>
+
           <Container>
             <Row>
-              <Card>
-                <Card.Body>
-                  <Image
-                    className={arenaPhotoClass}
-                    src={arenaPicture}
-                    thumbnail
-                    roundedCircle />
-                  <div className="arenaProposal">
-                    <h3>{selectedContributor}'s Proposal: </h3>
-                    <p>{arenaProposal}</p>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Row>
-          </Container>
 
-          <hr/>
 
-          <Container className="p-0">
-            <Row>
+          {/* Key Claim Panel */}
               <Col xs={4} style={{}}>
                 <h4 className="text-center">{selectedContributor}'s Key Claims</h4>
                 <div className="keyClaimsContainer">
@@ -262,15 +270,14 @@ export class TopicPage extends Component {
                   </SimpleBar>
                 </div>
               </Col>
-              <Col>
+                <Col xs={8} className="pl-0">
                 <h4 className="text-center">Discussion Thread</h4>
                 <div className={streamContainerClass}>
                   <SimpleBar style={{ height: '100%' }}>
 
-                  <Image className="arenaMini1" src={this.props.topicPageContent.photo1} width="55" />
-                  <Image className="arenaMini2" src={this.props.topicPageContent.photo2} width="55" />
+                  <Image className="arenaMini1" src={this.props.topicPageContent.photo1} thumbnail roundedCircle />
+                    <Image className="arenaMini2" src={this.props.topicPageContent.photo2} thumbnail roundedCircle />
 
-                  
                     <StreamItemFactory 
                       keyClaims={this.props.topicPageContent.keyClaims}
                       showStreamForClaim={this.state.showStreamForClaim} />
@@ -281,7 +288,7 @@ export class TopicPage extends Component {
           </Container>
 
 
-
+          </Card>
               
 
           {/* </Card> */}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Button, ButtonGroup, Collapse } from 'react-bootstrap';
+import { Card, Button, ButtonGroup, Collapse, Badge } from 'react-bootstrap';
 
 import LikeButtonStream from './LikeButtons/LikeButtonStream.jsx'
 
@@ -49,38 +49,35 @@ class StreamItem extends Component {
     }
 
     return (
-      <div onClick={this.handleOpen}>
-
+      <div onClick={this.handleOpen} aria-controls="evidence-collapse-text">
         <Card className={streamItemClass} expanded={this.state.open}>
-          <Card.Body>
-            {/* <div dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamComment }} /> */}
+          <Card.Body className="p-3">
             <Linkify tagName="div">{this.props.streamItem.streamComment }</Linkify>
-            <br/>
+
             <div className="evidenceTag">
-              <span>
               Evidence {(this.state.open === true) ? <i className="fa fa-caret-up" aria-hidden="true"></i> : <i className="fa fa-caret-down" aria-hidden="true"></i>}
-              </span>    
             </div>
-            {/* <Collapse in={this.state.open}> */}
-              <br />
-                  {/* <p dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamEvidence }} /> */}
+
+            <Collapse in={this.state.open}>
+              <div id="evidence-collapse-text">
                 <Linkify tagName="p">{this.props.streamItem.streamEvidence}</Linkify>
-              <br />
 
-              <Card.Footer className="keyClaimFooter">
-
-                <ButtonGroup className="keyClaimFooterButtons">
-                   <LikeButtonStream id={this.props.streamItem.streamDbId} />
-                  <Button a href="/topicPage#commentCardMaster" onClick={() => this.handleCommentStream(this.props.streamItem)} className="keyClaimFooterItem">
-                    {/* <Glyphicon glyph="comment" /> */}
-                  </Button>
-                </ButtonGroup>
-              </Card.Footer>
-            {/* </Collapse> */}
+                <Card.Footer className="keyClaimFooter">
+                  <ButtonGroup className="keyClaimFooterButtons">
+                    <LikeButtonStream id={this.props.streamItem.streamDbId} />
+                    <Button 
+                      a href="/topicPage#commentCardMaster" 
+                      variant="light"
+                      onClick={() => this.handleCommentStream(this.props.streamItem)} 
+                      className="keyClaimFooterItem">
+                      <i class="far fa-comment"></i>
+                    </Button>
+                  </ButtonGroup>
+                </Card.Footer>
+              </div>
+            </Collapse>
           </Card.Body>
-
         </Card>
-
       </div>
     )
   }

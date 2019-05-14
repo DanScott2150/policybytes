@@ -73,14 +73,25 @@ h1{
     text-align: center;
 } 
 
+.nav > .active {
+    background-color: lightyellow!important;
+    font-weight: bold!important;
+    border-bottom: 0!important;
+}
+
 
 
 /* ARENA */
 
-#arenaTop{
+.arenaDivider{
+    width: 95%;
+    margin: 0 auto 1em auto!important;
+}
+
+/* #arenaTop{ */
     /* border: 1px solid red !important;  */
     /* padding: 0em 1em 1em 0em;  */
-}
+/* } */
 
 .arenaPhotoContrib1{
     max-width: 10em;
@@ -138,11 +149,45 @@ h1{
     width: 90%; 
     margin: 10px 0;
     background: lightgray;
+    transition: all 0.3s;
+    /* text-align: justify; */
 }
+
+.keyClaimPanel:hover{
+    cursor: pointer;
+}
+
+.keyClaimPanel.contrib1{
+    background-color: rgba(135, 206, 235, 0.2);
+}
+
+.keyClaimPanel.contrib1:hover{
+    background-color: rgba(135, 206, 235, 0.8);
+}
+
+.keyClaimPanel.contrib1.locked{
+     width: 95%; 
+     /* padding-right: 2em; */
+    font-weight: bold;
+    font-size: 1.1em;
+      background-color: rgba(135, 206, 235, 1);  
+}
+
+.keyClaimPanel:hover{
+    width: 95%;
+    /* padding-right: 2em; */
+    /* font-weight:bold; */
+}
+
+/* .locked{  
+    width: 100%; 
+    font-weight: bold;
+} */
 
 .keyClaimFooter{
     background-color: inherit !important; 
     border: none; 
+    padding: 1em 0 0 0;
 }
 
 .keyClaimFooterLikes{
@@ -156,9 +201,8 @@ h1{
     margin-right: 1em; 
 }
 
-.locked{  
-    width: 100%; 
-}
+
+
 
 /* STREAM ITEMS */
 
@@ -169,17 +213,23 @@ h1{
     overflow: auto;
     /* display: inline-block;  */
 }
+/* 
+.streamItemCard{
+    padding: 1em;
+} */
 
 .arenaMini1{
-    /* margin-top: 5px;
-    margin-left: 5px; */
+    max-width: 3em;
+    height: auto; 
+    border: 2px solid skyblue;
     float: left;
     margin: 5px;
 }
 
 .arenaMini2{
-    /* left: 440px;
-    top: -30px; */
+    max-width: 3em;
+    height: auto; 
+    border: 2px solid forestgreen;
     float: right;
     margin: 5px;
 }
@@ -189,45 +239,46 @@ h1{
     width: 100%; 
 }
 
-@media only screen and (min-width: 1330px) {
+/* @media only screen and (min-width: 1330px) {
     .arenaMini1 {
         display: none; 
     }
     .arenaMini2{
         display: none; 
     }
-}
+} */
 
 .evidenceTag{
-    font-size: .8em; 
-    margin: auto 1em auto 1em;
+    font-size: 0.8em; 
+    margin: 1em auto;
+    cursor: pointer;
 }
 
 
 
 /* CONTRIBUTOR STUFF */
 
-.contrib1 {
-    /* border: 2px solid skyblue !important; */
-}
+/* .contrib1 {
+    border: 2px solid skyblue !important;
+} */
 
 
-.contrib2 {
-    /* border: 2px solid forestgreen !important; */
-}
+/* .contrib2 {
+    border: 2px solid forestgreen !important;
+} */
 
 
 .contrib1Stream {
-    border: 2px solid #006666;
-    background-color: #00666629;
-    width: 65%; 
-    margin: 1em auto 0em 1em;
+    border: 2px solid skyblue;
+    background-color: rgba(135, 206, 235, 0.2);
+    width: 75%; 
+    margin: 0.5em auto 0em 1em;
 }
 
 
 .contrib2Stream {
-    border: 2px solid #666600;
-    background-color: #66660035;
-    width: 65%; 
-    margin: 1em 1em 0em auto; 
+    border: 2px solid forestgreen;
+    background-color: rgba(135, 206, 235, 0.4);
+    width: 75%; 
+    margin: 0.5em 1em 0em auto; 
 }
