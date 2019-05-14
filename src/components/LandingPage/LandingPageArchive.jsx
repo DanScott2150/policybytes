@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Panel, Grid, Col, Row, Jumbotron, Image } from 'react-bootstrap';
+import { Container, Col, Row, Jumbotron, Image } from 'react-bootstrap';
 import dummyTopicCache from '../TopicPage/DummyData.js'
 import moment from 'moment';
 import { Link, withRouter } from 'react-router-dom';
@@ -35,7 +35,7 @@ class LandingPageArchive extends Component {
         return(  
                 <div onClick={()=>this.fetchTopicPageContent(archivedTopic.id)}>
                     <Col xs={12} sm={6} md={4} lg={4}>
-                        <Panel className="archivePanel">
+                        {/* <Panel className="archivePanel">
                         <Panel.Body>
                             <Panel.Heading>{archivedTopic.topic_title}</Panel.Heading>
                                 <img src={archivedTopic.icon_url} alt="" height="200"/>
@@ -44,7 +44,7 @@ class LandingPageArchive extends Component {
                                 <br/>
                                 <p className="archiveTopicSummary">{archivedTopic.archive_summary}</p>
                         </Panel.Body>
-                        </Panel>
+                        </Panel> */}
                     </Col>
                 </div>
               )
@@ -53,21 +53,21 @@ class LandingPageArchive extends Component {
     return (
       <div>
           {/* <pre>{JSON.stringify(this.props.state.landing.archivedTopics, null, 2)}</pre> */}
-          <Grid>
+          <Container>
               <Row>
                   <Col xs={12} md={12}>
                     <h2 className="archiveTitle">- Archive -</h2>
                   </Col>
               </Row>
-          </Grid>
+          </Container>
 
           
         <div className="archiveWrapper">
-          <Grid>
+          <Container>
               <Row>
                     {archiveArray}
               </Row>
-          </Grid>
+          </Container>
 
         </div>
       </div>

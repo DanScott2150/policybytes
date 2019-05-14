@@ -7,7 +7,7 @@ import SubmitAlert from './SubmitAlert.jsx'
 
 import ReactFilestack, { client } from 'filestack-react';
 import filestack from 'filestack-js';
-import { Panel, Tab, Tabs, Button, ButtonGroup, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Card, Tab, Tabs, Button, ButtonGroup, FormGroup, FormLabel, FormControl } from 'react-bootstrap';
 
 import { Redirect } from 'react-router';
 
@@ -232,9 +232,9 @@ class TopicEdit extends Component {
               }
             </div>
 
-            <Panel>
-              <Panel.Body>
-                <ControlLabel>Topic Title</ControlLabel>
+            <Card>
+              <Card.Body>
+                <FormLabel>Topic Title</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                   name="topicTitle"
                   value={this.props.state.cacheEdit.topicEditCache.topicTitle}  //<-- VALUE COMES FROM REDUX STATE 
@@ -246,60 +246,60 @@ class TopicEdit extends Component {
                 <ImageUpload handleUploadContent={this.handleUploadContent}
                   contributor='topicReadMore'  //<-- topicReadMore is icon_url through full stack
                               />
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
 
 
-            <Panel>
-              <Panel.Body>
-                <ControlLabel>Topic Summary (for archive)</ControlLabel>
+            <Card>
+              <Card.Body>
+                <FormLabel>Topic Summary (for archive)</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                   name="topicSummary"
                   value={this.props.state.cacheEdit.topicEditCache.topicSummary}  //<-- VALUE COMES FROM REDUX STATE 
                   componentClass="textarea" />
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
 
-            <Panel>
-              <Panel.Body>
-                <ControlLabel>Topic Premise</ControlLabel>
+            <Card>
+              <Card.Body>
+                <FormLabel>Topic Premise</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                   name="topicPremise"
                   value={this.props.state.cacheEdit.topicEditCache.topicPremise}  //<-- VALUE COMES FROM REDUX STATE 
                   componentClass="textarea"  />
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
 
-            <Panel>
-              <Panel.Body>
-                <ControlLabel>Common Ground</ControlLabel>
+            <Card>
+              <Card.Body>
+                <FormLabel>Common Ground</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                   name="topicCommonGround"
                   value={this.props.state.cacheEdit.topicEditCache.topicCommonGround}  //<-- VALUE COMES FROM REDUX STATE 
                   componentClass="textarea" />
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
 
-            <Panel>
-              <Panel.Body>
-                <ControlLabel>Contributor 1 First Name</ControlLabel>
+            <Card>
+              <Card.Body>
+                <FormLabel>Contributor 1 First Name</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                 componentClass="textarea" 
                   name="contributor1FirstName"
                   value={this.props.state.cacheEdit.topicEditCache.contributor1FirstName}  //<-- VALUE COMES FROM REDUX STATE 
                 />
-                <ControlLabel>Contributor 1 Last Name</ControlLabel>
+                <FormLabel>Contributor 1 Last Name</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                 componentClass="textarea" 
                   name="contributor1LastName"
                   value={this.props.state.cacheEdit.topicEditCache.contributor1LastName}  //<-- VALUE COMES FROM REDUX STATE 
                 />
-                <ControlLabel>Contributor 1 Bio</ControlLabel>
+                <FormLabel>Contributor 1 Bio</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                   name="bio1"
                   value={this.props.state.cacheEdit.topicEditCache.bio1}  //<-- VALUE COMES FROM REDUX STATE 
                   componentClass="textarea"  />
-                <ControlLabel>Contributor 1 Proposal Summary</ControlLabel>
+                <FormLabel>Contributor 1 Proposal Summary</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                   name="proposal1"
                   value={this.props.state.cacheEdit.topicEditCache.proposal1}  //<-- VALUE COMES FROM REDUX STATE 
@@ -313,29 +313,29 @@ class TopicEdit extends Component {
                   contributor='photo1' />
 
 
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
 
-            <Panel>
-              <Panel.Body>
-                <ControlLabel>Contributor 2 First Name</ControlLabel>
+            <Card>
+              <Card.Body>
+                <FormLabel>Contributor 2 First Name</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                 componentClass="textarea" 
                   name="contributor2FirstName"
                   value={this.props.state.cacheEdit.topicEditCache.contributor2FirstName}  //<-- VALUE COMES FROM REDUX STATE 
                 />
-                <ControlLabel>Contributor 2 Last Name</ControlLabel>
+                <FormLabel>Contributor 2 Last Name</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                 componentClass="textarea" 
                   name="contributor2LastName"
                   value={this.props.state.cacheEdit.topicEditCache.contributor2LastName}  //<-- VALUE COMES FROM REDUX STATE 
                 />
-                <ControlLabel>Contributor 2 Bio</ControlLabel>
+                <FormLabel>Contributor 2 Bio</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                   name="bio2"
                   value={this.props.state.cacheEdit.topicEditCache.bio2}  //<-- VALUE COMES FROM REDUX STATE 
                   componentClass="textarea"  />
-                <ControlLabel>Contributor 2 Proposal Summary</ControlLabel>
+                <FormLabel>Contributor 2 Proposal Summary</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                   name="proposal2"
                   value={this.props.state.cacheEdit.topicEditCache.proposal2}  //<-- VALUE COMES FROM REDUX STATE 
@@ -350,8 +350,8 @@ class TopicEdit extends Component {
                   contributor='photo2' />
 
 
-              </Panel.Body>
-            </Panel>
+              </Card.Body>
+            </Card>
 
             <Button bsStyle="primary" onClick={this.addKeyClaim}>Add Key Claim</Button>
 

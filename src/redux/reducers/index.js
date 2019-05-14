@@ -1,3 +1,5 @@
+// Creates redux store
+
 import { combineReducers } from 'redux';
 import user from './userReducer';
 import login from './loginReducer';
@@ -7,7 +9,6 @@ import cacheEdit from './atticusTopicEditReducer';
 import topicPageContent from './topicPageReducer.js';
 import landing from './landingPageReducer';
 
-
 const store = combineReducers({
   user,
   login,
@@ -16,7 +17,6 @@ const store = combineReducers({
   cacheEdit,
   topicPageContent,
   landing
-
 });
 
 export default store;

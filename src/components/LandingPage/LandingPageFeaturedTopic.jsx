@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import { Link, withRouter } from 'react-router-dom';
 
-import { Panel, Grid, Col, Row, Jumbotron, Image } from 'react-bootstrap';
+import { Panel, Container, Col, Row, Jumbotron, Image } from 'react-bootstrap';
 
 import './LandingPage.css'
 
@@ -43,7 +43,7 @@ class LandingPageFeaturedTopic extends Component {
         <div onClick={()=>this.fetchTopicPageContent(featuredTopic[0].id)}>
         
         <Jumbotron className="featuredTopicJumbotron" >
-            <Grid>
+            <Container>
                 <Row>
                     <Col xs={12} md={12}>
                         <h3><strong>- Current Conversation -</strong></h3>
@@ -93,7 +93,7 @@ class LandingPageFeaturedTopic extends Component {
                     </Col>
                 </Row>
             
-            </Grid>
+            </Container>
         </Jumbotron>
       </div>
     )

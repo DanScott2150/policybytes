@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Panel, Glyphicon, Button, ButtonGroup } from 'react-bootstrap';
+import { Card, Button, ButtonGroup } from 'react-bootstrap';
 
 import LikeButtonStream from './LikeButtons/LikeButtonStream.jsx'
 
@@ -40,7 +40,7 @@ class StreamItem extends Component {
 
   render() {
 
-    let streamItemClass = "streamItemPanel"
+    let streamItemClass = "streamItemCard"
     if (this.props.streamItem.streamContributor === 'contributor1') {
       streamItemClass += " contrib1Stream"
     }
@@ -57,8 +57,8 @@ class StreamItem extends Component {
     return (
       <div onClick={this.handleOpen}>
 
-        <Panel className={streamItemClass} expanded={this.state.open}>
-          <Panel.Body>
+        <Card className={streamItemClass} expanded={this.state.open}>
+          <Card.Body>
             {/* <div dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamComment }} /> */}
             <Linkify tagName="div">{this.props.streamItem.streamComment }</Linkify>
             <br/>
@@ -67,25 +67,25 @@ class StreamItem extends Component {
               Evidence {(this.state.open === true) ? <i class="fa fa-caret-up" aria-hidden="true"></i> : <i class="fa fa-caret-down" aria-hidden="true"></i>}
               </span>    
             </div>
-            <Panel.Collapse>
+            <Card.Collapse>
               <br />
                   {/* <p dangerouslySetInnerHTML={{ __html: this.props.streamItem.streamEvidence }} /> */}
                 <Linkify tagName="p">{this.props.streamItem.streamEvidence}</Linkify>
               <br />
 
-              <Panel.Footer className="keyClaimFooter">
+              <Card.Footer className="keyClaimFooter">
 
                 <ButtonGroup className="keyClaimFooterButtons">
                    <LikeButtonStream id={this.props.streamItem.streamDbId} />
-                  <Button a href="/topicPage#commentPanelMaster" onClick={() => this.handleCommentStream(this.props.streamItem)} className="keyClaimFooterItem">
-                    <Glyphicon glyph="comment" />
+                  <Button a href="/topicPage#commentCardMaster" onClick={() => this.handleCommentStream(this.props.streamItem)} className="keyClaimFooterItem">
+                    {/* <Glyphicon glyph="comment" /> */}
                   </Button>
                 </ButtonGroup>
-              </Panel.Footer>
-            </Panel.Collapse>
-          </Panel.Body>
+              </Card.Footer>
+            </Card.Collapse>
+          </Card.Body>
 
-        </Panel>
+        </Card>
 
       </div>
     )

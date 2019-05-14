@@ -1,68 +1,53 @@
-import React, { Component } from 'react'
-
-import { Panel, Jumbotron, Image, Grid, Row, Col } from 'react-bootstrap';
-
-import dummyTopicCache from './DummyData.js'
-
+import React, { Component } from 'react';
+import { Card, Image, Container, Row, Col } from 'react-bootstrap';
 
 export default class TopicContributors extends Component {
   render() {
     return (
-      <div className="contributorsSection">
-            <Grid>
-                <Row>
-                    <Col xs={12} md={6}>
-                        <div >
-                        <Panel className="contributorPanel ">
-                            <Panel.Body>
-                                <Col xs={4} md={4}>
-                                    <Image className="contributorPhotoLeft" src={this.props.topicPageContent.photo1} responsive/>
-                                </Col>
-                                <Col xs={8} md={8}>
-                                    <div className="contributorText">
-                                        <h3>
-                                            <strong>
-                                                {this.props.topicPageContent.contributor1FirstName} {this.props.topicPageContent.contributor1LastName}
-                                            </strong>
-                                        </h3>
-                                        <i>
-                                        {this.props.topicPageContent.bio1}
-                                        </i>
-                                    </div>
-                                </Col>
-                            </Panel.Body>
-                        </Panel>
-                        </div>
-                    </Col>
+      <Container>
+        <Row>
+          <Col>
+            <Card className="contributorCardLeft">
+              <Card.Body>
+                  <Image 
+                    className="contributorPhotoLeft" 
+                    src={this.props.topicPageContent.photo1} 
+                    thumbnail 
+                    roundedCircle />
+                  <div className="contributorText">
+                    <h3>
+                      {this.props.topicPageContent.contributor1FirstName} {this.props.topicPageContent.contributor1LastName}
+                    </h3>
+                    <p className="text-justify">
+                      {this.props.topicPageContent.bio1}
+                    </p>
+                  </div>
+              </Card.Body>
+            </Card>
+          </Col>
 
-                    <Col xs={12} md={6}>
-                        <div >
-                        <Panel className="contributorPanel">
-                            <Panel.Body>
-                                <Col xs={8} md={8}>
-                                    <div className="contributorText">
-                                            <h3>
-                                                <strong>
-                                                    {this.props.topicPageContent.contributor2FirstName} {this.props.topicPageContent.contributor2LastName}
-                                                </strong>
-                                            </h3>
-                                            <i>
-                                                {this.props.topicPageContent.bio2}
-                                            </i>
-                                    </div>
-                                </Col>
-                                <Col  xs={4} md={4}>                
-                                    <Image className="contributorPhotoRight" src={this.props.topicPageContent.photo2} responsive/>
-                                </Col>
-                            </Panel.Body>
-                        </Panel>
-                        </div>
-                    </Col>
-                </Row>
-            </Grid>
+          <Col>
+            <Card className="contributorCardRight">
+              <Card.Body>
+                <Image
+                  className="contributorPhotoRight"
+                  src={this.props.topicPageContent.photo2}
+                  thumbnail
+                  roundedCircle />
+                <div className="contributorText">
+                  <h3>
+                    {this.props.topicPageContent.contributor2FirstName} {this.props.topicPageContent.contributor2LastName}
+                  </h3>
+                  <p className="text-justify">
+                    {this.props.topicPageContent.bio2}
+                  </p>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
 
-        
-      </div>
-    )
+        </Row>
+      </Container>
+    );
   }
 }

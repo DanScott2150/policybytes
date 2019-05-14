@@ -1,10 +1,13 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Footer from '../Footer/Footer.jsx'
-import { USER_ACTIONS } from '../../redux/actions/userActions';
+// Topic Page
+// Displays entire page for a given topic
+// Including header component, and actual discussion arena
 
-import { Panel, Tab, Tabs, Button, ButtonGroup, Glyphicon, Image, Grid, Col, Row } from 'react-bootstrap';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+// import { USER_ACTIONS } from '../../redux/actions/userActions';
 
+
+// Import all subcomponents
 import KeyClaimPanel from './KeyClaimPanel.jsx'
 import StreamItem from './StreamItem.jsx'
 import TopicTitleContent from './TopicTitleContent.jsx'
@@ -14,62 +17,63 @@ import CommentSection from './CommentSection/CommentSection.jsx'
 import LoveModal from './LoveModal/LoveModal.jsx'
 import LikeButtonProposal from './LikeButtons/LikeButtonProposal.jsx'
 
-
-
-import dummyTopicCache from './DummyData.js'
-
+// Styling & Bootstrap
+import { Card, Tab, Tabs, Button, ButtonGroup, Image, Container, Col, Row } from 'react-bootstrap';
 import './TopicPage.css'
 
 //TO-DO replace hard-coded topic_id in CommentSection component
 
+// Do we need 'export' here since it's also exported at the bottom of the file?
 export class TopicPage extends Component {
+  
+  // Initialize state
   constructor(props) {
-    super(props)
-
+    super(props);
     this.state = {
       showStreamForClaim: undefined,
       keyClaimLocked: false,
       contributorSelect: 'contributor1',
-      topicId: 0
+      topicId: 0  //initialize to 0, but updates as a part of componentWillReceiveProps()
     }
   }
 
+  // Clear data within the arena when component unmounts
+  // commentReducer.js resets state for Proposal, Key Claims, Stream Comments to empty object
   componentWillUnmount(){
-    this.props.dispatch({
-      type: 'CLEAR_PROPOSAL_COMMENT',  
-    })
-    this.props.dispatch({
-      type: 'CLEAR_KEY_CLAIM_COMMENT'
-    });
-    this.props.dispatch({
-      type: 'CLEAR_STREAM_COMMENT'
-    });
-   }
-
-  componentDidMount() {
-    // this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
-    this.props.dispatch({
-      type: 'FETCH_NEW_TOPIC_LANDING_PAGE'
-  })
+    this.props.dispatch({type: 'CLEAR_PROPOSAL_COMMENT'});
+    this.props.dispatch({type: 'CLEAR_KEY_CLAIM_COMMENT'});
+    this.props.dispatch({type: 'CLEAR_STREAM_COMMENT'});
   }
+
+  // Think this can be deleted?
+  // componentDidMount() {
+  //   this.props.dispatch({
+  //     type: 'FETCH_NEW_TOPIC_LANDING_PAGE'
+  //   })
+  // }
 
 //allows reducer to be populated before it looks for data
   componentWillReceiveProps(nextProps){
-    
     this.setState({
       ...this.state, topicId: nextProps.state.landing.featuredLandingPage[0].id
     })
-    // this.fetchTopicPageContent(this.state.topicId);
   }
 
+
+//Fetch topic content
+// This only fires when fetching the featured topic
+// If user clicks an archived topic instead, fetchTopicPageContent() fires from LandingPageArchive.jsx component
+// This seems like an odd way to do things, will look into refactoring later
   componentDidUpdate(prevProps) {
     if(this.props.state.landing.featuredLandingPage[0].id !== prevProps.state.landing.featuredLandingPage[0].id){
       this.fetchTopicPageContent(this.state.topicId);
     }
   }
 
-fetchTopicPageContent = (id) => {
-    console.log('in fetchTopicPageContent, id:', id);
+  fetchTopicPageContent = (id) => {
+// 1) FETCH_TOPIC_PAGE_CONTENT >> 
+// 2) topicSaga.js hits API endpoint, then calls SET_TOPIC_PAGE_CONTENT >>
+// 3> topicPageReducer.js returns data
     this.props.dispatch({
       type: 'FETCH_TOPIC_PAGE_CONTENT',
       payload: id
@@ -77,7 +81,10 @@ fetchTopicPageContent = (id) => {
   }
 
 
-  //called on mouseEnter from keyClaimPanel IF keyClaimLocked === false
+
+
+
+  //When mouse hovers over a key claim, show the associated stream in the chatbox
   handleHoverShowStream = (id) => {
     if (this.state.keyClaimLocked === false) {
       this.setState({
@@ -86,7 +93,7 @@ fetchTopicPageContent = (id) => {
     }
   }
 
-  //called on mouseLeave from keyClaimPanel IF keyClaimLocked === false
+  //When mouse hover ends, hide associated stream in chatbox
   handleHoverHideStream = (id) => {
     if (this.state.keyClaimLocked === false) {
       this.setState({
@@ -95,7 +102,7 @@ fetchTopicPageContent = (id) => {
     }
   }
 
-  //toggle this.state.keyClaimLocked
+  //When a key claim is clicked, "lock" it as active and populate the chatbox with the stream
   toggleClickShowStream = (id) => {
     this.setState({
       showStreamForClaim: id,
@@ -103,6 +110,7 @@ fetchTopicPageContent = (id) => {
     })
   }
 
+  //Toggle between different contributor tabs
   handleTabSelect = (key) => {
     this.setState({
       contributorSelect: key
@@ -111,9 +119,14 @@ fetchTopicPageContent = (id) => {
 
   handleCommentProposal = (proposalInput, proposalIdInput) => {
 
-    let proposalObject = { proposal: proposalInput, proposalContributor: this.state.contributorSelect,
-      proposalDbId: proposalIdInput};
-      console.log('in handleCommentProposal', proposalObject);
+    let proposalObject = { 
+      proposal: proposalInput, 
+      proposalContributor: this.state.contributorSelect,
+      proposalDbId: proposalIdInput
+    };
+
+    console.log('in handleCommentProposal', proposalObject);
+    
     this.props.dispatch({
       type: 'SET_PROPOSAL_COMMENT',
       payload: proposalObject,   
@@ -131,11 +144,12 @@ fetchTopicPageContent = (id) => {
 
   render() {
 
-    //loop through keyclaim object to make keyClaimPanels 
+    // Populate Key Claims
     let keyClaimsArray = []
     for (const keyClaimId in this.props.topicPageContent.keyClaims) {
-      //if statement to render only the selected contributor's claims
+      // Select only claims for a given contributor
       if (this.state.contributorSelect === this.props.topicPageContent.keyClaims[keyClaimId].claimContributor) {
+        // For each Key Claim, create a component:
         keyClaimsArray.push(
           <KeyClaimPanel key={keyClaimId}
             keyClaimId={keyClaimId}
@@ -146,7 +160,7 @@ fetchTopicPageContent = (id) => {
             handleHoverHideStream={this.handleHoverHideStream}
             toggleClickShowStream={this.toggleClickShowStream}
           />
-        )
+        );
       }
     }
 
@@ -181,66 +195,84 @@ fetchTopicPageContent = (id) => {
       selectedContributor = this.props.topicPageContent.contributor2FirstName
     }
 
+    const firstPersonTab = this.props.topicPageContent.contributor1FirstName + "'s Viewpoint";
+    const secondPersonTab = this.props.topicPageContent.contributor2FirstName + "'s Viewpoint";
+    
+
     return (
       <div>
-
         <TopicTitleContent topicPageContent={this.props.topicPageContent} />
         <TopicContributors topicPageContent={this.props.topicPageContent} />
 
-
-        <div className="wrapper">
-          <Tabs className="tabParent"
-            bsStyle="pills"
+        <hr/>
+        
+        <Container>
+          <Tabs 
             defaultActiveKey='contributor1'
             id="contributorSelectTabs"
             onSelect={this.handleTabSelect}
-            animation={false}
-          >
-            <Tab tabClassName="tabChildren" eventKey='contributor1' title={this.props.topicPageContent.contributor1FirstName}></Tab>
-            <Tab tabClassName="tabChildren" eventKey='contributor2' title={this.props.topicPageContent.contributor2FirstName}></Tab>
+            animation={false}>
+
+            <Tab 
+              eventKey='contributor1' 
+              title={firstPersonTab}></Tab>
+            <Tab 
+              eventKey='contributor2' 
+              title={secondPersonTab}></Tab>
           </Tabs>
 
           {/* ARENA */}
+          {/* <Card> */}
+            
+          <Container>
+            <Row style={{ border: '1px solid #000' }}>
+            <Card>
+              <Card.Body>
+                <Image
+                  className={arenaPhotoClass}
+                  src={arenaPicture}
+                  thumbnail
+                  roundedCircle />
+              <div>
+              <h3>{selectedContributor}'s Proposal: </h3>
+              <p>{arenaProposal}</p>
+                  </div>
+                </Card.Body>
+              </Card>
 
-          <Panel className="arenaContainer">
-            <Panel.Body>
-              <Grid>
-                <Row id="arenaTop">
-                  <Col xs={12} md={3}>
-                    <Image className={arenaPhotoClass} src={arenaPicture} rounded/>
-                  </Col>
+              
 
-            {/* ARENA SUMMARY PANEL */}
+            {/* ARENA SUMMARY Card */}
                   <Col xs={12} md={9}>
-                    <Panel className={arenaSummaryClass}>
-                      <Panel.Body>
+                    <Card className={arenaSummaryClass}>
+                      <Card.Body>
                         <p><strong>{selectedContributor}'s Proposal: </strong></p>
                         <p>{arenaProposal}</p>
-                    </Panel.Body>
-                      <Panel.Footer className="keyClaimFooter">
+                    </Card.Body>
+                      <Card.Footer className="keyClaimFooter">
                         <ButtonGroup className="keyClaimFooterButtons">
                         {this.props.user.userInfo ? 
                           <Button className="keyClaimFooterItem">
                           <LoveModal topicPageContent={this.props.topicPageContent} contributor={this.state.contributorSelect}/> 
                           </Button>: 
                           <Button disabled className="keyClaimFooterItem">
-                            <Glyphicon glyph="heart" />
+                            
                             </Button>
                           }
 
                           
 
                           <LikeButtonProposal id={arenaProposalId}/>
-                          <Button a href="/topicPage#commentPanelMaster" onClick={() => this.handleCommentProposal(arenaProposal, arenaProposalId)}
+                          <Button a href="/topicPage#commentCardMaster" onClick={() => this.handleCommentProposal(arenaProposal, arenaProposalId)}
                             className="keyClaimFooterItem">
-                            <Glyphicon glyph="comment" />
+                            
                           </Button>
                         </ButtonGroup>
-                      </Panel.Footer>
-                    </Panel>
+                      </Card.Footer>
+                    </Card>
                   </Col>
                 </Row>
-              </Grid>
+              </Container>
 
               <div className="keyClaimsContainer">
                 {keyClaimsArray}
@@ -254,17 +286,15 @@ fetchTopicPageContent = (id) => {
                 <StreamItemFactory keyClaims={this.props.topicPageContent.keyClaims}
                   showStreamForClaim={this.state.showStreamForClaim} />
               </div>
-            </Panel.Body>
-          </Panel>
+
+          {/* </Card> */}
 
       
 
 
           <CommentSection topic_id={this.props.topicPageContent.topicDbId} />
-        </div>   {/* <---  WRAPPER DIV ENDS */}
-
-
-        <Footer />
+        {/* </div>   <---  WRAPPER DIV ENDS */}
+        </Container>
       </div>
     )
   }

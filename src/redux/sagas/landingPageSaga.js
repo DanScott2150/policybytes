@@ -9,7 +9,7 @@ function* fetchFeaturedTopicLanding(action){
         // Due to the way it's configured, only one topic will ever be returned
         const topicResponse = yield call(axios.get, '/api/topic/featuredlanding');
 
-        console.log("Fetch Saga: ", topicResponse.data);
+        console.log("topicResponse.data: ", topicResponse.data);
         // Send data to landingPageReducer.js
         yield put({
             type: 'SET_FEATURED_TOPIC_LANDING_PAGE',

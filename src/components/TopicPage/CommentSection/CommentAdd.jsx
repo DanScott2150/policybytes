@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { USER_ACTIONS } from '../../../redux/actions/userActions';
 
-import { Panel, Tab, Tabs, Button, ButtonGroup, Glyphicon, Form, FormGroup, ControlLabel, FormControl, Image, Well } from 'react-bootstrap';
+import { Card, Tab, Tabs, Button, ButtonGroup, Glyphicon, Form, FormGroup, ControlLabel, FormControl, Image, Well } from 'react-bootstrap';
 
 import './CommentSection.css'
 
@@ -27,7 +27,7 @@ class CommentAdd extends Component {
             owner: '',
             approved: true,
             lastOrder: '',
-            commentPanelClass: 'addCommentPanel'
+            commentCardClass: 'addCommentCard'
         }
     }
 
@@ -35,12 +35,12 @@ class CommentAdd extends Component {
         if (this.props.isReply) {
             this.setState({
                 placeholder: 'Write a reply...',
-                commentPanelClass: 'addCommentPanelReply'
+                commentCardClass: 'addCommentCardReply'
             })
         } else {
             this.setState({
                 placeholder: 'Join the Conversation...',
-                commentPanelClass: 'addCommentPanel'
+                commentCardClass: 'addCommentCard'
 
             })
         }
@@ -172,19 +172,19 @@ class CommentAdd extends Component {
         console.log('this is referenceTextClass', referenceTextClass);
 
         return (
-            <Panel className={this.state.commentPanelClass}>
-                {/* <Panel.Body> */}
+            <Card className={this.state.commentCardClass}>
+                {/* <Card.Body> */}
                     <div   >
                         <Form>
                             <FormGroup className="addCommentPicAndResponse" controlId="formControlsTextarea">
                                     {(keyClaimText || streamText || proposalText) ?
-                                        <Panel className={referenceTextClass}>
+                                        <Card className={referenceTextClass}>
                                             responding to...   "
                                             <span dangerouslySetInnerHTML={{ __html: keyClaimText}} />
                                             <span dangerouslySetInnerHTML={{ __html: streamText}} />
                                             <span dangerouslySetInnerHTML={{ __html: proposalText}} />
                                                     
-                                        </Panel> : null}
+                                        </Card> : null}
                                     <Image className='addCommentPic' circle src={fbPicture} />
 
                                 <FormControl className='addCommentResponseField' 
@@ -198,8 +198,8 @@ class CommentAdd extends Component {
                     <div className="addCommentButton"><Button bsStyle="primary" onClick={this.handleSubmit}>Submit</Button>
                         {/* {this.props.isReply ? <Button style={{'display': 'inline-block'}} onClick={this.handleClose} >Cancel</Button> : null} */}
                     </div>
-                {/* </Panel.Body> */}
-            </Panel>
+                {/* </Card.Body> */}
+            </Card>
         )
     }
 }

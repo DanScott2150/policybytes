@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Panel, Button, ButtonGroup, Glyphicon } from 'react-bootstrap';
+import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap';
 
 import LikeButtonKeyClaim from './LikeButtons/LikeButtonKeyClaim.jsx'
 import './TopicPage.css'
@@ -71,7 +71,7 @@ export class KeyClaimPanel extends Component {
     return (
       <div>
 
-        <Panel className={keyClaimClass}
+        {/* <Panel className={keyClaimClass}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           expanded={this.state.open}>
@@ -90,7 +90,7 @@ export class KeyClaimPanel extends Component {
 
             </Panel.Footer>
           </Panel.Collapse>
-        </Panel>
+        </Panel> */}
 
 
 

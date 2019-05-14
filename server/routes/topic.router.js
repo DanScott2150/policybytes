@@ -17,7 +17,6 @@ router.get('/alltopics', (req, res) => {
 
 // Landing Page: Get featured topic
 router.get('/featuredlanding', (req, res) => {
-    console.log('/featuredlanding Endpoint');
 
     const queryText = `
         SELECT "topic"."id", 
@@ -50,7 +49,6 @@ router.get('/meta', (req, res) => {
 
     pool.query(queryText)
         .then((result) => {
-            console.log("API route result: ", result.rows[0]);
             res.send(result.rows[0]);
         })
         .catch((error) => {
@@ -60,7 +58,6 @@ router.get('/meta', (req, res) => {
 
 // Landing Page: Get archive topics
 router.get('/archived', (req, res) => {
-    console.log('/archived Endpoint');
 
     let queryText = `
         SELECT "topic"."id", 
@@ -85,10 +82,8 @@ router.get('/archived', (req, res) => {
 
 // Create New Topic
 router.post('/newtopic', (req, res) => {
-    console.log('Inside postroute');
 
     const topic = req.body;
-    console.log('topic: ', topic);
 
     (async () => {
         //client does not allow the program to proceed until it is connected to the database
@@ -194,11 +189,8 @@ router.post('/newtopic', (req, res) => {
                 // Parse data into its own array 
                 for (prop in keyData) {
                     let keyDataProp = keyData[prop]
-                    // console.log(' HIIIIIIII prop: ', prop);
-                    // console.log(' MMMMMMMMEEEEEE  keyData at prop: ', keyDataProp);
                     keyClaimData.push(keyDataProp);
                 }
-                // console.log('JJJJJJJKKKKKKKKK keyClaimDataArray: ', keyClaimData);
                 
                 // Insert Key Claim into database
                 let queryText5 = `
@@ -289,7 +281,6 @@ router.post('/newtopic', (req, res) => {
 // Toggle "published" status on given topic
 // Unpublished topics will show in the Admin panel, but not on the main site
 router.put('/togglePublished', (req, res) => {
-    // console.log('in /api/topics/togglePublished', req.body);
     let topicId = req.body.id;
 
     // Set query text to change published status to opposite
@@ -310,7 +301,6 @@ router.put('/togglePublished', (req, res) => {
 
 // Toggle "Featured" Post, which appears on landing page
 router.put('/toggleFeatured', (req, res) => {
-    // console.log('in /api/topics/toggleFeatured', req.body);
     let topicId = req.body.id;
 
     // We can only have one topic be featured at any given moment
@@ -458,7 +448,6 @@ router.put('/updatetopic', (req, res) => {
 
                 let claim_order = key;  // Broken?
                 let keyData = topic.keyClaims[key]
-                console.log('keyData: ', keyData);
 
                 let keyClaimData = [];
 
@@ -486,7 +475,6 @@ router.put('/updatetopic', (req, res) => {
                     keyClaimData[2], 
                     keyClaimData[0]]);
 
-                console.log("successfully posted key claim");
 
                 let streamData = keyClaimData[3]
 
@@ -512,8 +500,6 @@ router.put('/updatetopic', (req, res) => {
                         streamDataObj.streamComment, 
                         streamDataObj.streamEvidence, 
                         streamDataObj.streamDbId]);
-
-                    console.log("successfully posted stream claim");
                 }
             }
 
@@ -592,7 +578,6 @@ router.get(`/fetchEditTopicInfo/:id`, (req, res) => {
             "topic"."id" as "topic_id" FROM topic 
             WHERE topic.id = $1;`;
             const topicResult = await client.query(queryText1, [topicId]);
-            console.log('TOPIIIIIIICCCCCC: ', topicResult.rows[0]);
             
             selectedTopicToSend = {
                 topicDbId: topicResult.rows[0].topic_id,
@@ -723,8 +708,6 @@ router.get(`/fetchEditTopicInfo/:id`, (req, res) => {
         console.log('CATCH', error);
         res.sendStatus(500);
     })
-
-    console.log('in /api/topics/editTopicInfo, ID:', topicId);
 })
 
 module.exports = router;

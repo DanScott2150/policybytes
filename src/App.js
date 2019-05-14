@@ -7,7 +7,7 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import Header from './components/Header/Header';
+// import Header from './components/Header/Header';
 import LoginPage from './components/Admin/LoginPage/LoginPage';
 import RegisterModal from './components/Admin/RegisterModal/RegisterModal';
 import LandingPage from './components/LandingPage/LandingPage.jsx'
@@ -16,16 +16,18 @@ import TopicManage from './components/Admin/TopicManage/TopicManage.jsx'
 import TopicEdit from './components/Admin/TopicEdit/TopicEdit.jsx';
 // import CommentManage from './components/Admin/CommentManage/CommentManage.jsx';
 import Images from './components/Images/Images.jsx';
-import Nav from './components/Nav/Nav.jsx'
+import TopNav from './components/TopNav/TopNav.jsx';
 import LandingEdit from './components/Admin/LandingEdit/LandingEdit';
+
+import { Button, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 import './styles/main.css';
 
 const App = () => (
   <div>
-    <Router>
-      <div>
-        <Nav/>
+    <TopNav/>
+
+     <Router>
         <Switch>
           <Redirect exact from="/" to="/home" />
           <Route
@@ -41,10 +43,7 @@ const App = () => (
             path="/admin"
             component={TopicManage}
           />
-          {/* <Route
-            path="/commentManage"
-            component={CommentManage}
-          /> */}
+
           <Route
             path="/landingEdit"
             component={LandingEdit}
@@ -58,7 +57,7 @@ const App = () => (
             component={Images}
           />
 
-  {/* predefined routes */}
+
           <Route
             path="/login"
             component={LoginPage}
@@ -67,10 +66,8 @@ const App = () => (
             path="/register"
             component={RegisterModal}
           />
-          {/* OTHERWISE (no path!) */}
           <Route render={() => <h1>404</h1>} />
         </Switch>
-      </div>
 
     </Router>
   </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Button, FormControl, FormGroup, Panel } from 'react-bootstrap'; 
+import { Button, FormControl, FormGroup } from 'react-bootstrap'; 
 
 import { connect } from 'react-redux';
 import { triggerLogin, formError, clearError } from '../../../redux/actions/loginActions';
@@ -75,34 +75,37 @@ class LoginPage extends Component {
 
     render() {
         return (
-            <Panel className="loginPanel">
-                <Panel.Heading>
-                {this.renderAlert()}
-                </Panel.Heading>
-                <Panel.Body>
-                <form>
-                    <FormGroup
-                        controlId=""
-                    >
-                        <FormControl
-                            type="text"
-                            placeholder="Enter your user name"
-                            value={this.state.username}
-                            onChange={this.handleInputChangeFor('username')}
-                        />
-                        <FormControl
-                            type="text"
-                            placeholder="Enter your password"
-                            value={this.state.password}
-                            onChange={this.handleInputChangeFor('password')}
-                        />
-                    </FormGroup>
-                </form>
-                </Panel.Body>
-                <Panel.Footer>
-                    <Button onClick={this.login}>Login</Button>
-                </Panel.Footer>
-            </Panel>
+          <div>
+            <h1>Placeholder</h1>
+            </div>
+            // <Panel className="loginPanel">
+            //     <Panel.Heading>
+            //     {this.renderAlert()}
+            //     </Panel.Heading>
+            //     <Panel.Body>
+            //     <form>
+            //         <FormGroup
+            //             controlId=""
+            //         >
+            //             <FormControl
+            //                 type="text"
+            //                 placeholder="Enter your user name"
+            //                 value={this.state.username}
+            //                 onChange={this.handleInputChangeFor('username')}
+            //             />
+            //             <FormControl
+            //                 type="text"
+            //                 placeholder="Enter your password"
+            //                 value={this.state.password}
+            //                 onChange={this.handleInputChangeFor('password')}
+            //             />
+            //         </FormGroup>
+            //     </form>
+            //     </Panel.Body>
+            //     <Panel.Footer>
+            //         <Button onClick={this.login}>Login</Button>
+            //     </Panel.Footer>
+            // </Panel>
         );
     }
 }

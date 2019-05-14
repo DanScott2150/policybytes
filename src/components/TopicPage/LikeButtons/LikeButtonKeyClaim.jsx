@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import axios from 'axios';
 
-import { Panel, Glyphicon, Button, ButtonGroup } from 'react-bootstrap';
+import { Panel, Button, ButtonGroup } from 'react-bootstrap';
 
 import '../TopicPage.css'
 
@@ -96,22 +96,26 @@ class LikeButtonKeyClaim extends Component {
 
 
     render() {
+        return(
+            <div>
+                <h2>PLaceholder</h2>
+                </div>
+        )
+        // if (this.props.user.userInfo) {
 
-        if (this.props.user.userInfo) {
+        //     return (
 
-            return (
+        //         <span>{!this.state.likedKeyClaim ? <Button className="keyClaimFooterItem" onClick={() => this.likeKeyClaim(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button> : <Button className="keyClaimFooterItem" bsStyle="success" onClick={() => this.unlikeKeyClaim(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button>}</span>
 
-                <span>{!this.state.likedKeyClaim ? <Button className="keyClaimFooterItem" onClick={() => this.likeKeyClaim(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button> : <Button className="keyClaimFooterItem" bsStyle="success" onClick={() => this.unlikeKeyClaim(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button>}</span>
+        //     )
+        // } else {
+        //     return (
 
-            )
-        } else {
-            return (
+        //         <span> <Button disabled className="keyClaimFooterItem" onClick={() => this.likeKeyClaim(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button></span>
 
-                <span> <Button disabled className="keyClaimFooterItem" onClick={() => this.likeKeyClaim(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button></span>
+        //     )
 
-            )
-
-        }
+        // }
     }
 }
 

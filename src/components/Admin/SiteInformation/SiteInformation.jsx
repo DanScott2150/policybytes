@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Panel, Button, ControlLabel, FormControl } from 'react-bootstrap';
+import { Card, Button, FormLabel, FormControl } from 'react-bootstrap';
 
 
 
@@ -36,17 +36,17 @@ class LandingEdit extends Component {
     return (
       <div>
 
-          <Panel>
-            <Panel.Body>
-              <ControlLabel>Site Description</ControlLabel>
+          <Card>
+            <Card.Body>
+              <FormLabel>Site Description</FormLabel>
               
               <FormControl onChange={this.handleLandingTextChange}
                 name="landingPageHeader"
               value={headerText[0].header}
                 componentClass="textarea" />
-            </Panel.Body>
+            </Card.Body>
           <Button type="submit" bsStyle="primary">Submit!</Button>
-          </Panel>
+          </Card>
 
 
       </div>

@@ -4,7 +4,7 @@ import { USER_ACTIONS } from '../../../redux/actions/userActions';
 import CommentAdd from './CommentAdd.jsx';
 import FacebookLogin from '../../FacebookLogin/FacebookLogin.jsx';
 
-import { Panel, Button, ButtonGroup, Glyphicon, Image, Well, Badge } from 'react-bootstrap';
+import { Card, Button, ButtonGroup, Image, Badge } from 'react-bootstrap';
 
 import './CommentSection.css'
 
@@ -69,7 +69,7 @@ class CommentSectionItem extends Component {
 
         //sets css class indent of comments based on number of '.' in //comment.order
         let orderCharacterCounter = 0;
-        let commentIndentClass = "commentPanel1";
+        let commentIndentClass = "commentCard1";
         for (let character of this.props.comment.order) {
             if (character === "-") {
                 orderCharacterCounter++;
@@ -79,15 +79,15 @@ class CommentSectionItem extends Component {
         // console.log('orderCharacterCounter', orderCharacterCounter);
 
         if (orderCharacterCounter === 0) {
-            commentIndentClass = "commentPanel1";
+            commentIndentClass = "commentCard1";
 
         } else if (orderCharacterCounter === 1) {
-            commentIndentClass = "commentPanel2";
+            commentIndentClass = "commentCard2";
 
         } else if (orderCharacterCounter === 2) {
-            commentIndentClass = "commentPanel3";
+            commentIndentClass = "commentCard3";
 
-        } else commentIndentClass = "commentPanel3";
+        } else commentIndentClass = "commentCard3";
 
         // console.log('commentIndentClass', commentIndentClass);
 
@@ -109,7 +109,7 @@ class CommentSectionItem extends Component {
                     <span ><Image style={{ 'height': '56px', 'width': '56px', 'padding': '10px' }} circle src={this.props.comment.fb_picture} /></span>
                 </div>
 
-                <Well className={"commentComment"}>
+                <div className={"commentComment"}>
                     <div className="userName">{this.props.comment.fb_display_name}:</div>
 
                     <div className="commentTextWrapper">
@@ -131,11 +131,11 @@ class CommentSectionItem extends Component {
 
 
                     {(this.props.user.userInfo) ? <ButtonGroup className="commentButtons">
-                        {!this.state.likedComment ? <Button className="commentButton" onClick={() => this.likeComment(this.props.comment)} bsSize="small"><Glyphicon glyph="thumbs-up" /> {likesCounter}</Button> : <Button bsStyle="success" className="commentButton" onClick={() => this.unlikeComment(this.props.comment)} bsSize="small"><Glyphicon glyph="thumbs-up" /> {likesCounter}</Button>}
+                        {!this.state.likedComment ? <Button className="commentButton" onClick={() => this.likeComment(this.props.comment)} bsSize="small"> {likesCounter}</Button> : <Button bsStyle="success" className="commentButton" onClick={() => this.unlikeComment(this.props.comment)} bsSize="small"> {likesCounter}</Button>}
                         {(this.props.comment.order.length <= 16) ? <Button className="commentButton" onClick={this.showAddCommentShown} bsSize="small">Reply</Button> : <Button disabled className="commentButton" onClick={this.showAddCommentShown} bsSize="small">Reply</Button>}
-                        {(status === 2) ? <Button onClick={() => this.deleteComment(this.props.comment)} className="commentButton" bsSize="small"><Glyphicon glyph="trash" /></Button> : null}
+                        {(status === 2) ? <Button onClick={() => this.deleteComment(this.props.comment)} className="commentButton" bsSize="small"></Button> : null}
                     </ButtonGroup> : null}
-                </Well>
+                </div>
 
                 {(this.state.addCommentShown === true) 
                 ? <CommentAdd topic_id={this.props.topic_id} 

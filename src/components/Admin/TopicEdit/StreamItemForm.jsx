@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Panel, Tab, Tabs, Button, ButtonGroup, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'; 
+import { Card, Tab, Tabs, Button, ButtonGroup, FormGroup, FormLabel, FormControl } from 'react-bootstrap'; 
 
 
 class StreamItemForm extends Component {
@@ -32,13 +32,13 @@ class StreamItemForm extends Component {
       <div>
 
         {/* STREAM INPUTS */}
-        <Panel className="wireStreamInput">
-          <Panel.Body>
+        <Card className="wireStreamInput">
+          <Card.Body>
           <h5>Stream Order: {Number(this.props.streamId) + 1}</h5>
           <br/>
 
             
-              <ControlLabel>Select Contributor</ControlLabel>
+            <FormLabel>Select Contributor</FormLabel>
               <FormControl componentClass="select" 
                             onChange={this.packageStreamChange}
                             placeholder="select" 
@@ -51,7 +51,7 @@ class StreamItemForm extends Component {
                   <option value="contributor2">Contributor 2</option>
               </FormControl>                  
 
-              <ControlLabel>Stream Comment</ControlLabel>
+            <FormLabel>Stream Comment</FormLabel>
               <FormControl onChange={this.packageStreamChange} 
                             id={this.props.claimId} 
                             name="streamComment" 
@@ -59,7 +59,7 @@ class StreamItemForm extends Component {
                             value={this.props.keyClaims[this.props.claimId].streamData[this.props.streamId].streamComment}
                             />
 
-              <ControlLabel>Stream Comment Evidence</ControlLabel>
+            <FormLabel>Stream Comment Evidence</FormLabel>
               <FormControl onChange={this.packageStreamChange} 
                           id={this.props.claimId} 
                           name="streamEvidence" 
@@ -68,8 +68,8 @@ class StreamItemForm extends Component {
                           />
 
 
-          </Panel.Body>
-        </Panel>
+          </Card.Body>
+        </Card>
 
       </div>
     )

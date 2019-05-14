@@ -8,10 +8,10 @@ let config = {};
 // For Heroku deployment, set environment variable DATABASE_URL to point at psql database
 // If DATABASE_URL not found, config will default to localhost 
 
+// If deployed to Heroku, env variable "DATABASE_URL" will point to psql database
 if (process.env.DATABASE_URL) {
   // Heroku gives a url, not a connection object. Need to parse URL
   const params = url.parse(process.env.DATABASE_URL);
-
   const auth = params.auth.split(':');
 
   config = {
@@ -22,10 +22,10 @@ if (process.env.DATABASE_URL) {
     database: params.pathname.split('/')[1],
     ssl: true, // heroku requires ssl to be true
     max: 10, // max number of clients in the pool
-    idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
+    idleTimeoutMillis: 30000
   };
 } else {
-  // If DATABASE_URL not set, set config to localhost:
+  // If DATABASE_URL doesn't exist, then set configuration to localhost
   config = {
     host: 'localhost', 
     port: 5432,
@@ -44,8 +44,7 @@ pool.on('connect', () => {
   console.log('/server/pool.js -- Pool connected to host: ', config.host);
 });
 
-// the pool with emit an error on behalf of any idle clients
-// it contains if a backend error or network partition happens
+// error handling
 pool.on('error', (err) => {
   console.log('Unexpected error on idle client', err);
   process.exit(-1);

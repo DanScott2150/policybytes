@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Glyphicon, Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 
 import './LoveModal.css'
 
@@ -51,7 +51,7 @@ class LoveModal extends Component {
 
         return (
             <div>
-                <Glyphicon style={{color: loveButtonColor}} glyph="heart" onClick={this.handleOpen} />
+                {/* <Glyphicon style={{color: loveButtonColor}} glyph="heart" onClick={this.handleOpen} /> */}
 
 
                 <Modal show={this.state.open} onHide={this.handleClose}>

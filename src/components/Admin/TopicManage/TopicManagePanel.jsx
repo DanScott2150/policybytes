@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { Link } from 'react-router-dom';
-import { Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon, Alert, Grid, Row, Col } from 'react-bootstrap'; 
+import { Card, Button, ButtonGroup, ButtonToolbar, Glyphicon, Alert, Grid, Row, Col } from 'react-bootstrap'; 
 
-class TopicManagePanel extends Component {
+class TopicManageCard extends Component {
   constructor(props) {
     super(props) 
 
@@ -28,7 +28,7 @@ class TopicManagePanel extends Component {
 
 //toggle published status in db and reset all topics
   togglePublished = () => {
-    console.log('in Panel togglePublished');
+    console.log('in Card togglePublished');
     this.props.dispatch({
       type: 'TOGGLE_PUBLISHED',
       payload: this.props.topic
@@ -37,7 +37,7 @@ class TopicManagePanel extends Component {
 
 //toggle featured status in db and reset all topics
   toggleFeatured = () => {
-    console.log('in Panel toggleFeatured');
+    console.log('in Card toggleFeatured');
     this.props.dispatch({
       type: 'TOGGLE_FEATURED',
       payload: this.props.topic
@@ -99,15 +99,15 @@ class TopicManagePanel extends Component {
 
             <Col xs={12} sm={6} md={4} lg={4}>
             
-              <Panel className="topicManagePanel">
-                <Panel.Heading className="topicManagePanelHeading">
+              <Card className="topicManageCard">
+                <Card.Heading className="topicManageCardHeading">
                   {this.props.topic.topic_title}
                   <br/>
 
-                </Panel.Heading>
-                <Panel.Body>
+                </Card.Heading>
+                <Card.Body>
                   {/* {alertContent} */}
-                  <div className="topicManagePanelText">
+                  <div className="topicManageCardText">
                     
                     {(this.state.show) ? alertContent 
                                       :<p>{this.props.topic.archive_summary}
@@ -133,8 +133,8 @@ class TopicManagePanel extends Component {
                     </ButtonGroup>
                   </div>
      
-                </Panel.Body>
-              </Panel>
+                </Card.Body>
+              </Card>
 
             </Col>
 
@@ -149,4 +149,4 @@ const mapStateToProps = (state) => ({
 })
 
 
-export default connect(mapStateToProps)(TopicManagePanel);
+export default connect(mapStateToProps)(TopicManageCard);

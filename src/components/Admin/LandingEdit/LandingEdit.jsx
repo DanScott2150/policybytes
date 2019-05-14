@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import Footer from '../../Footer/Footer.jsx'
 
-import { Panel, Tab, Tabs, Button, ButtonGroup, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Tab, Tabs, Button, ButtonGroup, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 import { Redirect } from 'react-router';
 
@@ -64,7 +64,7 @@ class LandingEdit extends Component {
                     <form action="" onSubmit={this.handleSubmit}>
                         <Button type="submit" bsStyle="primary">Submit!</Button>
 
-                        <Panel>
+                        {/* <Panel>
                             <Panel.Body>
                                 <ControlLabel>Landing Page Text</ControlLabel>
                                 <FormControl onChange={this.handleTextChange}
@@ -72,7 +72,7 @@ class LandingEdit extends Component {
                                     value={this.props.state.landing.landingPageEdit.header}
                                     componentClass="textarea" />
                             </Panel.Body>
-                        </Panel>
+                        </Panel> */}
 
                     </form>
                     

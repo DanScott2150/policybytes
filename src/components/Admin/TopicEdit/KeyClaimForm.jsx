@@ -5,7 +5,7 @@ import StreamItemForm from './StreamItemForm.jsx'
 // import SelectForm from './SelectForm.jsx'
 
 
-import { Panel, Tab, Tabs, Button, ButtonGroup, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'; 
+import { Tab, Tabs, Button, ButtonGroup, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'; 
 import { Stream } from 'stream';
 
 
@@ -71,9 +71,9 @@ class KeyClaimForm extends Component {
       <div>
 {/* SHOW STATE ON DOM */}
 
-          <Panel bsStyle="primary">
+          {/* <Panel bsStyle="primary">
 
-            <Panel.Heading>
+            <Panel.Heading> */}
 
           {/* <pre>claim Id: {JSON.stringify(this.props.keyClaims, null, 2)}</pre> */}
 
@@ -91,7 +91,7 @@ class KeyClaimForm extends Component {
                     </FormControl>
                 </FormGroup>
 
-            </Panel.Heading>
+            {/* </Panel.Heading>
 
 
               <Panel.Body>
@@ -102,10 +102,10 @@ class KeyClaimForm extends Component {
                             id={this.props.claimId}
                             name="keyClaim" 
                             value={this.props.keyClaims[this.props.claimId].keyClaim} 
-                            componentClass="textarea" />
+                            componentClass="textarea" /> */}
 
 {/* Variable holding .map of <StreamItemForm>  */}
-            {streamItemForms}
+            {/* {streamItemForms}
 
               <ButtonGroup className="wireCommentButtons">
                 <Button bsStyle="danger" onClick={this.props.deleteKeyClaim}>Delete Key Claim</Button>
@@ -114,7 +114,7 @@ class KeyClaimForm extends Component {
 
             </Panel.Body>
 
-        </Panel>
+        </Panel> */}
 
       </div>
     )

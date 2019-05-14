@@ -10,7 +10,10 @@ import SiteInformationPanel from '../SiteInformation/SiteInformation';
 
 import './TopicManage.css'; 
 
-import { Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon, Modal, Grid, Row, Col } from 'react-bootstrap'; 
+// import { Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon, Modal, Grid, Row, Col } from 'react-bootstrap'; 
+
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 
 class TopicManage extends Component {
   constructor(props) {
@@ -79,13 +82,13 @@ class TopicManage extends Component {
         </h2>   
 
 
-        <Grid>
+        <Container>
           <Row>
 
           <TopicManageAddPanel />
             {topicPanels}
           </Row>
-        </Grid>          
+        </Container>          
 
 
         </div>
