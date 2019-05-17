@@ -12,10 +12,10 @@
 }
 
 #addTopicButton {
-    color: rgb(75, 160, 75) !important;
-    padding-left: .6em; 
-    padding-top: .6em; 
-    font-size: 10em !important; 
+    color: white;
+    /* font-size: 2em; */
+    height: 100%;
+    width: auto;
 
 }
 

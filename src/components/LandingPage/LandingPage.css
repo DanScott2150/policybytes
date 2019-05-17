@@ -62,7 +62,7 @@
 
 /* CURRENT CONVERSATION */
 
-.featuredTopicJumbotron{
+/* .featuredTopicJumbotron{
     text-align: center; 
     width: 90% !important; 
     background-color: white !important; 
@@ -75,23 +75,23 @@
     box-shadow: 2px 2px 2px rgb(204, 207, 210); 
     transition-duration: 1s;
     transition-property: box-shadow;
-}
+} */
 
-.featuredTopicJumbotron:hover{
+/* .featuredTopicJumbotron:hover{
     box-shadow: 10px 10px 10px -5px rgba(0, 0, 0, 0.5);
     cursor: pointer;
-}
+} */
 
-.featuredTopicJumbotron h2 {
+/* .featuredTopicJumbotron h2 {
     font-size: 35px; 
     margin-top: 1em; 
-}
-.featuredTopicJumbotron p {
+} */
+/* .featuredTopicJumbotron p {
     font-size: 20px; 
     line-height: 1.5em; 
-    /* border: 1px solid red;  */
+    border: 1px solid red; 
     padding: 0em 0em; 
-}
+} */
 
 
 .featuredTopicPhotoLeft {
@@ -126,16 +126,17 @@
 /* ARCHIVE */
 
 .archivePanel{
-    width: auto; 
+    /* width: auto;  */
     border-radius: 10px; 
     box-shadow: 1px 1px 6px #888888;
-    height: 24em; 
+    /* height: 24em;  */
     background: white; 
-    transform: perspective(1px) translateZ(0);
+    /* transform: perspective(1px) translateZ(0); */
     box-shadow: 1px 1px 2px rgb(204, 207, 210); 
     transition-duration: 0.3s;
     transition-property: box-shadow;
-    overflow: hidden;
+    margin-bottom: 1em;
+    /* overflow: hidden; */
 }
 
 .archivePanel:hover{
@@ -147,13 +148,13 @@
     min-height: 6em
 }
 
-.archiveWrapper {
+/* .archiveWrapper {
     text-align: center; 
     width: 100%; 
     margin: 1em 0 0 0; 
     padding: 2em; 
     background-color: #d7d7d7; 
-}
+} */
 
 .archiveTitle {
     text-align: center; 

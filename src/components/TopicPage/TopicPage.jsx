@@ -9,21 +9,20 @@ import { connect } from 'react-redux';
 
 // Import all subcomponents
 import KeyClaimPanel from './KeyClaimPanel.jsx'
-import StreamItem from './StreamItem.jsx'
+// import StreamItem from './StreamItem.jsx'
 import TopicTitleContent from './TopicTitleContent.jsx'
 import StreamItemFactory from './StreamItemFactory.jsx'
 import TopicContributors from './TopicContributors.jsx'
 import TopicCommonGround from './TopicCommonGround.jsx'
 import CommentSection from './CommentSection/CommentSection.jsx'
-import LoveModal from './LoveModal/LoveModal.jsx'
-import LikeButtonProposal from './LikeButtons/LikeButtonProposal.jsx'
+// import LoveModal from './LoveModal/LoveModal.jsx'
+// import LikeButtonProposal from './LikeButtons/LikeButtonProposal.jsx'
 
 // Styling & Bootstrap
-import { Card, Tab, Tabs, Button, ButtonGroup, Image, Container, Col, Row } from 'react-bootstrap';
+import { Card, Tab, Tabs, Image, Container, Col, Row } from 'react-bootstrap';
 import './TopicPage.css';
 
 import SimpleBar from 'simplebar-react';
-
 import 'simplebar/dist/simplebar.min.css';
 
 //TO-DO replace hard-coded topic_id in CommentSection component
@@ -85,10 +84,6 @@ export class TopicPage extends Component {
     })
   }
 
-
-
-
-
   //When mouse hovers over a key claim, show the associated stream in the chatbox
   handleHoverShowStream = (id) => {
     if (this.state.keyClaimLocked === false) {
@@ -123,7 +118,6 @@ export class TopicPage extends Component {
   }
 
   handleCommentProposal = (proposalInput, proposalIdInput) => {
-
     let proposalObject = { 
       proposal: proposalInput, 
       proposalContributor: this.state.contributorSelect,
@@ -145,15 +139,13 @@ export class TopicPage extends Component {
   }
 
 
-
-
   render() {
 
-    // Populate Key Claims
+    // Populate Key Claims Panel
     let keyClaimsArray = [];
 
     for (const keyClaimId in this.props.topicPageContent.keyClaims) {
-      // Select claims for given contributor
+      // Select claims for only for given contributor
       if (this.state.contributorSelect === this.props.topicPageContent.keyClaims[keyClaimId].claimContributor) {
         keyClaimsArray.push(
           <KeyClaimPanel 
@@ -207,14 +199,15 @@ export class TopicPage extends Component {
 
     return (
       <div>
+        {/* TitleContent: Jumbotron showing Topic Title and Premise */}
+        {/* TopicContributors: Two side-by-side panels for each contributor- pic & bio */}
+        {/* TopicCommonGround: Shows common ground text */}
+        
         <TopicTitleContent topicPageContent={this.props.topicPageContent} />
         <TopicContributors topicPageContent={this.props.topicPageContent} />
-
-        <hr/>
-
+          <hr/>
         <TopicCommonGround topicPageContent={this.props.topicPageContent} />
-
-        <hr/>
+          <hr/>
         
         <Container>
           <Tabs 

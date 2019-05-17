@@ -2,14 +2,16 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import { Link } from 'react-router-dom';
-import { Card, Button, ButtonGroup, ButtonToolbar, Glyphicon, Alert, Grid, Row, Col } from 'react-bootstrap'; 
+import { Button, ButtonGroup, Alert } from 'react-bootstrap'; 
 
 class TopicManageCard extends Component {
   constructor(props) {
     super(props) 
 
+    // 'show' for if "are you sure you want to delete" modal should be visible
+    // should probably name this something more descriptive
     this.state = {
-      show: false,  
+      show: false,
     }
   }
 
@@ -62,7 +64,17 @@ class TopicManageCard extends Component {
     }
     let publishText = 'Unpublished';
     if (this.props.topic.published) {
-      publishText = 'Published'
+      publishText = (
+        <Button variant="warning" onClick={this.togglePublished}>
+          <i class="fas fa-eye"></i><br/>
+          Published
+        </Button>);
+    } else {
+      publishText = (
+        <Button variant="outline-warning" onClick={this.togglePublished}>
+          <i class="fas fa-eye-slash"></i><br/>
+          Draft
+        </Button>);
     }
 //color/text of publish button based on topic.featured status
     let featuredStyle = 'default';
@@ -71,7 +83,17 @@ class TopicManageCard extends Component {
     }
     let featuredText = 'Set Featured';
     if (this.props.topic.featured) {
-      featuredText = 'Featured'
+      featuredText = (
+        <Button variant="success" onClick={this.toggleFeatured}>
+          Featured Topic
+        </Button>
+      )
+    } else {
+      featuredText = (
+        <Button variant="outline-success" onClick={this.toggleFeatured}>
+          Set Featured
+        </Button>
+      )
     }
 
     let alertContent;
@@ -95,51 +117,27 @@ class TopicManageCard extends Component {
   let linkWithId = `/topicEdit/${this.props.topic.id}`
 
     return (
-      <div>
+      <tr>
+      { alertContent }
+        <td>{this.props.topic.id}</td>
+        <td>{this.props.topic.topic_title}</td>
+        <td>{this.props.topic.archive_summary}</td>
+        <td>
+          <Button variant="outline-secondary" onClick={this.handleEditTopic}>
+            <Link to={linkWithId}>
+              <i class="fas fa-edit"></i>
+              Edit
+            </Link>
+          </Button>
+        </td>
 
-            <Col xs={12} sm={6} md={4} lg={4}>
-            
-              <Card className="topicManageCard">
-                <Card.Heading className="topicManageCardHeading">
-                  {this.props.topic.topic_title}
-                  <br/>
-
-                </Card.Heading>
-                <Card.Body>
-                  {/* {alertContent} */}
-                  <div className="topicManageCardText">
-                    
-                    {(this.state.show) ? alertContent 
-                                      :<p>{this.props.topic.archive_summary}
-                                      <br/><br/>
-                                      <img src={this.props.topic.icon_url} alt="" width="170"/></p>}
-
-        
-                  </div>
-
-                  <div className="topicManageButtongroup">
-                    <ButtonGroup>
-                      <Button bsStyle={publishStyle} onClick={this.togglePublished}>{publishText}</Button>
-                      <Button bsStyle={featuredStyle} onClick={this.toggleFeatured}>{featuredText}</Button>
-                      <Button onClick={this.handleEditTopic}>
-                        <Link to={linkWithId}>
-                          {/* <i class="fa fa-pencil" aria-hidden="true"></i> */}
-                          Edit
-                        </Link>
-                      </Button>
-                      <Button onClick={this.handleShow}>
-                        <i class="fa fa-trash" aria-hidden="true"></i>
-                      </Button>
-                    </ButtonGroup>
-                  </div>
-     
-                </Card.Body>
-              </Card>
-
-            </Col>
-
-            
-      </div>
+        <td>{publishText}</td>
+        <td>{featuredText}</td>
+        <td><Button variant="outline-danger" onClick={this.handleShow}>
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          Delete
+        </Button></td>
+      </tr >
     )
   }
 }

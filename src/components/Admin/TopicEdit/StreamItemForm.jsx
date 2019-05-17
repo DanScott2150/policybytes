@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { Card, Tab, Tabs, Button, ButtonGroup, FormGroup, FormLabel, FormControl } from 'react-bootstrap'; 
+import { Card, Tab, Tabs, Button, ButtonGroup, FormGroup, Form } from 'react-bootstrap'; 
 
 
 class StreamItemForm extends Component {
@@ -38,8 +38,8 @@ class StreamItemForm extends Component {
           <br/>
 
             
-            <FormLabel>Select Contributor</FormLabel>
-              <FormControl componentClass="select" 
+            <Form.Label>Select Contributor</Form.Label>
+              <Form.Control as="select" 
                             onChange={this.packageStreamChange}
                             placeholder="select" 
                             id={this.props.streamId} 
@@ -49,18 +49,18 @@ class StreamItemForm extends Component {
                   <option value="">-- Select Contributor --</option>
                   <option value="contributor1">Contributor 1</option>
                   <option value="contributor2">Contributor 2</option>
-              </FormControl>                  
+              </Form.Control>                  
 
-            <FormLabel>Stream Comment</FormLabel>
-              <FormControl onChange={this.packageStreamChange} 
+            <Form.Label>Stream Comment</Form.Label>
+              <Form.Control onChange={this.packageStreamChange} 
                             id={this.props.claimId} 
                             name="streamComment" 
-                            componentClass="textarea" 
+                            as="textarea" 
                             value={this.props.keyClaims[this.props.claimId].streamData[this.props.streamId].streamComment}
                             />
 
-            <FormLabel>Stream Comment Evidence</FormLabel>
-              <FormControl onChange={this.packageStreamChange} 
+            <Form.Label>Stream Comment Evidence</Form.Label>
+              <Form.Control onChange={this.packageStreamChange} 
                           id={this.props.claimId} 
                           name="streamEvidence" 
                           componentClass="textarea" 

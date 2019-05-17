@@ -1,19 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Footer from '../../Footer/Footer.jsx'
+// import Footer from '../../Footer/Footer.jsx'
 import TopicManagePanel from './TopicManagePanel.jsx'
 import RegisterModal from '../RegisterModal/RegisterModal.js'
 import TopicManageAddPanel from './TopicManageAddPanel.jsx'
 
-import SiteInformationPanel from '../SiteInformation/SiteInformation';
+// import SiteInformationPanel from '../SiteInformation/SiteInformation';
 
+import { Container, Row, Jumbotron, Table } from 'react-bootstrap';
 import './TopicManage.css'; 
-
-// import { Panel, Button, ButtonGroup, ButtonToolbar, Glyphicon, Modal, Grid, Row, Col } from 'react-bootstrap'; 
-
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 
 class TopicManage extends Component {
   constructor(props) {
@@ -25,6 +21,7 @@ class TopicManage extends Component {
   }
 
   componentDidMount () {
+    // Fetch all topics (published & unpublished) from database
     this.fetchAllTopics(); 
   }
 
@@ -43,10 +40,12 @@ class TopicManage extends Component {
   }
 
   fetchAllTopics = () => {
-    console.log('in FETCH_ALL_TOPICS');
+    // console.log('in FETCH_ALL_TOPICS');
+    // FETCH_ALL_TOPICS => topicSaga.js => fetchAllTopics() => SET_ALL_TOPICS
+    // SET_ALL_TOPICS => topicEditReducer.js
     this.props.dispatch({
       type: 'FETCH_ALL_TOPICS'
-    })
+    });
   }
 
 
@@ -58,51 +57,57 @@ class TopicManage extends Component {
     this.setState({ showModal: true });
   }
 
-
-
-
-  render() {
-    
-    console.log("topic manage render");
+  render() {    
+    // console.log("topic manage render");
     let topicsArray = this.props.state.topics.allTopics;
     let topicPanels = topicsArray.map((topic) => {
       return <TopicManagePanel key={topic.id}
                               topic={topic}
                               handleShowDelete={this.handleShowDelete}/>
-    })
+    });
 
-
+console.log(this.props.user);
     return (
       <div>
-        <div className="wrapper">
-
-        <h2>
-          Topic Manage Page
-          <RegisterModal/>
-        </h2>   
-
+          <Jumbotron className="pt-2 pb-2 text-center">
+            <h2>Manage Topics</h2>
+            Logged in as 
+            <RegisterModal/>
+           </Jumbotron>
 
         <Container>
           <Row>
-
-          <TopicManageAddPanel />
+            {/* <h3>Create New Topic</h3> */}
+            <TopicManageAddPanel />
+          </Row>
+          <hr/>
+          <Row>
+            <h3>Edit Topics</h3>
+            <Table striped bordered hover>
+              <tbody>
+                <tr>
+                  <td>ID</td>
+                  <td>Title</td>
+                  <td>Premise</td>
+                  <td>Edit</td>
+                  <td>Published</td>
+                  <td>Featured</td>
+                  <td>Delete</td>
+                </tr>
             {topicPanels}
+                
+              </tbody>
+            </Table>
           </Row>
         </Container>          
-
-
-        </div>
-        {/* <Footer /> */}
-
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
   state,
   user: state.user
-})
-
+});
 
 export default connect(mapStateToProps)(TopicManage);

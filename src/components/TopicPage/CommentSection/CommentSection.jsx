@@ -5,7 +5,7 @@ import CommentAdd from './CommentAdd.jsx';
 import CommentSectionItem from './CommentSectionItem.jsx';
 import FacebookLogin from '../../FacebookLogin/FacebookLogin.jsx';
 
-import { Button, ButtonGroup, Glyphicon, Image } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 import './CommentSection.css'
 
@@ -65,13 +65,13 @@ class CommentSection extends Component {
         return (
             <div>
 
-                {/* <Panel id="commentPanelMaster">
-                    <Panel.Body>
+                <Card id="commentPanelMaster">
+                    <Card.Body>
                         {(this.props.user.userInfo) ? <CommentAdd conmmentAddClass='addCommentPanel' topic_id={this.props.topic_id} /> : this.loginUserInvite()}
                         <div className="commentPanelWrapper">
                             {commentList}</div>
-                    </Panel.Body>
-                </Panel> */}
+                    </Card.Body>
+                </Card>
             </div>
         )
     }

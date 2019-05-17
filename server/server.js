@@ -20,6 +20,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Session Middleware - keeps user logged in throughout session
 const sessionMiddleware = require('./modules/session-middleware');
 app.use(sessionMiddleware);
+// Passport Session Configuration
+const passport = require('./strategies/user.strategy');
+const passportFacebook = require('./strategies/facebook.strategy');
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(passportFacebook.initialize());
+app.use(passportFacebook.session());
 
 // App routes
 const userRouter = require('./routes/user.router'),
@@ -36,13 +43,6 @@ app.use('/api/comments', commentsRouter);
 app.use('/api/likes', likesRouter);
 app.use('/api/landingpage', landingPageRouter);
 
-// Passport Session Configuration
-const passport = require('./strategies/user.strategy');
-const passportFacebook = require('./strategies/facebook.strategy');
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(passportFacebook.initialize());
-app.use(passportFacebook.session());
 
 
 // START of localhost development configuration
