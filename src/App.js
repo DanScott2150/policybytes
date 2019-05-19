@@ -17,6 +17,7 @@ import TopicEdit from './components/Admin/TopicEdit/TopicEdit.jsx';
 // import CommentManage from './components/Admin/CommentManage/CommentManage.jsx';
 import Images from './components/Images/Images.jsx';
 import TopNav from './components/TopNav/TopNav.jsx';
+import Footer from './components/Footer/Footer.jsx';
 import LandingEdit from './components/Admin/LandingEdit/LandingEdit';
 
 import { Button, Navbar, Nav, NavDropdown } from 'react-bootstrap';
@@ -70,6 +71,7 @@ const App = () => (
         </Switch>
 
     </Router>
+    <Footer/>
   </div>
 );
 

@@ -1,15 +1,22 @@
+// Displays "Featured Topic" Card on Landing Page
+// Topic that displays here can be changed via the Admin panel
+
+// TODO: Topic premise is currently hardcoded to the Restaurant Tips topic premise. 
+//    this.props.state.landing.featuredLandingPage as it is currently setup does not fetch the premise, 
+//    for some reason.
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import { Container, Col, Row, Card, Image, Button } from 'react-bootstrap';
+import './LandingPage.css';
 
-import './LandingPage.css'
+import moment from 'moment';
 
 const mapStateToProps = state => ({
-    user: state.user,
-    login: state.login,
+    // user: state.user,
+    // login: state.login,
     state
   });
 
@@ -36,14 +43,14 @@ class LandingPageFeaturedTopic extends Component {
 
   render() {
 
-    //featuredLandinPage object from reducer
     let featuredTopic = this.props.state.landing.featuredLandingPage;
-    console.log(featuredTopic);
+    // console.log(featuredTopic);
+
     return (
       <div>
         <Card 
           onClick={() => this.fetchTopicPageContent(featuredTopic[0].id)}
-          className="mb-4">
+          className="featuredTopic">
 
           <Card.Header>
             <h3>Current Conversation</h3> 
@@ -54,7 +61,7 @@ class LandingPageFeaturedTopic extends Component {
               <Row>
                 <Col>
                   <h2><strong>{featuredTopic[0] && featuredTopic[0].topic_title}</strong></h2>
-          {/* Hardcoded placeholder for now, need to update the data that featuredTopic fetches */}
+            {/* Hardcoded placeholder for now, need to update the data that featuredTopic fetches */}
                   <p>Most servers and bartenders make a vast percentage of their income from tips. 
                       As the minimum wage continues to rise, in some states as high as $15 per hour, 
                       it is important to discuss the future of tipping in Minnesota's restaurants. 
@@ -63,15 +70,15 @@ class LandingPageFeaturedTopic extends Component {
               </Row>
               <Row>
                 <Col>
-                  <Card className="contributorCardLeft">
+                  <Card className="featuredContributorCardLeft">
                     <Card.Body>
                       <Image
-                        className="contributorPhotoLeft"
+                        className="featuredContributorPhotoLeft"
                         src={featuredTopic[0] && featuredTopic[0].photo_url}
                         thumbnail
                         roundedCircle />
-                      <div className="contributorText">
-                        <h3 className="contributorName">
+                      <div className="featuredContributorText">
+                        <h3 className="featuredContributorName">
                           {featuredTopic[0] && featuredTopic[0].first_name} {featuredTopic[0] && featuredTopic[0].last_name}
                         </h3>
                         <p className="text-justify">
@@ -83,15 +90,15 @@ class LandingPageFeaturedTopic extends Component {
                 </Col>
 
                 <Col>
-                  <Card className="contributorCardRight">
+                  <Card className="featuredContributorCardRight">
                     <Card.Body>
                       <Image
-                        className="contributorPhotoRight"
+                        className="featuredContributorPhotoRight"
                         src={featuredTopic[1] && featuredTopic[1].photo_url}
                         thumbnail
                         roundedCircle />
-                      <div className="contributorText">
-                        <h3 className="contributorName">
+                      <div className="featuredContributorText">
+                        <h3 className="featuredContributorName">
                           {featuredTopic[1] && featuredTopic[1].first_name} {featuredTopic[1] && featuredTopic[1].last_name}
                         </h3>
                         <p className="text-justify">
@@ -101,23 +108,28 @@ class LandingPageFeaturedTopic extends Component {
                     </Card.Body>
                   </Card>
                 </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Button variant="outline-info" size="lg" className="mt-3 mb-3 w-100">Read More & Join the Conversation!</Button>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Button 
+                    variant="outline-info" 
+                    size="lg" 
+                    className="mt-3 mb-3 w-100">
+                      Read More & Join the Conversation!
+                  </Button>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
                   <span className="float-right font-italic">Posted: {moment(featuredTopic[1] && featuredTopic[1].published_date).format('MMMM Do YYYY')}</span>
                 </Col>
-                </Row>
-                </Container>
-                </Card.Body>
+              </Row>
+            </Container>
+          </Card.Body>
 
         </Card>
-        </div>
-    )
+      </div>
+    );
   }
 }
   

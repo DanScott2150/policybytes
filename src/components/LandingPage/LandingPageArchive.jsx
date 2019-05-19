@@ -1,15 +1,18 @@
+// Displays Archived Topics on Landing Page
+// Each topic displayed as a Card
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import moment from 'moment';
 
 import { Container, Col, Row, Card, Jumbotron } from 'react-bootstrap';
-import './LandingPage.css'
+import './LandingPage.css';
 
 const mapStateToProps = state => ({
-    user: state.user,
-    login: state.login,
+    // user: state.user,
+    // login: state.login,
     state
 });
 
@@ -34,6 +37,8 @@ class LandingPageArchive extends Component {
 
   render() {
     let date = moment(this.props.state.landing.archivedTopics.published_date).format('MMMM Do YYYY');
+
+    // Populate array of all Archived Topics
     let archiveArray = this.props.state.landing.archivedTopics.map((archivedTopic) => {
       return (
         <Col xs={12} sm={6} md={4} lg={4}>
@@ -42,16 +47,14 @@ class LandingPageArchive extends Component {
               <Card.Header>{archivedTopic.topic_title}</Card.Header>
               <Card.Body>
                 <img src={archivedTopic.icon_url} alt="" height="200" />
-                
                 <p>{date}</p>
-
                 <p className="archiveTopicSummary">{archivedTopic.archive_summary}</p>
               </Card.Body>
             </Card>
-        </div>
-          </Col>
-      )
-    })
+          </div>
+        </Col>
+      );
+    });
 
     return (
       <Jumbotron className="text-center pt-4">
@@ -62,7 +65,7 @@ class LandingPageArchive extends Component {
             </Row>
           </Container>
       </Jumbotron>
-    )
+    );
   }
 }
 

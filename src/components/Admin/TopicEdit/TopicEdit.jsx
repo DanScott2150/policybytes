@@ -5,6 +5,7 @@ import Footer from '../../Footer/Footer.jsx'
 import KeyClaimForm from './KeyClaimForm.jsx'
 import KeyClaimPanel from '../../TopicPage/KeyClaimPanel'
 import StreamItemFactory from '../../TopicPage/StreamItemFactory'
+import StreamItemEditFactory from './StreamItemEditFactory'
 import SubmitAlert from './SubmitAlert.jsx'
 import StreamItemForm from './StreamItemForm.jsx'
 
@@ -250,6 +251,7 @@ class TopicEdit extends Component {
         }
     }
 
+
     let keyClaimsArray = [];
     for (const keyClaimId in this.props.state.cacheEdit.topicEditCache.keyClaims) {
       // Select claims for only for given contributor
@@ -270,18 +272,19 @@ class TopicEdit extends Component {
     }
     let claimId = this.props.claimId; 
 
-    let streamDataObject = this.props.keyClaimIdObject[claimId].streamData;
-    let streamItemForms = []
-    for (const streamItem in streamDataObject) {
-      streamItemForms.push(
-        <StreamItemForm key={streamItem}
-          claimId={this.props.claimId}
-          streamId={streamItem}
-          keyClaims={this.props.keyClaims}
-          handleKeyClaimChange={this.handleKeyClaimChange}
-          handleStreamChange={this.props.handleStreamChange} />
-      )
-    }    
+    // let streamDataObject = this.props.keyClaimIdObject[claimId].streamData;
+    // let streamItemForms = []
+    // for (const streamItem in streamDataObject) {
+    //   streamItemForms.push(
+    //     <StreamItemForm key={streamItem}
+    //       claimId={this.props.claimId}
+    //       streamId={streamItem}
+    //       keyClaims={this.props.keyClaims}
+    //       handleKeyClaimChange={this.handleKeyClaimChange}
+    //       handleStreamChange={this.props.handleStreamChange} />
+    //   )
+    // }    
+
 
     const { from } = this.props.location.state || '/'
     const { fireRedirect } = this.state
@@ -565,9 +568,10 @@ class TopicEdit extends Component {
                       <Image className="arenaMini1" src={this.props.state.cacheEdit.topicEditCache.photo1} thumbnail roundedCircle />
                       <Image className="arenaMini2" src={this.props.state.cacheEdit.topicEditCache.photo2} thumbnail roundedCircle />
 
-                      <StreamItemFactory
+                      {/* <StreamItemEditFactory
                         keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
-                        showStreamForClaim={this.state.showStreamForClaim} />
+                        claimId={this.props.claimId}
+                        showStreamForClaim={this.state.showStreamForClaim} /> */}
 
 
                     </SimpleBar>
@@ -619,7 +623,10 @@ class TopicEdit extends Component {
 
             {/* Mapped array of number of key claims in this.props.state.keyClaims */}
               <h2>Stream</h2>
-              {streamItemForms}
+              {/* {streamItemForms} */}
+              <StreamItemFactory
+                keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
+                showStreamForClaim={this.state.showStreamForClaim} />
 
 
             {/* Conditionally render a success/failure message based on result of submit */}

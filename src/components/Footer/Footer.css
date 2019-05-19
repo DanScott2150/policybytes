@@ -1,78 +1,13 @@
 #footerBody{
-    /* height: 10em;  */
+    /* height: 5em;  */
     width: 100%;
-    background-color: #CA4A00;
-    position: static; 
-    bottom: 0; 
-    color: white; 
-    padding: 0;
-    margin: 0;
+    background-color: rgba(0,0,0,0.2);
+    /* position: static; 
+    bottom: 0;  */
+    color: black; 
+    /* padding: 0;
+    margin: 0; */
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: right;
 }
-
-/* NEWSLETTER */
-
-#footerNewsletter{
-    width: 80%;
-    /* border: 1px solid white;  */
-    padding: 2em 0em; 
-    font-size: 12px; 
-}
-
-#footerNewsletter input {
-    width: 250px; 
-    color: rgb(80, 80, 80); 
-    margin-left: 0px; 
-}
-
-#newsletterSubmit{
-    width: 250px; 
-}
-
-
-/* LINKS */
-#footerLinks {
-    width: 100%; 
-    margin-top: 1.5em; 
-}
-
-#footerLinks p a {
-    color: white; 
-    font-size: 15px; 
-    /* float: left;  */
-    margin: auto 0em auto 0em;
-    padding: 0px;  
-    line-height: 30px; 
-}
-
-@media only screen and (max-width: 1080px){
-    #footerLinks p a{
-        color: white; 
-        font-size: 15px; 
-        display: block; 
-        margin: auto 0em auto 0em;
-        padding: 0px;  
-        line-height: 20px; 
-    }
-
-}
-
-/* ADDRES */
-
-#footerAddress{
-    /* border: 1px solid white;  */
-    margin-top: 2em; 
-    margin-bottom: 2em; 
-}
-
-#footerAddress p {
-    margin-left: 2.5em; 
-    letter-spacing: .04px;
-    line-height: 20px; 
-}
-
-#footerAddress li{
-    margin-left: 1em;  
-    font-size: 2em; 
-}
-
-

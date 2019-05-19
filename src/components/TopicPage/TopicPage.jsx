@@ -16,19 +16,19 @@ import TopicContributors from './TopicContributors.jsx'
 import TopicCommonGround from './TopicCommonGround.jsx'
 import CommentSection from './CommentSection/CommentSection.jsx'
 // import LoveModal from './LoveModal/LoveModal.jsx'
-// import LikeButtonProposal from './LikeButtons/LikeButtonProposal.jsx'
+import LikeButtonProposal from './LikeButtons/LikeButtonProposal.jsx';
+import Footer from '../Footer/Footer';
 
 // Styling & Bootstrap
-import { Card, Tab, Tabs, Image, Container, Col, Row } from 'react-bootstrap';
+import { Card, Tab, Tabs, Image, Container, Col, Row, ButtonGroup, Button } from 'react-bootstrap';
 import './TopicPage.css';
 
+// Custom scrollbar for inside disucssion arena: Key Claims Panel (left side) and Stream (right side)
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
-//TO-DO replace hard-coded topic_id in CommentSection component
-
 // Do we need 'export' here since it's also exported at the bottom of the file?
-export class TopicPage extends Component {
+class TopicPage extends Component {
   
   // Initialize state
   constructor(props) {
@@ -164,6 +164,7 @@ export class TopicPage extends Component {
 
 
     //CHANGING ARENA CONTENT BASED ON SELECTED CONTRIBUTOR
+    // can probably be refactored to something cleaner
     let arenaContainer = 'arenaContainer';
     let streamContainerClass = "streamItemsContainer";
     let arenaSummaryClass = 'arenaSummary';
@@ -199,9 +200,9 @@ export class TopicPage extends Component {
 
     return (
       <div>
-        {/* TitleContent: Jumbotron showing Topic Title and Premise */}
-        {/* TopicContributors: Two side-by-side panels for each contributor- pic & bio */}
-        {/* TopicCommonGround: Shows common ground text */}
+        {/* <TitleContent>: Jumbotron showing Topic Title and Premise */}
+        {/* <TopicContributors>: Two side-by-side panels for each contributor- pic & bio */}
+        {/* <TopicCommonGround>: Shows common ground text */}
         
         <TopicTitleContent topicPageContent={this.props.topicPageContent} />
         <TopicContributors topicPageContent={this.props.topicPageContent} />
@@ -209,27 +210,31 @@ export class TopicPage extends Component {
         <TopicCommonGround topicPageContent={this.props.topicPageContent} />
           <hr/>
         
+        {/* DISCUSSION ARENA */}
         <Container>
+
+          {/* CONTRIBUTOR TABS */}
           <Tabs 
             defaultActiveKey='contributor1'
             id="contributorSelectTabs"
             onSelect={this.handleTabSelect}
             animation={false}
             style={{paddingLeft: '1em'}}
+            className='contributorTabs border-bottom-0'
             >
 
             <Tab 
               eventKey='contributor1' 
-              title={firstPersonTab}></Tab>
+              title={firstPersonTab}
+              ></Tab>
             <Tab 
               eventKey='contributor2' 
-              title={secondPersonTab}></Tab>
+              title={secondPersonTab}
+              ></Tab>
           </Tabs>
 
-          {/* ARENA */}
-
           {/* Proposals */}
-          <Card className="border-top-0" style={{backgroundColor: 'lightyellow', borderTopLeftRadius: '0'}}>
+          <Card style={{ backgroundColor: 'lightyellow', boxShadow: '2px 2px 2px rgba(0,0,0,0.25)'}}>
             <Container>
               <Row>
                 <Card className="border-0" style={{ backgroundColor: 'inherit' }}>
@@ -243,6 +248,28 @@ export class TopicPage extends Component {
                       <h3>{selectedContributor}'s Proposal: </h3>
                       <p className="mb-0">{arenaProposal}</p>
                     </div>
+                  
+                  <Card.Footer className="keyClaimFooter">
+                    <ButtonGroup className="keyClaimFooterButtons">
+                      {/* {this.props.user.userInfo ?
+                        <Button className="keyClaimFooterItem">
+                          <LoveModal topicPageContent={this.props.topicPageContent} contributor={this.state.contributorSelect} />
+                        </Button> :
+                        <Button disabled className="keyClaimFooterItem">
+                          <Glyphicon glyph="heart" />
+                        </Button>
+                      } */}
+
+                      <LikeButtonProposal id={arenaProposalId} />
+                        <Button
+                          a href="/topicPage#commentPanelMaster"
+                          variant="light"
+                          onClick={() => this.handleCommentProposal(arenaProposal, arenaProposalId)}
+                          className="keyClaimFooterItem">
+                          <i class="far fa-comment"></i>
+                        </Button>
+                    </ButtonGroup>
+                  </Card.Footer>
                   </Card.Body>
                 </Card>
               </Row>
@@ -281,17 +308,19 @@ export class TopicPage extends Component {
           </Container>
 
 
-          </Card>
-              
-
-          {/* </Card> */}
-
-      
-
-
-          <CommentSection topic_id={this.props.topicPageContent.topicDbId} />
-        {/* </div>   <---  WRAPPER DIV ENDS */}
+          </Card> {/* End Discussion Arena */}
         </Container>
+        
+        <hr />
+        
+        <Container fluid >
+          <CommentSection topic_id={this.props.topicPageContent.topicDbId} />
+        </Container>
+
+        <hr />
+
+        <Footer />
+
       </div>
     )
   }

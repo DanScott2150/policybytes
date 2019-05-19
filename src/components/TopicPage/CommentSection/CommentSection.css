@@ -11,9 +11,8 @@
 }
 
 #commentPanelMaster {
-    height: 40em;
-    overflow: scroll;
-    padding: 0px; 
+    height: 20em;
+    /* overflow: scroll; */
 }
 
 .addCommentPanel{
@@ -143,9 +142,9 @@
 
 .commentPic {
     /* border: 1px solid red;  */
-    display: inline-block; 
+    /* display: inline-block;  */
     margin-top: 1em;
-    float: left;
+    /* float: left; */
     display: inline-block; 
 }
 
@@ -192,7 +191,7 @@
 
 .commentButtons{
     float: right; 
-    display: inline-block;
+    /* display: inline-block; */
     margin: .5em;
 }
 

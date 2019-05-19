@@ -185,9 +185,10 @@ h1{
 } */
 
 .keyClaimFooter{
-    background-color: inherit !important; 
+    background-color: inherit; 
     border: none; 
     padding: 1em 0 0 0;
+
 }
 
 .keyClaimFooterLikes{
@@ -197,8 +198,18 @@ h1{
 }
 
 .keyClaimFooterButtons{
-    margin-top: -.7em; 
-    margin-right: 1em; 
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: 0.25rem;
+        float:right;
+}
+
+
+.contributorTabs a{
+    border-bottom: 2px solid lightyellow;
+    /* position: relative;
+    top: 2px; */
+    overflow: visible;
+    z-index: 5000;
 }
 
 

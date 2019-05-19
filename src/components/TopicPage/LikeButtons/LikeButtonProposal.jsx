@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import axios from 'axios';
 
-import { Panel, Button, ButtonGroup } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 import '../TopicPage.css'
 
@@ -91,30 +91,48 @@ class LikeButtonProposal extends Component {
         })
     }
 
-    render() {
-        return(
-            <div>
-                <h2>placeholder</h2>
-            </div>
-        )
-    //     if (this.props.user.userInfo) {
+  render() {
+    if (this.props.user.userInfo) {
+      return (
+        <div style={{float: 'right'}}>
+        
+          { !this.state.likedProposal ? 
+              <Button 
+                className="keyClaimFooterItem" 
+                variant="light"
+                onClick={() => this.likeProposal(this.props.id)} >
+                <i className="fa fa-thumbs-up" /> &nbsp;
+                  {this.state.count}
+                </Button> : 
+              <Button 
+                className="keyClaimFooterItem" 
+                bsStyle="success" 
+                onClick={() => this.unlikeProposal(this.props.id)} >
+                <i className="fa fa-thumbs-up" /> &nbsp;
+                  {this.state.count}
+              </Button>}
+        
+        </div>
+      )
+    } else {
+      return (
+        <div>
+       
+          <Button 
+            disabled 
+            variant="light"
+            className="keyClaimFooterItem" 
+            onClick={() => this.likeKeyClaim(this.props.id)} >
+              <i className="fa fa-thumbs-up" /> &nbsp;
+              {this.state.count}
+          </Button>
+        
+        </div>
+      )
+    }
 
-    //         return (
+  }
 
-    //             <span>{!this.state.likedProposal ? <Button className="keyClaimFooterItem" onClick={() => this.likeProposal(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button> : <Button className="keyClaimFooterItem" bsStyle="success" onClick={() => this.unlikeProposal(this.props.id)} >/*<Glyphicon glyph="thumbs-up" />*/ {this.state.count}</Button>}</span>
-
-    //         )
-    //     } else {
-    //         return (
-
-    //             <span> <Button disabled className="keyClaimFooterItem" onClick={() => this.likeKeyClaim(this.props.id)} ><Glyphicon glyph="thumbs-up" /> {this.state.count}</Button></span>
-
-    //         )
-    //     }
-
-    // }
-
-}
 }
 
 const mapStateToProps = state => ({

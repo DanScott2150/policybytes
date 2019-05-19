@@ -1,47 +1,45 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Footer from '../Footer/Footer.jsx'
+// Landing Page for App
+// -- Jumbotron Header with general site intro
+// -- "Current Conversation" card
+// -- Archived Topics section
 
-import { Container, Jumbotron, Image } from 'react-bootstrap';
+// TODO: Do we need mapStateToProps?
 
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+// Styling
+import { Container, Jumbotron } from 'react-bootstrap';
+import './LandingPage.css';
+
+// Subcomponents
 import LandingPageFeaturedTopic from './LandingPageFeaturedTopic.jsx'
 import LandingPageArchive from './LandingPageArchive.jsx'
-// import LandingPageHeader from './LandingPageHeader.jsx';
 
-import './LandingPage.css'
-
-
-export class LandingPage extends Component {
-
+class LandingPage extends Component {
   render() {
     return (
       <div>
-        {/* <LandingPageHeader /> */}
-          <Jumbotron className="text-center">
-            <h1><strong>PolicyBytes</strong></h1>
-            <p>This site is designed to facilitate better debate. 
-              You can scan arguments and cut to the chase examining evidence in these curated conversations. 
-              Creating intentional dialogue that focuses on individual argumentation.</p>
-          </Jumbotron>
-        {/* <div className="dottedLine"></div> */}
+        <Jumbotron className="text-center">
+          <h1><strong>PolicyBytes</strong></h1>
+          <p>This site is designed to facilitate better debate. 
+            You can scan arguments and cut to the chase examining evidence in these curated conversations. 
+            Creating intentional dialogue that focuses on individual argumentation.</p>
+        </Jumbotron>
 
         <Container className="text-center">
-        <LandingPageFeaturedTopic />
-
-        {/* <div className="dottedLine"></div> */}
-
+          <LandingPageFeaturedTopic />
         </Container>
+
         <LandingPageArchive /> 
-          <Footer/>
 
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
   
 })
-
 
 export default connect(mapStateToProps)(LandingPage);

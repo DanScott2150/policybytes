@@ -63,16 +63,15 @@ class CommentSection extends Component {
         })
 
         return (
-            <div>
-
-                <Card id="commentPanelMaster">
-                    <Card.Body>
-                        {(this.props.user.userInfo) ? <CommentAdd conmmentAddClass='addCommentPanel' topic_id={this.props.topic_id} /> : this.loginUserInvite()}
-                        <div className="commentPanelWrapper">
-                            {commentList}</div>
-                    </Card.Body>
-                </Card>
-            </div>
+            <Card id="commentPanelMaster">
+                <Card.Header as="h2" className="text-center">Join the Conversation!</Card.Header>
+                <Card.Body>
+                    {(this.props.user.userInfo) ? <CommentAdd conmmentAddClass='addCommentPanel' topic_id={this.props.topic_id} /> : this.loginUserInvite()}
+                    <div className="commentPanelWrapper">
+                        {commentList}
+                    </div>
+                </Card.Body>
+            </Card>
         )
     }
 }
