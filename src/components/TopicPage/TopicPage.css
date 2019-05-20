@@ -150,11 +150,11 @@ h1{
     margin: 10px 0;
     background: lightgray;
     transition: all 0.3s;
-    /* text-align: justify; */
 }
 
 .keyClaimPanel:hover{
     cursor: pointer;
+    width: 95%;
 }
 
 .keyClaimPanel.contrib1{
@@ -166,23 +166,26 @@ h1{
 }
 
 .keyClaimPanel.contrib1.locked{
-     width: 95%; 
-     /* padding-right: 2em; */
+    width: 95%; 
     font-weight: bold;
     font-size: 1.1em;
-      background-color: rgba(135, 206, 235, 1);  
+    background-color: rgba(135, 206, 235, 1);  
 }
 
-.keyClaimPanel:hover{
-    width: 95%;
-    /* padding-right: 2em; */
-    /* font-weight:bold; */
+.keyClaimPanel.contrib2{
+    background-color: rgba(34, 139, 34, 0.2);
 }
 
-/* .locked{  
-    width: 100%; 
+.keyClaimPanel.contrib2:hover{
+    background-color: rgba(34, 139, 34, 0.8);
+}
+
+.keyClaimPanel.contrib2.locked{
+    width: 95%; 
     font-weight: bold;
-} */
+    font-size: 1.1em;
+    background-color: rgba(34, 139, 34, 1);  
+}
 
 .keyClaimFooter{
     background-color: inherit; 

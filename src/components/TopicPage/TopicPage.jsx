@@ -1,23 +1,20 @@
 // Topic Page
 // Displays entire page for a given topic
-// Including header component, and actual discussion arena
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import { USER_ACTIONS } from '../../redux/actions/userActions';
 
-
-// Import all subcomponents
-import KeyClaimPanel from './KeyClaimPanel.jsx'
-// import StreamItem from './StreamItem.jsx'
+// Subcomponents
 import TopicTitleContent from './TopicTitleContent.jsx'
-import StreamItemFactory from './StreamItemFactory.jsx'
 import TopicContributors from './TopicContributors.jsx'
 import TopicCommonGround from './TopicCommonGround.jsx'
+
+import LikeButtonProposal from './LikeButtons/LikeButtonProposal.jsx';
+import KeyClaimPanel from './KeyClaimPanel.jsx'
+import StreamItemFactory from './StreamItemFactory.jsx'
 import CommentSection from './CommentSection/CommentSection.jsx'
 // import LoveModal from './LoveModal/LoveModal.jsx'
-import LikeButtonProposal from './LikeButtons/LikeButtonProposal.jsx';
-import Footer from '../Footer/Footer';
 
 // Styling & Bootstrap
 import { Card, Tab, Tabs, Image, Container, Col, Row, ButtonGroup, Button } from 'react-bootstrap';
@@ -27,11 +24,8 @@ import './TopicPage.css';
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
-// Do we need 'export' here since it's also exported at the bottom of the file?
 class TopicPage extends Component {
-  
-  // Initialize state
-  constructor(props) {
+    constructor(props) {
     super(props);
     this.state = {
       showStreamForClaim: undefined,
@@ -41,20 +35,18 @@ class TopicPage extends Component {
     }
   }
 
-  // Clear data within the arena when component unmounts
-  // commentReducer.js resets state for Proposal, Key Claims, Stream Comments to empty object
   componentWillUnmount(){
     this.props.dispatch({type: 'CLEAR_PROPOSAL_COMMENT'});
     this.props.dispatch({type: 'CLEAR_KEY_CLAIM_COMMENT'});
     this.props.dispatch({type: 'CLEAR_STREAM_COMMENT'});
   }
 
-  // Think this can be deleted?
-  // componentDidMount() {
-  //   this.props.dispatch({
-  //     type: 'FETCH_NEW_TOPIC_LANDING_PAGE'
-  //   })
-  // }
+// Set scroll position to top of page once it loads
+// Otherwise, the scroll position will be unchanged from wherever it was
+// on the prior page when the user clicked a given topic
+  componentDidMount(){
+    window.scrollTo(0, 0);
+  }
 
 //allows reducer to be populated before it looks for data
   componentWillReceiveProps(nextProps){
@@ -124,7 +116,7 @@ class TopicPage extends Component {
       proposalDbId: proposalIdInput
     };
 
-    console.log('in handleCommentProposal', proposalObject);
+    console.log('handleCommentProposal(): ', proposalObject);
     
     this.props.dispatch({
       type: 'SET_PROPOSAL_COMMENT',
@@ -164,7 +156,7 @@ class TopicPage extends Component {
 
 
     //CHANGING ARENA CONTENT BASED ON SELECTED CONTRIBUTOR
-    // can probably be refactored to something cleaner
+    // (can probably be refactored to something cleaner)
     let arenaContainer = 'arenaContainer';
     let streamContainerClass = "streamItemsContainer";
     let arenaSummaryClass = 'arenaSummary';
@@ -200,14 +192,18 @@ class TopicPage extends Component {
 
     return (
       <div>
-        {/* <TitleContent>: Jumbotron showing Topic Title and Premise */}
-        {/* <TopicContributors>: Two side-by-side panels for each contributor- pic & bio */}
-        {/* <TopicCommonGround>: Shows common ground text */}
         
+        {/* <TitleContent>: Jumbotron showing Topic Title and Premise */}
         <TopicTitleContent topicPageContent={this.props.topicPageContent} />
+
+        {/* <TopicContributors>: Two side-by-side panels for each contributor- pic & bio */}
         <TopicContributors topicPageContent={this.props.topicPageContent} />
+
           <hr/>
+        
+        {/* <TopicCommonGround>: Shows common ground text */}
         <TopicCommonGround topicPageContent={this.props.topicPageContent} />
+        
           <hr/>
         
         {/* DISCUSSION ARENA */}
@@ -233,7 +229,7 @@ class TopicPage extends Component {
               ></Tab>
           </Tabs>
 
-          {/* Proposals */}
+          {/* Contributor Proposals */}
           <Card style={{ backgroundColor: 'lightyellow', boxShadow: '2px 2px 2px rgba(0,0,0,0.25)'}}>
             <Container>
               <Row>
@@ -280,8 +276,7 @@ class TopicPage extends Component {
           <Container>
             <Row>
 
-
-          {/* Key Claim Panel */}
+              {/* Key Claim Panel */}
               <Col xs={4} style={{}}>
                 <h4 className="text-center">{selectedContributor}'s Key Claims</h4>
                 <div className="keyClaimsContainer">
@@ -308,21 +303,22 @@ class TopicPage extends Component {
           </Container>
 
 
-          </Card> {/* End Discussion Arena */}
+          </Card> 
+        {/* End Discussion Arena */}
+
         </Container>
         
         <hr />
         
+        {/* Comment Section */}
         <Container fluid >
           <CommentSection topic_id={this.props.topicPageContent.topicDbId} />
         </Container>
 
         <hr />
 
-        <Footer />
-
       </div>
-    )
+    );
   }
 }
 

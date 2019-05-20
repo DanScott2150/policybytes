@@ -71,7 +71,7 @@ class TopicManageCard extends Component {
         </Button>);
     } else {
       publishText = (
-        <Button variant="outline-warning" onClick={this.togglePublished}>
+        <Button variant="outline-warning" className="w-100" onClick={this.togglePublished}>
           <i class="fas fa-eye-slash"></i><br/>
           Draft
         </Button>);

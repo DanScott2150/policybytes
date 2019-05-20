@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Button, ButtonGroup, Collapse, Badge } from 'react-bootstrap';
+import { Card, Button, ButtonGroup, Collapse } from 'react-bootstrap';
 
 import LikeButtonStream from './LikeButtons/LikeButtonStream.jsx'
 

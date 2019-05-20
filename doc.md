@@ -67,3 +67,12 @@ heroku pg:psql postgresql-crystalline-80137 --app policybytes-beta
 
 
 heroku pg:pull HEROKU_POSTGRESQL_MAGENTA mylocaldb --app sushi
+
+
+
+
+Contributor Cards:
+Add bottom section for social media/website links for given contributor?
+
+Evidence:
+Add section for footnote links? Wikipedia-style citations?

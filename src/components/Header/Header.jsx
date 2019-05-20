@@ -2,8 +2,8 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import {Nav, Navbar, NavDropdown, Button, Form, FormControl } from 'react-bootstrap';
+// import { Link } from 'react-router-dom';
+import {Nav, Navbar, NavDropdown, Button } from 'react-bootstrap';
 
 import { USER_ACTIONS } from '../../redux/actions/userActions';
 import { triggerLogout } from '../../redux/actions/loginActions';
@@ -43,15 +43,15 @@ class TopNav extends Component {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Current Conversation</Nav.Link>
+            <Nav.Link href="#">Current Conversation</Nav.Link>
             <NavDropdown title="Topic Archive" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Topic 1</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Topic 2</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Topic 3</NavDropdown.Item>
+              <NavDropdown.Item href="#">Topic 1</NavDropdown.Item>
+              <NavDropdown.Item href="#">Topic 2</NavDropdown.Item>
+              <NavDropdown.Item href="#">Topic 3</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">View All Topics</NavDropdown.Item>
+              <NavDropdown.Item href="#">View All Topics</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="#link">Contact Us</Nav.Link>    
+            <Nav.Link href="#">Contact Us</Nav.Link>    
           </Nav>
           <Nav inline>
             <Button variant="outline-success">Login</Button>

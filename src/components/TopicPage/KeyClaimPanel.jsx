@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, ButtonGroup, Card } from 'react-bootstrap';
+import { /* Button, ButtonGroup, */ Card } from 'react-bootstrap';
 
 import LikeButtonKeyClaim from './LikeButtons/LikeButtonKeyClaim.jsx';
 

@@ -94,6 +94,7 @@ class LikeButtonStream extends Component {
           { !this.state.likedStream ? 
             <Button 
               className="keyClaimFooterItem" 
+              variant="light"
               onClick={() => this.likeStream(this.props.id)} >
 
               <i className="fa fa-thumbs-up" /> &nbsp;
@@ -101,7 +102,7 @@ class LikeButtonStream extends Component {
               </Button> : 
               <Button 
                 className="keyClaimFooterItem" 
-                bsStyle="success" 
+                variant="light"
                 onClick={() => this.unlikeStream(this.props.id)} >
                 <i className="fa fa-thumbs-up" /> &nbsp;
                 {this.state.count}

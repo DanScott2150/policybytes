@@ -1,11 +1,14 @@
+// Admin Panel
+// Shows all Topics, along with ability to: Edit, Publish/Unpublish, Set as Featured, Delete
+// Page only accessible if user logged in with admin privlidges
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-// import Footer from '../../Footer/Footer.jsx'
-import TopicManagePanel from './TopicManagePanel.jsx'
-import RegisterModal from '../RegisterModal/RegisterModal.js'
 import TopicManageAddPanel from './TopicManageAddPanel.jsx'
+import TopicManagePanel from './TopicManagePanel.jsx'
 
+// import RegisterModal from '../RegisterModal/RegisterModal.js'
 // import SiteInformationPanel from '../SiteInformation/SiteInformation';
 
 import { Container, Row, Jumbotron, Table } from 'react-bootstrap';
@@ -13,15 +16,14 @@ import './TopicManage.css';
 
 class TopicManage extends Component {
   constructor(props) {
-    super(props) 
-
+    super(props);
     this.state = {
       showModal: false,  
     }
   }
 
+// Fetch all topics (published & unpublished) from database
   componentDidMount () {
-    // Fetch all topics (published & unpublished) from database
     this.fetchAllTopics(); 
   }
 
@@ -40,14 +42,13 @@ class TopicManage extends Component {
   }
 
   fetchAllTopics = () => {
-    // console.log('in FETCH_ALL_TOPICS');
+    // console.log('[TopicManage.jsx] FETCH_ALL_TOPICS()');
     // FETCH_ALL_TOPICS => topicSaga.js => fetchAllTopics() => SET_ALL_TOPICS
     // SET_ALL_TOPICS => topicEditReducer.js
     this.props.dispatch({
       type: 'FETCH_ALL_TOPICS'
     });
   }
-
 
   handleDismiss = () => {
     this.setState({ showModal: false });
@@ -57,8 +58,10 @@ class TopicManage extends Component {
     this.setState({ showModal: true });
   }
 
-  render() {    
-    // console.log("topic manage render");
+  render() {
+
+    // Populate table that shows all Topics
+    // Each <TopicManagePanel> consists of a <tr> table row
     let topicsArray = this.props.state.topics.allTopics;
     let topicPanels = topicsArray.map((topic) => {
       return <TopicManagePanel key={topic.id}
@@ -66,21 +69,22 @@ class TopicManage extends Component {
                               handleShowDelete={this.handleShowDelete}/>
     });
 
-console.log(this.props.user);
     return (
       <div>
-          <Jumbotron className="pt-2 pb-2 text-center">
-            <h2>Manage Topics</h2>
-            Logged in as 
-            <RegisterModal/>
-           </Jumbotron>
+        <Jumbotron className="pt-2 pb-2 text-center">
+          <h2>Manage Topics</h2>
+          Logged in as [Matt]
+            {/* <RegisterModal/> */}
+        </Jumbotron>
 
         <Container>
           <Row>
-            {/* <h3>Create New Topic</h3> */}
+            {/* Create New Topic */}
             <TopicManageAddPanel />
           </Row>
+
           <hr/>
+          
           <Row>
             <h3>Edit Topics</h3>
             <Table striped bordered hover>
@@ -94,7 +98,8 @@ console.log(this.props.user);
                   <td>Featured</td>
                   <td>Delete</td>
                 </tr>
-            {topicPanels}
+
+                {topicPanels}
                 
               </tbody>
             </Table>
