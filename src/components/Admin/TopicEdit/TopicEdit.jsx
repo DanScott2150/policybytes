@@ -1,7 +1,11 @@
+// Topic Edit Page
+// Fetches Topic Info for a given Topic ID, creates a 
+// copy of it in a cache
+
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+
 import ImageUpload from '../../Images/Images.jsx'
-import Footer from '../../Footer/Footer.jsx'
 import KeyClaimForm from './KeyClaimForm.jsx'
 import KeyClaimPanel from '../../TopicPage/KeyClaimPanel'
 import StreamItemFactory from '../../TopicPage/StreamItemFactory'
@@ -9,17 +13,12 @@ import StreamItemEditFactory from './StreamItemEditFactory'
 import SubmitAlert from './SubmitAlert.jsx'
 import StreamItemForm from './StreamItemForm.jsx'
 
-import TopicPage from '../../TopicPage/TopicPage';
-
-import ReactFilestack, { client } from 'filestack-react';
-import filestack from 'filestack-js';
-import { Card, Jumbotron, Button, Container, Row, Col, FormLabel, FormControl, Image, Tabs, Tab, Alert } from 'react-bootstrap';
+import { Redirect } from 'react-router';
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
-import { Redirect } from 'react-router';
-
+import { Card, Jumbotron, Button, Container, Row, Col, FormLabel, FormControl, Image, Tabs, Tab, Alert } from 'react-bootstrap';
 import './TopicEdit.css'
 
 let debug = false;
@@ -39,11 +38,12 @@ class TopicEdit extends Component {
       showStreamForClaim: undefined,
       keyClaimLocked: false,
       contributorSelect: 'contributor1',
-      editTitle: false
+      editTitle: false  // is this used?
     }
   }
 
   componentDidMount() {
+    // Initialize page: fetch data for given topic and store in a separate editing cache
     this.populateEditCache();
     this.fetchEditCache();
   }
@@ -63,8 +63,14 @@ class TopicEdit extends Component {
   }
 
   populateEditCache = () => {
-    let editTopicId = this.props.match.params.id;    
+    // Topic ID is passed in via URL parameter
+    let editTopicId = this.props.match.params.id; 
+
     if (editTopicId) {
+
+      //FETCH_EDIT_TOPIC_INFO => topicSaga.js fetchEditTopicInfoSaga()
+      // ==> CACHE_TOPIC_TO_EDIT => atticusTopicEditReducer (cacheEdit) => const topicEditCache
+      // ==> this.props.state.cacheEdit.topicEditCache
       this.props.dispatch({
         type: 'FETCH_EDIT_TOPIC_INFO',
         payload: editTopicId
@@ -72,7 +78,7 @@ class TopicEdit extends Component {
       this.setState({
         edit: true,
       })
-      this.fetchEditCache();
+      // this.fetchEditCache();
     } else {
       this.props.dispatch({
         type: 'RESET_EDIT_CACHE',
@@ -81,17 +87,19 @@ class TopicEdit extends Component {
       this.setState({
         edit: false,
       })
-      this.fetchEditCache();
+      // this.fetchEditCache();
     }
   }
 
-
   fetchEditCache = () => {
+    // FETCH_EDIT_CACHE => atticusTopicEditReducer => return state
     this.props.dispatch({
       type: 'FETCH_EDIT_CACHE'
     })
   }
 
+  // CHANGE_KEY_CLAIM_INFO => [atticusReducer] topicEditCache => updates Key Claim for given ID
+  // ID = claimID
   handleKeyClaimChange = (event) => {
     this.props.dispatch({
       type: 'CHANGE_KEY_CLAIM_INFO',
@@ -100,8 +108,6 @@ class TopicEdit extends Component {
   }
 
   handleStreamChange = (event, claimId, streamId) => {
-    if (debug) { console.log('in topicEdit handle stream change, claim id:', claimId, 'streamId:', streamId); }
-    if (debug) { console.log('event.target: ', event.target); }
     let payloadPackage = {
       claimId: claimId,
       streamId: streamId,
@@ -139,13 +145,12 @@ class TopicEdit extends Component {
         
       })
     }
-    ///SOME INDICATOR HERE
-
   }
 
   //currying function TO CHANGE REDUX STATE
   handleTextChange = (event) => {
-    if (debug) { console.log('in handleTextChange, event.target: ', event.target.value); }
+    
+    // CHANGE_TOPIC_INFO => [atticusTopicReducer.js] topicEditCache => return ...state, action.payload name & value
     this.props.dispatch({
       type: 'CHANGE_TOPIC_INFO',
       payload: event.target
@@ -223,35 +228,32 @@ class TopicEdit extends Component {
     })
   }
 
-  // demoButton = () => {
-  //   this.props.dispatch({
-  //     type: 'DEMO_BUTTON',
-  //   })
-  // }
+
 
 
 
   render() {
     
-    let keyClaimIdObject = this.props.state.cacheEdit.topicEditCache.keyClaims; //REDUX, everything in keyclaims
-    let keyClaimForms = []
-    for (const keyClaim in keyClaimIdObject) {
-      // console.log("IIII", keyClaim);
-      if (keyClaimIdObject[keyClaim].claimContributor === this.state.contributorSelect){
-        keyClaimForms.push(
-          <KeyClaimForm 
-            edit={this.state.edit}
-            key={keyClaim}
-            claimId={keyClaim}  //LOCAL, count to populate the view 
-            keyClaimIdObject={this.props.state.cacheEdit.topicEditCache.keyClaims} ////REDUX, everything in keyclaims
-            handleKeyClaimChange={this.handleKeyClaimChange}
-            handleStreamChange={this.handleStreamChange}
-            deleteKeyClaim={this.deleteKeyClaim} />
-            );
-        }
-    }
+    let keyClaimIdObject = this.props.state.cacheEdit.topicEditCache.keyClaims;
+    
+    // <KeyClaimForm> components are input textareas for editing a given Key Claim
+    // let keyClaimForms = []
+    // for (const keyClaim in keyClaimIdObject) {
+    //   if (keyClaimIdObject[keyClaim].claimContributor === this.state.contributorSelect){
+    //     keyClaimForms.push(
+    //       <KeyClaimForm 
+    //         edit={this.state.edit}
+    //         key={keyClaim}
+    //         claimId={keyClaim}  //LOCAL, count to populate the view 
+    //         keyClaimIdObject={this.props.state.cacheEdit.topicEditCache.keyClaims} ////REDUX, everything in keyclaims
+    //         handleKeyClaimChange={this.handleKeyClaimChange}
+    //         handleStreamChange={this.handleStreamChange}
+    //         deleteKeyClaim={this.deleteKeyClaim} />
+    //         );
+    //     }
+    // }
 
-
+    // <KeyClaimPanel> components are the actual output panel for a given key claim
     let keyClaimsArray = [];
     for (const keyClaimId in this.props.state.cacheEdit.topicEditCache.keyClaims) {
       // Select claims for only for given contributor
@@ -266,7 +268,14 @@ class TopicEdit extends Component {
             handleHoverShowStream={this.handleHoverShowStream}
             handleHoverHideStream={this.handleHoverHideStream}
             toggleClickShowStream={this.toggleClickShowStream}
-          />
+          />, <KeyClaimForm
+            edit={this.state.edit}
+            key={keyClaimId}
+            claimId={keyClaimId}
+            keyClaimIdObject={this.props.state.cacheEdit.topicEditCache.keyClaims}
+            handleKeyClaimChange={this.handleKeyClaimChange}
+            // handleStreamChange={this.handleStreamChange}
+            deleteKeyClaim={this.deleteKeyClaim} />
         );
       }
     }
@@ -338,17 +347,14 @@ class TopicEdit extends Component {
           <FormLabel>Topic Title</FormLabel>
           <FormControl onChange={this.handleTextChange}
             name="topicTitle"
-            value={this.props.state.cacheEdit.topicEditCache.topicTitle}  //<-- VALUE COMES FROM REDUX STATE 
-            componentClass="textarea"
-            size="lg"
+            value={this.props.state.cacheEdit.topicEditCache.topicTitle} 
             className="w-50"
             style={{margin: '0 auto'}} />
 
-          {/* <img src={this.props.state.cacheEdit.topicEditCache.topicReadMore} width="100" /> */}
           <FormLabel>Topic Premise</FormLabel>
           <FormControl onChange={this.handleTextChange}
             name="topicPremise"
-            value={this.props.state.cacheEdit.topicEditCache.topicPremise}  //<-- VALUE COMES FROM REDUX STATE 
+            value={this.props.state.cacheEdit.topicEditCache.topicPremise}
             as="textarea"
             rows="3"
             className="w-50"
@@ -402,77 +408,64 @@ class TopicEdit extends Component {
 
           </Row>
           <Row>
+          {/* CONTRIBUTOR 1 */}
             <Col>
             <Card>
               <Card.Body>
                 <FormLabel>Contributor 1 First Name</FormLabel>
                 <FormControl onChange={this.handleTextChange}
-                  componentClass="textarea"
                   name="contributor1FirstName"
-                  value={this.props.state.cacheEdit.topicEditCache.contributor1FirstName}  //<-- VALUE COMES FROM REDUX STATE 
+                  value={this.props.state.cacheEdit.topicEditCache.contributor1FirstName}
                 />
                 <FormLabel>Contributor 1 Last Name</FormLabel>
                 <FormControl onChange={this.handleTextChange}
-                  componentClass="textarea"
                   name="contributor1LastName"
-                  value={this.props.state.cacheEdit.topicEditCache.contributor1LastName}  //<-- VALUE COMES FROM REDUX STATE 
+                  value={this.props.state.cacheEdit.topicEditCache.contributor1LastName}
                 />
                 <FormLabel>Contributor 1 Bio</FormLabel>
                 <FormControl onChange={this.handleTextChange}
                   name="bio1"
-                  value={this.props.state.cacheEdit.topicEditCache.bio1}  //<-- VALUE COMES FROM REDUX STATE 
-                  componentClass="textarea"
+                  value={this.props.state.cacheEdit.topicEditCache.bio1}
                     as="textarea"
                     rows="3" />
                   <img src={this.props.state.cacheEdit.topicEditCache.photo1} width="100" />
-
                   <p>Upload Contributor 1 Photo</p>
-                  <br />
-                  <ImageUpload handleUploadContent={this.handleUploadContent}
+                  <ImageUpload 
+                    handleUploadContent={this.handleUploadContent}
                     contributor='photo1' />
               </Card.Body>
             </Card>
             </Col>
+          {/* CONTRIBUTOR 2 */}
             <Col>
               <Card>
                 <Card.Body>
                   <FormLabel>Contributor 2 First Name</FormLabel>
                   <FormControl onChange={this.handleTextChange}
-                    componentClass="textarea"
                     name="contributor2FirstName"
-                    value={this.props.state.cacheEdit.topicEditCache.contributor2FirstName}  //<-- VALUE COMES FROM REDUX STATE 
+                    value={this.props.state.cacheEdit.topicEditCache.contributor2FirstName}
                   />
                   <FormLabel>Contributor 2 Last Name</FormLabel>
                   <FormControl onChange={this.handleTextChange}
-                    componentClass="textarea"
                     name="contributor2LastName"
-                    value={this.props.state.cacheEdit.topicEditCache.contributor2LastName}  //<-- VALUE COMES FROM REDUX STATE 
+                    value={this.props.state.cacheEdit.topicEditCache.contributor2LastName}
                   />
                   <FormLabel>Contributor 2 Bio</FormLabel>
                   <FormControl onChange={this.handleTextChange}
                     name="bio2"
-                    value={this.props.state.cacheEdit.topicEditCache.bio2}  //<-- VALUE COMES FROM REDUX STATE 
-                    componentClass="textarea"
+                    value={this.props.state.cacheEdit.topicEditCache.bio2}
                     as="textarea"
                     rows="3" />
-                 
-
                   <img src={this.props.state.cacheEdit.topicEditCache.photo2} width="100" />
-
                   <p>Upload Contributor 2 Photo</p>
-                  <br />
-                  <ImageUpload handleUploadContent={this.handleUploadContent}
+                  <ImageUpload 
+                    handleUploadContent={this.handleUploadContent}
                     contributor='photo2' />
-
 
                 </Card.Body>
               </Card>
-
-
             </Col>
-
           </Row>
-
         </Container>
 
         {/* COMMON GROUND */}
@@ -485,8 +478,7 @@ class TopicEdit extends Component {
               <FormLabel>Common Ground</FormLabel>
               <FormControl onChange={this.handleTextChange}
                 name="topicCommonGround"
-                value={this.props.state.cacheEdit.topicEditCache.topicCommonGround}  //<-- VALUE COMES FROM REDUX STATE 
-                componentClass="textarea"
+                value={this.props.state.cacheEdit.topicEditCache.topicCommonGround}
                 as="textarea"
                 rows="3"
                 className="w-50" />
@@ -532,12 +524,11 @@ class TopicEdit extends Component {
                       <FormLabel>{selectedContributor}'s Proposal Summary</FormLabel>
                       <FormControl onChange={this.handleTextChange}
                         name={tabNumber === 1 ? "proposal1" : "proposal2"}
-                        value={tabNumber === 1 ? this.props.state.cacheEdit.topicEditCache.proposal1 : this.props.state.cacheEdit.topicEditCache.proposal2 }  //<-- VALUE COMES FROM REDUX STATE 
+                        value={tabNumber === 1 ? this.props.state.cacheEdit.topicEditCache.proposal1 : this.props.state.cacheEdit.topicEditCache.proposal2 }
                         as="textarea"
                         style={{backgroundColor: '#fff3cd'}}
-                      rows="3" />
+                        rows="3" />
 
-                      
                     </div>
                   </Card.Body>
                 </Card>
@@ -555,7 +546,7 @@ class TopicEdit extends Component {
                   <div className="keyClaimsContainer">
                     <SimpleBar style={{ height: '100%' }}>
                       {keyClaimsArray}
-                      {keyClaimForms}
+                      {/* {keyClaimForms} */}
                       <Button bsStyle="primary" onClick={this.addKeyClaim}>Add Key Claim</Button>
                     </SimpleBar>
                   </div>
@@ -568,10 +559,13 @@ class TopicEdit extends Component {
                       <Image className="arenaMini1" src={this.props.state.cacheEdit.topicEditCache.photo1} thumbnail roundedCircle />
                       <Image className="arenaMini2" src={this.props.state.cacheEdit.topicEditCache.photo2} thumbnail roundedCircle />
 
-                      {/* <StreamItemEditFactory
+                      <StreamItemFactory
                         keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
-                        claimId={this.props.claimId}
-                        showStreamForClaim={this.state.showStreamForClaim} /> */}
+                        showStreamForClaim={this.state.showStreamForClaim} />
+                      <StreamItemEditFactory
+                        keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
+                        showStreamForClaim={this.state.showStreamForClaim}
+                        handleStreamChange={this.handleStreamChange}  />
 
 
                     </SimpleBar>
@@ -624,9 +618,9 @@ class TopicEdit extends Component {
             {/* Mapped array of number of key claims in this.props.state.keyClaims */}
               <h2>Stream</h2>
               {/* {streamItemForms} */}
-              <StreamItemFactory
+              {/* <StreamItemFactory
                 keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
-                showStreamForClaim={this.state.showStreamForClaim} />
+                showStreamForClaim={this.state.showStreamForClaim} /> */}
 
 
             {/* Conditionally render a success/failure message based on result of submit */}

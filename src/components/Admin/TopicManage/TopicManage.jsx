@@ -24,7 +24,7 @@ class TopicManage extends Component {
 
 // Fetch all topics (published & unpublished) from database
   componentDidMount () {
-    this.fetchAllTopics(); 
+    this.fetchAllTopics();
   }
 
   componentDidUpdate() {
@@ -44,7 +44,7 @@ class TopicManage extends Component {
   fetchAllTopics = () => {
     // console.log('[TopicManage.jsx] FETCH_ALL_TOPICS()');
     // FETCH_ALL_TOPICS => topicSaga.js => fetchAllTopics() => SET_ALL_TOPICS
-    // SET_ALL_TOPICS => topicEditReducer.js
+    // SET_ALL_TOPICS => topicEditReducer.js => const allTopics
     this.props.dispatch({
       type: 'FETCH_ALL_TOPICS'
     });
@@ -59,7 +59,6 @@ class TopicManage extends Component {
   }
 
   render() {
-
     // Populate table that shows all Topics
     // Each <TopicManagePanel> consists of a <tr> table row
     let topicsArray = this.props.state.topics.allTopics;

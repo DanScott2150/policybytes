@@ -11,8 +11,22 @@ class StreamItemEdit extends Component {
         super(props, context);
 
         this.state = {
-            open: true
+            open: true,
+            // streamContributor: '',
+            // streamComment: '',
+            // streamEvidence: '',
+            // streamDbId: '',
         };
+    }
+
+
+    packageStreamChange = (event) => {
+        console.log('stream id: ', this.props.streamId);
+        console.log('claim id: ', this.props.claimId);
+        let claimId = this.props.claimId;
+        let streamId = this.props.streamId;
+        let streamDbId = '';
+        this.props.handleStreamChange(event, claimId, streamId, streamDbId)
     }
 
     // handleCommentStream = (streamItemInput) => {
@@ -36,6 +50,20 @@ class StreamItemEdit extends Component {
             open: !this.state.open
         })
     }
+
+    // handleStreamChange = (event, claimId, streamId) => {
+    //     if (debug) { console.log('in topicEdit handle stream change, claim id:', claimId, 'streamId:', streamId); }
+    //     if (debug) { console.log('event.target: ', event.target); }
+    //     let payloadPackage = {
+    //         claimId: claimId,
+    //         streamId: streamId,
+    //         eventTarget: event.target
+    //     }
+    //     this.props.dispatch({
+    //         type: 'CHANGE_STREAM_ITEM_INFO',
+    //         payload: payloadPackage
+    //     })
+    // }
 
 
     render() {
@@ -78,37 +106,39 @@ class StreamItemEdit extends Component {
                         </Collapse>
                         <Card className="wireStreamInput">
                             <Card.Body>
-                                <h5>Stream Order: {Number(this.props.streamId) + 1}</h5>
+                                {/* <h5>Stream Order: {Number(this.props.streamId) + 1}</h5>
                                 <br />
+ */}
 
-
-                                <Form.Label>Select Contributor</Form.Label>
+                                {/* <Form.Label>Select Contributor</Form.Label>
                                 <Form.Control as="select"
                                     onChange={this.packageStreamChange}
                                     placeholder="select"
                                     id={this.props.streamId}
                                     name="streamContributor"
-                                    value={this.props.keyClaims[this.props.claimId].streamData[this.props.streamId].streamContributor}
+                                    value={this.props.streamItem.streamContributor}
                                 >
                                     <option value="">-- Select Contributor --</option>
                                     <option value="contributor1">Contributor 1</option>
                                     <option value="contributor2">Contributor 2</option>
-                                </Form.Control>
+                                </Form.Control> */}
 
                                 <Form.Label>Stream Comment</Form.Label>
                                 <Form.Control onChange={this.packageStreamChange}
                                     id={this.props.claimId}
                                     name="streamComment"
                                     as="textarea"
-                                    value={this.props.keyClaims[this.props.claimId].streamData[this.props.streamId].streamComment}
+                                    rows="3"
+                                    value={this.props.streamItem.streamComment}
                                 />
 
                                 <Form.Label>Stream Comment Evidence</Form.Label>
                                 <Form.Control onChange={this.packageStreamChange}
                                     id={this.props.claimId}
                                     name="streamEvidence"
-                                    componentClass="textarea"
-                                    value={this.props.keyClaims[this.props.claimId].streamData[this.props.streamId].streamEvidence}
+                                    as="textarea"
+                                    rows="3"
+                                    value={this.props.streamItem.streamEvidence}
                                 />
 
 

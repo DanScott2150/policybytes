@@ -76,7 +76,7 @@ class TopicManageCard extends Component {
           Draft
         </Button>);
     }
-//color/text of publish button based on topic.featured status
+//color/text of featured button based on topic.featured status
     let featuredStyle = 'default';
     if (this.props.topic.featured) {
       featuredStyle = 'primary'

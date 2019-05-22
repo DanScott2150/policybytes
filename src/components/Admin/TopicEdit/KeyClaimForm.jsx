@@ -13,15 +13,12 @@ class KeyClaimForm extends Component {
 
   constructor(props) {
     super(props)
-
-
   }
-
 
   componentDidMount() {
   }
 
-//currying function to setState on change of form fields
+
     handleChange = (event) => {
         this.props.handleKeyClaimChange(event); 
     }
@@ -54,18 +51,19 @@ class KeyClaimForm extends Component {
     //Object containg all keyClaim information passed down on props
     //individual keyClaim ID used to pick out the streamData object on each keyClaim
     //looping over this unique streamData object to create the correct number of streamInputForms
-    let streamDataObject = this.props.keyClaimIdObject[claimId].streamData;
-    let streamItemForms = []
-    for (const streamItem in streamDataObject) {      
-        streamItemForms.push(
-        <StreamItemForm key={streamItem}
-                        claimId ={this.props.claimId}
-                        streamId={streamItem}
-                        keyClaims={this.props.keyClaims}
-                        handleKeyClaimChange={this.handleKeyClaimChange}
-                        handleStreamChange={this.props.handleStreamChange}/>
-      )
-    }    
+   
+    // let streamDataObject = this.props.keyClaimIdObject[claimId].streamData;
+    // let streamItemForms = []
+    // for (const streamItem in streamDataObject) {      
+    //     streamItemForms.push(
+    //     <StreamItemForm key={streamItem}
+    //                     claimId ={this.props.claimId}
+    //                     streamId={streamItem}
+    //                     keyClaims={this.props.keyClaims}
+    //                     handleKeyClaimChange={this.handleKeyClaimChange}
+    //                     handleStreamChange={this.props.handleStreamChange}/>
+    //   )
+    // }    
 
     return (
       <div>
