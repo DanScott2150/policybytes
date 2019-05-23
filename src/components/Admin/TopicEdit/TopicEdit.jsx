@@ -13,10 +13,14 @@ import StreamItemEditFactory from './StreamItemEditFactory'
 import SubmitAlert from './SubmitAlert.jsx'
 import StreamItemForm from './StreamItemForm.jsx'
 
+import EditTitleContent from './EditTitleContent.jsx';
+import EditContributors from './EditContributors.jsx';
+import EditCommonGround from './EditCommonGround.jsx';
+import EditProposals from './EditProposals.jsx';
+import EditKeyClaims from './EditKeyClaims.jsx';
+
 import { Redirect } from 'react-router';
 
-import SimpleBar from 'simplebar-react';
-import 'simplebar/dist/simplebar.min.css';
 
 import { Card, Jumbotron, Button, Container, Row, Col, FormLabel, FormControl, Image, Tabs, Tab, Alert } from 'react-bootstrap';
 import './TopicEdit.css'
@@ -98,14 +102,14 @@ class TopicEdit extends Component {
     })
   }
 
-  // CHANGE_KEY_CLAIM_INFO => [atticusReducer] topicEditCache => updates Key Claim for given ID
-  // ID = claimID
-  handleKeyClaimChange = (event) => {
-    this.props.dispatch({
-      type: 'CHANGE_KEY_CLAIM_INFO',
-      payload: event.target
-    })
-  }
+  // // CHANGE_KEY_CLAIM_INFO => [atticusReducer] topicEditCache => updates Key Claim for given ID
+  // // ID = claimID
+  // handleKeyClaimChange = (event) => {
+  //   this.props.dispatch({
+  //     type: 'CHANGE_KEY_CLAIM_INFO',
+  //     payload: event.target
+  //   })
+  // }
 
   handleStreamChange = (event, claimId, streamId) => {
     let payloadPackage = {
@@ -147,9 +151,7 @@ class TopicEdit extends Component {
     }
   }
 
-  //currying function TO CHANGE REDUX STATE
-  handleTextChange = (event) => {
-    
+  handleTextChange = (event) => {    
     // CHANGE_TOPIC_INFO => [atticusTopicReducer.js] topicEditCache => return ...state, action.payload name & value
     this.props.dispatch({
       type: 'CHANGE_TOPIC_INFO',
@@ -163,32 +165,31 @@ class TopicEdit extends Component {
     })
   }
 
-
   //When mouse hovers over a key claim, show the associated stream in the chatbox
-  handleHoverShowStream = (id) => {
-    if (this.state.keyClaimLocked === false) {
-      this.setState({
-        showStreamForClaim: id
-      })
-    }
-  }
+  // handleHoverShowStream = (id) => {
+  //   if (this.state.keyClaimLocked === false) {
+  //     this.setState({
+  //       showStreamForClaim: id
+  //     })
+  //   }
+  // }
 
   //When mouse hover ends, hide associated stream in chatbox
-  handleHoverHideStream = (id) => {
-    if (this.state.keyClaimLocked === false) {
-      this.setState({
-        showStreamForClaim: undefined
-      })
-    }
-  }
+  // handleHoverHideStream = (id) => {
+  //   if (this.state.keyClaimLocked === false) {
+  //     this.setState({
+  //       showStreamForClaim: undefined
+  //     })
+  //   }
+  // }
 
   //When a key claim is clicked, "lock" it as active and populate the chatbox with the stream
-  toggleClickShowStream = (id) => {
-    this.setState({
-      showStreamForClaim: id,
-      keyClaimLocked: !this.state.keyClaimLocked
-    })
-  }
+  // toggleClickShowStream = (id) => {
+  //   this.setState({
+  //     showStreamForClaim: id,
+  //     keyClaimLocked: !this.state.keyClaimLocked
+  //   })
+  // }
 
   //ADDING A NEW KEY CLAIM OBJECT TO THE EDITTOPICCACHE
   addKeyClaim = () => {
@@ -215,21 +216,18 @@ class TopicEdit extends Component {
       fireRedirect: true  
     })
   }
-  handleUploadContent = (fileUploded, contributor) => {
-    let fileUrl = fileUploded.url;
-    console.log('file uploaded url:', fileUrl, "contributor", contributor);
-    let pictureUploadPackage = {
-      value: fileUrl, //<-- action.payload.value
-      name: contributor //<-- action.payload.name is contributor1 or contributor2 
-    }
-    this.props.dispatch({
-      type: 'CHANGE_TOPIC_INFO',
-      payload: pictureUploadPackage
-    })
-  }
-
-
-
+  // handleUploadContent = (fileUploded, contributor) => {
+  //   let fileUrl = fileUploded.url;
+  //   console.log('file uploaded url:', fileUrl, "contributor", contributor);
+  //   let pictureUploadPackage = {
+  //     value: fileUrl, //<-- action.payload.value
+  //     name: contributor //<-- action.payload.name is contributor1 or contributor2 
+  //   }
+  //   this.props.dispatch({
+  //     type: 'CHANGE_TOPIC_INFO',
+  //     payload: pictureUploadPackage
+  //   })
+  // }
 
 
   render() {
@@ -254,31 +252,31 @@ class TopicEdit extends Component {
     // }
 
     // <KeyClaimPanel> components are the actual output panel for a given key claim
-    let keyClaimsArray = [];
-    for (const keyClaimId in this.props.state.cacheEdit.topicEditCache.keyClaims) {
-      // Select claims for only for given contributor
-      if (this.state.contributorSelect === this.props.state.cacheEdit.topicEditCache.keyClaims[keyClaimId].claimContributor) {
-        keyClaimsArray.push(
-          <KeyClaimPanel
-            key={keyClaimId}
-            keyClaimId={keyClaimId}
-            keyClaim={this.props.state.cacheEdit.topicEditCache.keyClaims[keyClaimId]}
-            showStreamForClaim={this.state.showStreamForClaim}
-            keyClaimLocked={this.state.keyClaimLocked}
-            handleHoverShowStream={this.handleHoverShowStream}
-            handleHoverHideStream={this.handleHoverHideStream}
-            toggleClickShowStream={this.toggleClickShowStream}
-          />, <KeyClaimForm
-            edit={this.state.edit}
-            key={keyClaimId}
-            claimId={keyClaimId}
-            keyClaimIdObject={this.props.state.cacheEdit.topicEditCache.keyClaims}
-            handleKeyClaimChange={this.handleKeyClaimChange}
-            // handleStreamChange={this.handleStreamChange}
-            deleteKeyClaim={this.deleteKeyClaim} />
-        );
-      }
-    }
+    // let keyClaimsArray = [];
+    // for (const keyClaimId in this.props.state.cacheEdit.topicEditCache.keyClaims) {
+    //   // Select claims for only for given contributor
+    //   if (this.state.contributorSelect === this.props.state.cacheEdit.topicEditCache.keyClaims[keyClaimId].claimContributor) {
+    //     keyClaimsArray.push(
+    //       <KeyClaimPanel
+    //         key={keyClaimId}
+    //         keyClaimId={keyClaimId}
+    //         keyClaim={this.props.state.cacheEdit.topicEditCache.keyClaims[keyClaimId]}
+    //         showStreamForClaim={this.state.showStreamForClaim}
+    //         keyClaimLocked={this.state.keyClaimLocked}
+    //         handleHoverShowStream={this.handleHoverShowStream}
+    //         handleHoverHideStream={this.handleHoverHideStream}
+    //         toggleClickShowStream={this.toggleClickShowStream}
+    //       />, <KeyClaimForm
+    //         edit={this.state.edit}
+    //         key={keyClaimId}
+    //         claimId={keyClaimId}
+    //         keyClaimIdObject={this.props.state.cacheEdit.topicEditCache.keyClaims}
+    //         handleKeyClaimChange={this.handleKeyClaimChange}
+    //         // handleStreamChange={this.handleStreamChange}
+    //         deleteKeyClaim={this.deleteKeyClaim} />
+    //     );
+    //   }
+    // }
     let claimId = this.props.claimId; 
 
     // let streamDataObject = this.props.keyClaimIdObject[claimId].streamData;
@@ -340,161 +338,42 @@ class TopicEdit extends Component {
         <Alert variant="warning">Edit topic</Alert>
 
         {/* TOPIC TITLE & PREMISE */}
-        <Jumbotron className="text-center">
-          <h1><strong>{this.props.state.cacheEdit.topicEditCache.topicTitle}</strong></h1>
-          <p>{this.props.state.cacheEdit.topicEditCache.topicPremise}</p>
-
-          <FormLabel>Topic Title</FormLabel>
-          <FormControl onChange={this.handleTextChange}
-            name="topicTitle"
-            value={this.props.state.cacheEdit.topicEditCache.topicTitle} 
-            className="w-50"
-            style={{margin: '0 auto'}} />
-
-          <FormLabel>Topic Premise</FormLabel>
-          <FormControl onChange={this.handleTextChange}
-            name="topicPremise"
-            value={this.props.state.cacheEdit.topicEditCache.topicPremise}
-            as="textarea"
-            rows="3"
-            className="w-50"
-            style={{ margin: '0 auto' }} />
-
-        </Jumbotron>
-
+        <EditTitleContent 
+          editTitle={this.props.state.cacheEdit.topicEditCache.topicTitle}
+          editPremise={this.props.state.cacheEdit.topicEditCache.topicPremise}
+          handleTextChange={this.handleTextChange}
+          />
+        
         {/* CONTRIBUTORS SECTION */}
-        <Container>
-          <Row>
-            <Col>
-              <Card className="contributorCardLeft">
-                <Card.Body>
-                  <Image
-                    className="contributorPhotoLeft"
-                    src={this.props.state.cacheEdit.topicEditCache.photo1}
-                    thumbnail
-                    roundedCircle />
-                  <div className="contributorText">
-                    <h3 className="contributorName">
-                      {this.props.state.cacheEdit.topicEditCache.contributor1FirstName} {this.props.state.cacheEdit.topicEditCache.contributor1LastName}
-                    </h3>
-                    <p className="text-justify">
-                      {this.props.state.cacheEdit.topicEditCache.bio1}
-                    </p>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-             
-
-            <Col>
-              <Card className="contributorCardRight">
-                <Card.Body>
-                  <Image
-                    className="contributorPhotoRight"
-                    src={this.props.state.cacheEdit.topicEditCache.photo2}
-                    thumbnail
-                    roundedCircle />
-                  <div className="contributorText">
-                    <h3 className="contributorName">
-                      {this.props.state.cacheEdit.topicEditCache.contributor2FirstName} {this.props.state.cacheEdit.topicEditCache.contributor2LastName}
-                    </h3>
-                    <p className="text-justify">
-                      {this.props.state.cacheEdit.topicEditCache.bio2}
-                    </p>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-
-          </Row>
-          <Row>
-          {/* CONTRIBUTOR 1 */}
-            <Col>
-            <Card>
-              <Card.Body>
-                <FormLabel>Contributor 1 First Name</FormLabel>
-                <FormControl onChange={this.handleTextChange}
-                  name="contributor1FirstName"
-                  value={this.props.state.cacheEdit.topicEditCache.contributor1FirstName}
-                />
-                <FormLabel>Contributor 1 Last Name</FormLabel>
-                <FormControl onChange={this.handleTextChange}
-                  name="contributor1LastName"
-                  value={this.props.state.cacheEdit.topicEditCache.contributor1LastName}
-                />
-                <FormLabel>Contributor 1 Bio</FormLabel>
-                <FormControl onChange={this.handleTextChange}
-                  name="bio1"
-                  value={this.props.state.cacheEdit.topicEditCache.bio1}
-                    as="textarea"
-                    rows="3" />
-                  <img src={this.props.state.cacheEdit.topicEditCache.photo1} width="100" />
-                  <p>Upload Contributor 1 Photo</p>
-                  <ImageUpload 
-                    handleUploadContent={this.handleUploadContent}
-                    contributor='photo1' />
-              </Card.Body>
-            </Card>
-            </Col>
-          {/* CONTRIBUTOR 2 */}
-            <Col>
-              <Card>
-                <Card.Body>
-                  <FormLabel>Contributor 2 First Name</FormLabel>
-                  <FormControl onChange={this.handleTextChange}
-                    name="contributor2FirstName"
-                    value={this.props.state.cacheEdit.topicEditCache.contributor2FirstName}
-                  />
-                  <FormLabel>Contributor 2 Last Name</FormLabel>
-                  <FormControl onChange={this.handleTextChange}
-                    name="contributor2LastName"
-                    value={this.props.state.cacheEdit.topicEditCache.contributor2LastName}
-                  />
-                  <FormLabel>Contributor 2 Bio</FormLabel>
-                  <FormControl onChange={this.handleTextChange}
-                    name="bio2"
-                    value={this.props.state.cacheEdit.topicEditCache.bio2}
-                    as="textarea"
-                    rows="3" />
-                  <img src={this.props.state.cacheEdit.topicEditCache.photo2} width="100" />
-                  <p>Upload Contributor 2 Photo</p>
-                  <ImageUpload 
-                    handleUploadContent={this.handleUploadContent}
-                    contributor='photo2' />
-
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
+        <EditContributors
+          editPhoto1={this.props.state.cacheEdit.topicEditCache.photo1}
+          editContributor1FirstName={this.props.state.cacheEdit.topicEditCache.contributor1FirstName}
+          editContributor1LastName={this.props.state.cacheEdit.topicEditCache.contributor1LastName}
+          editContributor1Bio={this.props.state.cacheEdit.topicEditCache.bio1}
+          editPhoto2={this.props.state.cacheEdit.topicEditCache.photo2}
+          editContributor2FirstName={this.props.state.cacheEdit.topicEditCache.contributor2FirstName}
+          editContributor2LastName={this.props.state.cacheEdit.topicEditCache.contributor2LastName}
+          editContributor2Bio={this.props.state.cacheEdit.topicEditCache.bio2}
+          handleTextChange={this.handleTextChange}
+          />
 
         {/* COMMON GROUND */}
-        <div className="text-center">
-          <h2>Common Ground</h2>
-          Both particpants agree that:
-          <p>{this.props.state.cacheEdit.topicEditCache.topicCommonGround}</p>
-          <Card>
-            <Card.Body>
-              <FormLabel>Common Ground</FormLabel>
-              <FormControl onChange={this.handleTextChange}
-                name="topicCommonGround"
-                value={this.props.state.cacheEdit.topicEditCache.topicCommonGround}
-                as="textarea"
-                rows="3"
-                className="w-50" />
-            </Card.Body>
-          </Card>
-        </div>
+        <EditCommonGround 
+          editCommonGround={this.props.state.cacheEdit.topicEditCache.topicCommonGround}
+          handleTextChange={this.handleTextChange}
+          />
 
         {/* DISCUSSION ARENA */}
         <Container>
+
+          {/* Tabs to Select Contributor */}
           <Tabs
             defaultActiveKey='contributor1'
             id="contributorSelectTabs"
             onSelect={this.handleTabSelect}
             animation={false}
             style={{ paddingLeft: '1em' }}
-          >
+            >
 
             <Tab
               eventKey='contributor1'
@@ -504,49 +383,35 @@ class TopicEdit extends Component {
               title={secondPersonTab}></Tab>
           </Tabs>
 
-          {/* ARENA */}
           <Card className="border-top-0" style={{ backgroundColor: 'lightyellow', borderTopLeftRadius: '0' }}>
 
-          {/* Proposals */}
-            <Container>
+            {/* Proposals */}
+            <EditProposals 
+              tabNumber={tabNumber}
+              arenaPhotoClass={arenaPhotoClass}
+              arenaPicture={arenaPicture}
+              selectedContributor={selectedContributor}
+              arenaProposal={arenaProposal}
+              tabNumber={tabNumber}
+              handleTextChange={this.handleTextChange}
+              editProposal1={this.props.state.cacheEdit.topicEditCache.proposal1}
+              editProposal2={this.props.state.cacheEdit.topicEditCache.proposal2}
+            />
+
+          <hr className="arenaDivider" />
+
+          <EditKeyClaims
+              allKeyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
+              contributorSelect={this.state.contributorSelect}
+              selectedContributor={selectedContributor}
+              streamContainerClass={streamContainerClass} />
+            {/* <Container>
               <Row>
-                <Card className="border-0" style={{ backgroundColor: 'inherit' }}>
-                  <Card.Body>
-                    <Image
-                      className={arenaPhotoClass}
-                      src={arenaPicture}
-                      thumbnail
-                      roundedCircle />
-                    <div className="arenaProposal">
-                      <h3>{selectedContributor}'s Proposal: </h3>
-                      <p className="mb-0">{arenaProposal}</p>
-
-                      <FormLabel>{selectedContributor}'s Proposal Summary</FormLabel>
-                      <FormControl onChange={this.handleTextChange}
-                        name={tabNumber === 1 ? "proposal1" : "proposal2"}
-                        value={tabNumber === 1 ? this.props.state.cacheEdit.topicEditCache.proposal1 : this.props.state.cacheEdit.topicEditCache.proposal2 }
-                        as="textarea"
-                        style={{backgroundColor: '#fff3cd'}}
-                        rows="3" />
-
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Row>
-            </Container>
-
-            <hr className="arenaDivider" />
-
-            <Container>
-              <Row>
-
-                {/* Key Claim Panel */}
                 <Col xs={4} style={{}}>
                   <h4 className="text-center">{selectedContributor}'s Key Claims</h4>
                   <div className="keyClaimsContainer">
                     <SimpleBar style={{ height: '100%' }}>
                       {keyClaimsArray}
-                      {/* {keyClaimForms} */}
                       <Button bsStyle="primary" onClick={this.addKeyClaim}>Add Key Claim</Button>
                     </SimpleBar>
                   </div>
@@ -572,7 +437,7 @@ class TopicEdit extends Component {
                   </div>
                 </Col>
               </Row>
-            </Container>
+            </Container> */}
 
 
           </Card>
