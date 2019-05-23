@@ -7,15 +7,14 @@ import { Container, Row, Col, Button, Card, Image, FormLabel, FormControl } from
 
 import KeyClaimForm from './KeyClaimForm.jsx';
 import KeyClaimPanel from '../../TopicPage/KeyClaimPanel';
-import StreamItemFactory from '../../TopicPage/StreamItemFactory';
-import StreamItemEditFactory from './StreamItemEditFactory';
+import EditStream from './EditStream.jsx';
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
 class EditKeyClaims extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       // submitAlert: false,
@@ -26,9 +25,14 @@ class EditKeyClaims extends Component {
       // edit: false,
       showStreamForClaim: undefined,
       keyClaimLocked: false,
-      // contributorSelect: 'contributor1',
+      contributorSelect: this.props.contributorSelect,
       // editTitle: false  // is this used?
     }
+
+  }
+  
+  componentWillUpdate() {
+    // keyClaimsArray = [];
   }
 
   handleHoverShowStream = (id) => {
@@ -52,6 +56,7 @@ class EditKeyClaims extends Component {
       showStreamForClaim: id,
       keyClaimLocked: !this.state.keyClaimLocked
     })
+    console.log("[EditKeyClaims.jsx] showStreamForClaim: ", this.state.showStreamForClaim);
   }
 
   // CHANGE_KEY_CLAIM_INFO => [atticusReducer] topicEditCache => updates Key Claim for given ID
@@ -65,14 +70,18 @@ class EditKeyClaims extends Component {
 
   render() {
 
+    console.log("AAAAA: ", this.props.allKeyClaims);
     let keyClaimsArray = [];
+    console.log("Contributor: ", this.props.contributorSelect);
+    console.log("array: ", keyClaimsArray);
 
     for (const keyClaimId in this.props.allKeyClaims) {
+
     // Select claims for only for given contributor
       if (this.props.contributorSelect === this.props.allKeyClaims[keyClaimId].claimContributor) {
         keyClaimsArray.push(
           <KeyClaimPanel
-            key={keyClaimId}
+            key={"claim"+ keyClaimId}
             keyClaimId={keyClaimId}
             keyClaim={this.props.allKeyClaims[keyClaimId]}
             showStreamForClaim={this.state.showStreamForClaim}
@@ -80,16 +89,13 @@ class EditKeyClaims extends Component {
             handleHoverShowStream={this.handleHoverShowStream}
             handleHoverHideStream={this.handleHoverHideStream}
             toggleClickShowStream={this.toggleClickShowStream}
-          />, 
-          <KeyClaimForm
+          />,<KeyClaimForm
             edit={this.state.edit}
-            key={keyClaimId}
+            key={"edit"+ keyClaimId}
             claimId={keyClaimId}
-            // keyClaimIdObject={this.props.state.cacheEdit.topicEditCache.keyClaims}
             handleKeyClaimChange={this.handleKeyClaimChange}
-            // handleStreamChange={this.handleStreamChange}
             deleteKeyClaim={this.deleteKeyClaim} />
-    );
+        );
     }
     }
 
@@ -108,6 +114,11 @@ class EditKeyClaims extends Component {
               </SimpleBar>
             </div>
           </Col>
+          <EditStream
+            streamContainerClass={this.props.streamContainerClass}
+            keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
+            showStreamForClaim={this.state.showStreamForClaim}
+            handleStreamChange={this.props.handleStreamChange} />
           {/* <Col xs={8} className="pl-0">
             <h4 className="text-center">Discussion Thread</h4>
             <div className={this.props.streamContainerClass}>
@@ -146,7 +157,9 @@ class EditKeyClaims extends Component {
 const mapStateToProps = (state) => ({
   user: state.user,
   // keyClaims: state.cacheEdit.topicEditCache.keyClaims,
+  // contributorSelect: state.contributorSelect,
   state,
+
 })
 
 export default connect(mapStateToProps)(EditKeyClaims);

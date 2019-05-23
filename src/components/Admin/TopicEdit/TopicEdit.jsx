@@ -6,12 +6,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import ImageUpload from '../../Images/Images.jsx'
-import KeyClaimForm from './KeyClaimForm.jsx'
-import KeyClaimPanel from '../../TopicPage/KeyClaimPanel'
-import StreamItemFactory from '../../TopicPage/StreamItemFactory'
-import StreamItemEditFactory from './StreamItemEditFactory'
+
 import SubmitAlert from './SubmitAlert.jsx'
-import StreamItemForm from './StreamItemForm.jsx'
+
 
 import EditTitleContent from './EditTitleContent.jsx';
 import EditContributors from './EditContributors.jsx';
@@ -20,7 +17,6 @@ import EditProposals from './EditProposals.jsx';
 import EditKeyClaims from './EditKeyClaims.jsx';
 
 import { Redirect } from 'react-router';
-
 
 import { Card, Jumbotron, Button, Container, Row, Col, FormLabel, FormControl, Image, Tabs, Tab, Alert } from 'react-bootstrap';
 import './TopicEdit.css'
@@ -102,15 +98,6 @@ class TopicEdit extends Component {
     })
   }
 
-  // // CHANGE_KEY_CLAIM_INFO => [atticusReducer] topicEditCache => updates Key Claim for given ID
-  // // ID = claimID
-  // handleKeyClaimChange = (event) => {
-  //   this.props.dispatch({
-  //     type: 'CHANGE_KEY_CLAIM_INFO',
-  //     payload: event.target
-  //   })
-  // }
-
   handleStreamChange = (event, claimId, streamId) => {
     let payloadPackage = {
       claimId: claimId,
@@ -165,49 +152,6 @@ class TopicEdit extends Component {
     })
   }
 
-  //When mouse hovers over a key claim, show the associated stream in the chatbox
-  // handleHoverShowStream = (id) => {
-  //   if (this.state.keyClaimLocked === false) {
-  //     this.setState({
-  //       showStreamForClaim: id
-  //     })
-  //   }
-  // }
-
-  //When mouse hover ends, hide associated stream in chatbox
-  // handleHoverHideStream = (id) => {
-  //   if (this.state.keyClaimLocked === false) {
-  //     this.setState({
-  //       showStreamForClaim: undefined
-  //     })
-  //   }
-  // }
-
-  //When a key claim is clicked, "lock" it as active and populate the chatbox with the stream
-  // toggleClickShowStream = (id) => {
-  //   this.setState({
-  //     showStreamForClaim: id,
-  //     keyClaimLocked: !this.state.keyClaimLocked
-  //   })
-  // }
-
-  //ADDING A NEW KEY CLAIM OBJECT TO THE EDITTOPICCACHE
-  addKeyClaim = () => {
-    const claimAddId = Object.keys(this.props.keyClaims).length; //REDUX, entire keyclaim object
-    if (debug) { console.log(claimAddId); }
-    this.props.dispatch({
-      type: 'ADD_KEY_CLAIM',
-      payload: claimAddId
-    })
-  }
-
-  deleteKeyClaim = (id) => {
-    this.props.dispatch({
-      type: 'DELETE_KEY_CLAIM',
-      payload: id
-    })
-  }
-
   handleDismiss = () => {
     if (debug) { console.log('in handledismiss'); }
 
@@ -216,82 +160,9 @@ class TopicEdit extends Component {
       fireRedirect: true  
     })
   }
-  // handleUploadContent = (fileUploded, contributor) => {
-  //   let fileUrl = fileUploded.url;
-  //   console.log('file uploaded url:', fileUrl, "contributor", contributor);
-  //   let pictureUploadPackage = {
-  //     value: fileUrl, //<-- action.payload.value
-  //     name: contributor //<-- action.payload.name is contributor1 or contributor2 
-  //   }
-  //   this.props.dispatch({
-  //     type: 'CHANGE_TOPIC_INFO',
-  //     payload: pictureUploadPackage
-  //   })
-  // }
-
 
   render() {
-    
-    let keyClaimIdObject = this.props.state.cacheEdit.topicEditCache.keyClaims;
-    
-    // <KeyClaimForm> components are input textareas for editing a given Key Claim
-    // let keyClaimForms = []
-    // for (const keyClaim in keyClaimIdObject) {
-    //   if (keyClaimIdObject[keyClaim].claimContributor === this.state.contributorSelect){
-    //     keyClaimForms.push(
-    //       <KeyClaimForm 
-    //         edit={this.state.edit}
-    //         key={keyClaim}
-    //         claimId={keyClaim}  //LOCAL, count to populate the view 
-    //         keyClaimIdObject={this.props.state.cacheEdit.topicEditCache.keyClaims} ////REDUX, everything in keyclaims
-    //         handleKeyClaimChange={this.handleKeyClaimChange}
-    //         handleStreamChange={this.handleStreamChange}
-    //         deleteKeyClaim={this.deleteKeyClaim} />
-    //         );
-    //     }
-    // }
-
-    // <KeyClaimPanel> components are the actual output panel for a given key claim
-    // let keyClaimsArray = [];
-    // for (const keyClaimId in this.props.state.cacheEdit.topicEditCache.keyClaims) {
-    //   // Select claims for only for given contributor
-    //   if (this.state.contributorSelect === this.props.state.cacheEdit.topicEditCache.keyClaims[keyClaimId].claimContributor) {
-    //     keyClaimsArray.push(
-    //       <KeyClaimPanel
-    //         key={keyClaimId}
-    //         keyClaimId={keyClaimId}
-    //         keyClaim={this.props.state.cacheEdit.topicEditCache.keyClaims[keyClaimId]}
-    //         showStreamForClaim={this.state.showStreamForClaim}
-    //         keyClaimLocked={this.state.keyClaimLocked}
-    //         handleHoverShowStream={this.handleHoverShowStream}
-    //         handleHoverHideStream={this.handleHoverHideStream}
-    //         toggleClickShowStream={this.toggleClickShowStream}
-    //       />, <KeyClaimForm
-    //         edit={this.state.edit}
-    //         key={keyClaimId}
-    //         claimId={keyClaimId}
-    //         keyClaimIdObject={this.props.state.cacheEdit.topicEditCache.keyClaims}
-    //         handleKeyClaimChange={this.handleKeyClaimChange}
-    //         // handleStreamChange={this.handleStreamChange}
-    //         deleteKeyClaim={this.deleteKeyClaim} />
-    //     );
-    //   }
-    // }
     let claimId = this.props.claimId; 
-
-    // let streamDataObject = this.props.keyClaimIdObject[claimId].streamData;
-    // let streamItemForms = []
-    // for (const streamItem in streamDataObject) {
-    //   streamItemForms.push(
-    //     <StreamItemForm key={streamItem}
-    //       claimId={this.props.claimId}
-    //       streamId={streamItem}
-    //       keyClaims={this.props.keyClaims}
-    //       handleKeyClaimChange={this.handleKeyClaimChange}
-    //       handleStreamChange={this.props.handleStreamChange} />
-    //   )
-    // }    
-
 
     const { from } = this.props.location.state || '/'
     const { fireRedirect } = this.state
@@ -400,45 +271,13 @@ class TopicEdit extends Component {
 
           <hr className="arenaDivider" />
 
+        {/* <EditKeyClaims> contains <EditStream> subcomponent */}
           <EditKeyClaims
               allKeyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
               contributorSelect={this.state.contributorSelect}
               selectedContributor={selectedContributor}
-              streamContainerClass={streamContainerClass} />
-            {/* <Container>
-              <Row>
-                <Col xs={4} style={{}}>
-                  <h4 className="text-center">{selectedContributor}'s Key Claims</h4>
-                  <div className="keyClaimsContainer">
-                    <SimpleBar style={{ height: '100%' }}>
-                      {keyClaimsArray}
-                      <Button bsStyle="primary" onClick={this.addKeyClaim}>Add Key Claim</Button>
-                    </SimpleBar>
-                  </div>
-                </Col>
-                <Col xs={8} className="pl-0">
-                  <h4 className="text-center">Discussion Thread</h4>
-                  <div className={streamContainerClass}>
-                    <SimpleBar style={{ height: '100%' }}>
-
-                      <Image className="arenaMini1" src={this.props.state.cacheEdit.topicEditCache.photo1} thumbnail roundedCircle />
-                      <Image className="arenaMini2" src={this.props.state.cacheEdit.topicEditCache.photo2} thumbnail roundedCircle />
-
-                      <StreamItemFactory
-                        keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
-                        showStreamForClaim={this.state.showStreamForClaim} />
-                      <StreamItemEditFactory
-                        keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
-                        showStreamForClaim={this.state.showStreamForClaim}
-                        handleStreamChange={this.handleStreamChange}  />
-
-
-                    </SimpleBar>
-                  </div>
-                </Col>
-              </Row>
-            </Container> */}
-
+              streamContainerClass={streamContainerClass}
+              handleStreamChange={this.handleStreamChange} />
 
           </Card>
  
@@ -511,7 +350,7 @@ class TopicEdit extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  keyClaims: state.cacheEdit.topicEditCache.keyClaims,
+  // keyClaims: state.cacheEdit.topicEditCache.keyClaims,
   state,
 })
 

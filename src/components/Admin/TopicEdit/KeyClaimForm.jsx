@@ -104,7 +104,8 @@ class KeyClaimForm extends Component {
                             id={this.props.claimId}
                             name="keyClaim" 
                             value={this.props.keyClaims[this.props.claimId].keyClaim} 
-                            as="textarea" />
+                            as="textarea"
+                            rows="5" />
 
 {/* Variable holding .map of <StreamItemForm>  */}
             {/* {streamItemForms} */}
