@@ -15,7 +15,6 @@ import TopicPage from './components/TopicPage/TopicPage.jsx'
 import TopicManage from './components/Admin/TopicManage/TopicManage.jsx'
 import TopicEdit from './components/Admin/TopicEdit/TopicEdit.jsx';
 // import CommentManage from './components/Admin/CommentManage/CommentManage.jsx';
-import Images from './components/Images/Images.jsx';
 import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import LandingEdit from './components/Admin/LandingEdit/LandingEdit';
@@ -52,11 +51,6 @@ const App = () => (
             path="/topicEdit/:id?"  //<-- optional route param is id of topic to populate edit
             component={TopicEdit}
           />
-          <Route
-            path="/Images"
-            component={Images}
-          />
-
 
           <Route
             path="/login"

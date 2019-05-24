@@ -4,24 +4,18 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
-import ImageUpload from '../../Images/Images.jsx'
-
-import SubmitAlert from './SubmitAlert.jsx'
-
+import { Redirect } from 'react-router';
 
 import EditTitleContent from './EditTitleContent.jsx';
 import EditContributors from './EditContributors.jsx';
 import EditCommonGround from './EditCommonGround.jsx';
 import EditProposals from './EditProposals.jsx';
 import EditKeyClaims from './EditKeyClaims.jsx';
+import ImageUpload from './ImageUpload.jsx';
+import SubmitAlert from './SubmitAlert.jsx'
 
-import { Redirect } from 'react-router';
-
-import { Card, Jumbotron, Button, Container, Row, Col, FormLabel, FormControl, Image, Tabs, Tab, Alert } from 'react-bootstrap';
+import { Card, Button, Container, FormLabel, FormControl, Tabs, Tab, Alert } from 'react-bootstrap';
 import './TopicEdit.css'
-
-let debug = false;
 
 class TopicEdit extends Component {
   constructor(props) {
@@ -78,7 +72,6 @@ class TopicEdit extends Component {
       this.setState({
         edit: true,
       })
-      // this.fetchEditCache();
     } else {
       this.props.dispatch({
         type: 'RESET_EDIT_CACHE',
@@ -87,7 +80,6 @@ class TopicEdit extends Component {
       this.setState({
         edit: false,
       })
-      // this.fetchEditCache();
     }
   }
 
@@ -98,23 +90,10 @@ class TopicEdit extends Component {
     })
   }
 
-  handleStreamChange = (event, claimId, streamId) => {
-    let payloadPackage = {
-      claimId: claimId,
-      streamId: streamId,
-      eventTarget: event.target
-    }
-    this.props.dispatch({
-      type: 'CHANGE_STREAM_ITEM_INFO',
-      payload: payloadPackage
-    })
-  }
-
   //Send local state object to Redux
   handleSubmit = (event) => {
     event.preventDefault();
-    if (debug) { console.log('form submit clicked, contents:', this.state); }
-
+    
     let editTopicId = this.props.match.params.id;
 
     if (editTopicId) {
@@ -133,11 +112,12 @@ class TopicEdit extends Component {
       this.setState({
         submitAlert: true,
         fireRedirect: true
-        
       })
     }
   }
 
+  // Update display when a form is edited
+  // Used by all "top-level" edit-related subcomponents (i.e. everything except key claims & stream items)
   handleTextChange = (event) => {    
     // CHANGE_TOPIC_INFO => [atticusTopicReducer.js] topicEditCache => return ...state, action.payload name & value
     this.props.dispatch({
@@ -146,6 +126,7 @@ class TopicEdit extends Component {
     })
   }
 
+  // Update which contributor is shown in the Arena when user clicks a given tab
   handleTabSelect = (key) => {
     this.setState({
       contributorSelect: key
@@ -153,8 +134,6 @@ class TopicEdit extends Component {
   }
 
   handleDismiss = () => {
-    if (debug) { console.log('in handledismiss'); }
-
     this.setState({
       submitAlert: false,
       fireRedirect: true  
@@ -162,12 +141,13 @@ class TopicEdit extends Component {
   }
 
   render() {
-    let claimId = this.props.claimId; 
 
+    // For redirect when user submits changes
     const { from } = this.props.location.state || '/'
     const { fireRedirect } = this.state
     
-    //CHANGING ARENA CONTENT BASED ON SELECTED CONTRIBUTOR
+    // Setup Discussion Arena based on which contributor is selected
+    // [There's probably a cleaner way to do all of this]
     let arenaContainer = 'arenaContainer';
     let streamContainerClass = "streamItemsContainer";
     let arenaSummaryClass = 'arenaSummary';
@@ -202,7 +182,6 @@ class TopicEdit extends Component {
 
     const firstPersonTab = this.props.state.cacheEdit.topicEditCache.contributor1FirstName + "'s Viewpoint";
     const secondPersonTab = this.props.state.cacheEdit.topicEditCache.contributor2FirstName + "'s Viewpoint";
-
 
     return (
       <div id="topicEditMaster">
@@ -272,18 +251,16 @@ class TopicEdit extends Component {
           <hr className="arenaDivider" />
 
         {/* <EditKeyClaims> contains <EditStream> subcomponent */}
-          <EditKeyClaims
-              allKeyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
-              contributorSelect={this.state.contributorSelect}
-              selectedContributor={selectedContributor}
-              streamContainerClass={streamContainerClass}
-              handleStreamChange={this.handleStreamChange} />
+            <EditKeyClaims
+                allKeyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
+                contributorSelect={this.state.contributorSelect}
+                selectedContributor={selectedContributor}
+                streamContainerClass={streamContainerClass} />
 
           </Card>
  
 
         <div className="wrapper">
-
 
           <h1>Topic Edit</h1>
           <form action="" onSubmit={this.handleSubmit}>
@@ -296,16 +273,13 @@ class TopicEdit extends Component {
 
             <Card>
               <Card.Body>
-               
-                
                 <p>Upload Archive Icon</p>
                 <br/>
-                <ImageUpload handleUploadContent={this.handleUploadContent}
-                  contributor='topicReadMore'  //<-- topicReadMore is icon_url through full stack
-                              />
+                <ImageUpload 
+                  contributor='topicReadMore'  //<-- why this name?
+                  />
               </Card.Body>
             </Card>
-
 
             <Card>
               <Card.Body>
@@ -316,41 +290,22 @@ class TopicEdit extends Component {
                   componentClass="textarea" />
               </Card.Body>
             </Card>
-
-           
-
-            {/* Mapped array of number of key claims in this.props.state.keyClaims */}
-              <h2>Stream</h2>
-              {/* {streamItemForms} */}
-              {/* <StreamItemFactory
-                keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
-                showStreamForClaim={this.state.showStreamForClaim} /> */}
-
-
-            {/* Conditionally render a success/failure message based on result of submit */}
-            <div>
-              {this.state.submitAlert &&
-                <SubmitAlert handleDismiss={this.handleDismiss} />
-              }
-            </div>
-          
-              <Button type="submit" bsStyle="primary">Submit!</Button>
             
           </form>
-              {fireRedirect && (
-              <Redirect to={from || '/admin'}/>)}
+
+          {fireRedirect && (
+          <Redirect to={from || '/admin'}/>)}
         </div>
 
 
-      </Container>
+        </Container>
       </div>
-    )
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  // keyClaims: state.cacheEdit.topicEditCache.keyClaims,
   state,
 })
 

@@ -3,16 +3,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Container, Row, Col, Button, Card, Image, FormLabel, FormControl } from 'react-bootstrap';
-
-import KeyClaimForm from './KeyClaimForm.jsx';
-import KeyClaimPanel from '../../TopicPage/KeyClaimPanel';
-import StreamItemFactory from '../../TopicPage/StreamItemFactory';
-import StreamItemEditFactory from './StreamItemEditFactory';
+import { Container, Row, Col, Image } from 'react-bootstrap';
 
 import StreamItem from '../../TopicPage/StreamItem.jsx';
 import StreamItemEdit from './StreamItemEdit';
-
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
@@ -28,24 +22,30 @@ class EditStream extends Component {
 
   render() {
 
-    let streamItemArray = []
-    console.log("MMMMM", this.props.keyClaims);
-    //the goal of these nested for loops is to create the correct number of streamItems for each keyClaim 
-    //And show/hide based on this.props.showStreamForClaim
-    let keyClaimIdArray = Object.keys(this.props.keyClaims) //<-- find out how many key claims there are
+    let streamItemArray = [];
+    let keyClaimIdArray = Object.keys(this.props.keyClaims); //How many Key Claims there are
 
+    // Loop through all Key Claims. 
     for (let i = 0; i < keyClaimIdArray.length; i++) {
-      let keyClaimId = i   //Each keyClaim gets an Id
+      let keyClaimId = i;
+
+      // 'showStreamForClaim' holds the ID for the selected Key Claim
+      // The state is set in <EditKeyClaims>, and updates based on mouse hover or click on a given Key Claim
+
+      // Check if Key Claim ID matches the ID that we want to show the stream for
       if (Number(this.props.showStreamForClaim) === keyClaimId) {
-        let streamItemObject = this.props.keyClaims[i].streamData  //Pick out full streamItems object for each keyClaim
-        // console.log('keyClaimId:', keyClaimId, 'streamItemObject', streamItemObject, 'this.props.showStreamForClaim:', this.props.showStreamForClaim);
-        for (const streamItemId in streamItemObject) { //Loop through each streamItem object and create correct number of StreamItemPanels
+        let streamItemObject = this.props.keyClaims[i].streamData;
+
+        // Now, loop through the stream and display for each item within it
+        for (const streamItemId in streamItemObject) {
           streamItemArray.push(
+            // Output Display Panel
             <StreamItem key={"streamDisplay" + streamItemId}
               keyClaimId={keyClaimId}
               streamItemId={streamItemId}
               streamItem={streamItemObject[streamItemId]}
               showStreamForClaim={this.props.showStreamForClaim} />,
+            // Input Edit Form
             <StreamItemEdit key={"streamEdit" + streamItemId}
               keyClaimId={keyClaimId}
               claimId={keyClaimId}
@@ -53,9 +53,8 @@ class EditStream extends Component {
               streamId={streamItemId}
               streamItem={streamItemObject[streamItemId]}
               showStreamForClaim={this.props.showStreamForClaim}
-              handleStreamChange={this.props.handleStreamChange} />
-
-          )
+              />
+          );
         }
       }
     }
@@ -71,11 +70,8 @@ class EditStream extends Component {
                 <Image className="arenaMini2" src={this.props.state.cacheEdit.topicEditCache.photo2} thumbnail roundedCircle />
 
                 <div>
-
                   {streamItemArray}
-
                 </div>
-
 
               </SimpleBar>
             </div>

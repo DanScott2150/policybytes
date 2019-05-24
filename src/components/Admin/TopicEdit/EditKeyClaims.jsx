@@ -1,13 +1,21 @@
-// Subcomponent for editing Key Claims
+// Subcomponent to generate Key Claim Edit Panel
+
+// Contains Key Claim & Stream Items subcomponents
+//    <EditKeyClaims> [this file]
+//      --> <KeyClaimPanel> [display output]
+//      --> <KeyClaimForm>  [edit input form for KeyClaims]
+//      --> <EditStreamFactory> [Populates arena with stream for a selected KeyClaim]
+//          --> <StreamItem>  [display output]
+//          --> <StreamItemEdit> [edit input form for Stream Items]
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Container, Row, Col, Button, Card, Image, FormLabel, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 
 import KeyClaimForm from './KeyClaimForm.jsx';
 import KeyClaimPanel from '../../TopicPage/KeyClaimPanel';
-import EditStream from './EditStream.jsx';
+import EditStreamFactory from './EditStreamFactory.jsx';
 
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
@@ -31,9 +39,9 @@ class EditKeyClaims extends Component {
 
   }
   
-  componentWillUpdate() {
-    // keyClaimsArray = [];
-  }
+  // componentWillUpdate() {
+  //   // keyClaimsArray = [];
+  // }
 
   handleHoverShowStream = (id) => {
     if (this.state.keyClaimLocked === false) {
@@ -70,11 +78,7 @@ class EditKeyClaims extends Component {
 
   render() {
 
-    console.log("AAAAA: ", this.props.allKeyClaims);
     let keyClaimsArray = [];
-    console.log("Contributor: ", this.props.contributorSelect);
-    console.log("array: ", keyClaimsArray);
-
     for (const keyClaimId in this.props.allKeyClaims) {
 
     // Select claims for only for given contributor
@@ -96,7 +100,7 @@ class EditKeyClaims extends Component {
             handleKeyClaimChange={this.handleKeyClaimChange}
             deleteKeyClaim={this.deleteKeyClaim} />
         );
-    }
+      }
     }
 
     return (
@@ -114,39 +118,12 @@ class EditKeyClaims extends Component {
               </SimpleBar>
             </div>
           </Col>
-          <EditStream
+          <EditStreamFactory
             streamContainerClass={this.props.streamContainerClass}
             keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
-            showStreamForClaim={this.state.showStreamForClaim}
-            handleStreamChange={this.props.handleStreamChange} />
-          {/* <Col xs={8} className="pl-0">
-            <h4 className="text-center">Discussion Thread</h4>
-            <div className={this.props.streamContainerClass}>
-              <SimpleBar style={{ height: '100%' }}>
+            showStreamForClaim={this.state.showStreamForClaim} 
+            />
 
-                <Image 
-                  className="arenaMini1" 
-                  src={this.props.state.cacheEdit.topicEditCache.photo1} 
-                  thumbnail 
-                  roundedCircle />
-                <Image 
-                  className="arenaMini2" 
-                  src={this.props.state.cacheEdit.topicEditCache.photo2} 
-                  thumbnail 
-                  roundedCircle />
-
-                <StreamItemFactory
-                  keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
-                  showStreamForClaim={this.state.showStreamForClaim} />
-                <StreamItemEditFactory
-                  keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}
-                  showStreamForClaim={this.state.showStreamForClaim}
-                  handleStreamChange={this.handleStreamChange} />
-
-
-              </SimpleBar>
-            </div>
-          </Col> */}
         </Row>
       </Container>
 
