@@ -53,7 +53,7 @@ class TopNav extends Component {
             </NavDropdown>
             <Nav.Link href="#">Contact Us</Nav.Link>    
           </Nav>
-          <Nav inline>
+          <Nav inline="true">
             <Button variant="outline-success">Login</Button>
           </Nav>
         </Navbar.Collapse>

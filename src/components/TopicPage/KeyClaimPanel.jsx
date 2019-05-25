@@ -75,7 +75,7 @@ export class KeyClaimPanel extends Component {
           className={keyClaimClass}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          expanded={this.state.open}>
+          expanded={this.state.open.toString()}>
 
           <Card.Body onClick={this.toggleLockKeyClaim}>
             <p className="mb-0">{this.props.keyClaim.keyClaim}</p>

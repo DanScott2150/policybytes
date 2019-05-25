@@ -41,7 +41,7 @@ class LandingPageArchive extends Component {
     // Populate array of all Archived Topics
     let archiveArray = this.props.state.landing.archivedTopics.map((archivedTopic) => {
       return (
-        <Col xs={12} sm={6} md={4} lg={4}>
+        <Col xs={12} sm={6} md={4} lg={4} key={archivedTopic.id}>
           <div onClick={() => this.fetchTopicPageContent(archivedTopic.id)}>
             <Card className="archivePanel">
               <Card.Header>{archivedTopic.topic_title}</Card.Header>

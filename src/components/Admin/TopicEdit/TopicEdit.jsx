@@ -148,34 +148,34 @@ class TopicEdit extends Component {
     
     // Setup Discussion Arena based on which contributor is selected
     // [There's probably a cleaner way to do all of this]
-    let arenaContainer = 'arenaContainer';
+    // let arenaContainer = 'arenaContainer';
     let streamContainerClass = "streamItemsContainer";
-    let arenaSummaryClass = 'arenaSummary';
+    // let arenaSummaryClass = 'arenaSummary';
     let arenaPhotoClass = 'arenaPhotoContrib1'
     let arenaPicture = this.props.state.cacheEdit.topicEditCache.photo1;
+    // let arenaProposalId = this.props.state.cacheEdit.topicEditCache.proposal1DbId;
     let arenaProposal = this.props.state.cacheEdit.topicEditCache.proposal1;
-    let arenaProposalId = this.props.state.cacheEdit.topicEditCache.proposal1DbId;
     let selectedContributor = this.props.state.cacheEdit.topicEditCache.contributor1FirstName;
     let tabNumber = 1;
     if (this.state.contributorSelect === 'contributor1') {
-      arenaContainer = "arenaContainerContrib1"
+      // arenaContainer = "arenaContainerContrib1"
       streamContainerClass += " contrib1"
-      arenaSummaryClass += " contrib1"
+      // arenaSummaryClass += " contrib1"
       arenaPhotoClass = 'arenaPhotoContrib1'
       arenaPicture = this.props.state.cacheEdit.topicEditCache.photo1
       arenaProposal = this.props.state.cacheEdit.topicEditCache.proposal1;
-      arenaProposalId = this.props.state.cacheEdit.topicEditCache.proposal1DbId;
+      // arenaProposalId = this.props.state.cacheEdit.topicEditCache.proposal1DbId;
       selectedContributor = this.props.state.cacheEdit.topicEditCache.contributor1FirstName;
       tabNumber = 1;
     }
     if (this.state.contributorSelect === 'contributor2') {
-      arenaContainer += " contrib2"
+      // arenaContainer += " contrib2"
       streamContainerClass += " contrib2"
-      arenaSummaryClass += " contrib2"
+      // arenaSummaryClass += " contrib2"
       arenaPhotoClass = 'arenaPhotoContrib2'
       arenaPicture = this.props.state.cacheEdit.topicEditCache.photo2
       arenaProposal = this.props.state.cacheEdit.topicEditCache.proposal2;
-      arenaProposalId = this.props.state.cacheEdit.topicEditCache.proposal2DbId;
+      // arenaProposalId = this.props.state.cacheEdit.topicEditCache.proposal2DbId;
       selectedContributor = this.props.state.cacheEdit.topicEditCache.contributor2FirstName
       tabNumber = 2;
     }
@@ -242,7 +242,6 @@ class TopicEdit extends Component {
               arenaPicture={arenaPicture}
               selectedContributor={selectedContributor}
               arenaProposal={arenaProposal}
-              tabNumber={tabNumber}
               handleTextChange={this.handleTextChange}
               editProposal1={this.props.state.cacheEdit.topicEditCache.proposal1}
               editProposal2={this.props.state.cacheEdit.topicEditCache.proposal2}
@@ -287,7 +286,8 @@ class TopicEdit extends Component {
                 <FormControl onChange={this.handleTextChange}
                   name="topicSummary"
                   value={this.props.state.cacheEdit.topicEditCache.topicSummary}  //<-- VALUE COMES FROM REDUX STATE 
-                  componentClass="textarea" />
+                  as="textarea"
+                  rows="3" />
               </Card.Body>
             </Card>
             

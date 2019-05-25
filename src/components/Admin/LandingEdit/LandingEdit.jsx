@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import Footer from '../../Footer/Footer.jsx'
+import { Button } from 'react-bootstrap';
 
-import { Tab, Tabs, Button, ButtonGroup, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
-
-import { Redirect } from 'react-router';
-
-let debug = false;
+// import { Redirect } from 'react-router';
 
 class LandingEdit extends Component {
     constructor(props) {

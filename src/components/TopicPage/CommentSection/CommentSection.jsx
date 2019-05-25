@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { USER_ACTIONS } from '../../../redux/actions/userActions';
+// import { USER_ACTIONS } from '../../../redux/actions/userActions';
 import CommentAdd from './CommentAdd.jsx';
 import CommentSectionItem from './CommentSectionItem.jsx';
 import FacebookLogin from '../../FacebookLogin/FacebookLogin.jsx';
@@ -13,10 +13,10 @@ import './CommentSection.css'
 
 class CommentSection extends Component {
 
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
 
-    }
+    // }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.topicPageContent !== this.props.topicPageContent) {

@@ -114,7 +114,7 @@ class EditKeyClaims extends Component {
               <SimpleBar style={{ height: '100%' }}>
                 {keyClaimsArray}
                 {/* {keyClaimForms} */}
-                <Button bsStyle="primary" onClick={this.addKeyClaim}>Add Key Claim</Button>
+                <Button variant="primary" onClick={this.addKeyClaim}>Add Key Claim</Button>
               </SimpleBar>
             </div>
           </Col>

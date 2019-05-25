@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { USER_ACTIONS } from '../../../redux/actions/userActions';
+// import { USER_ACTIONS } from '../../../redux/actions/userActions';
 import CommentAdd from './CommentAdd.jsx';
-import FacebookLogin from '../../FacebookLogin/FacebookLogin.jsx';
+// import FacebookLogin from '../../FacebookLogin/FacebookLogin.jsx';
 
-import { Card, Button, ButtonGroup, Image, Badge } from 'react-bootstrap';
+import { Button, ButtonGroup, Image } from 'react-bootstrap';
 
 import './CommentSection.css'
 
@@ -93,7 +93,7 @@ class CommentSectionItem extends Component {
 
         //set background of reply based on contributor number
         let referenceTextCommentClass = ''; 
-        let contributorDeclaration = ''; 
+        // let contributorDeclaration = ''; 
         if (this.props.comment.keyclaim_contributor_id %2 !== 0 || this.props.comment.proposal_contributor_id %2 !== 0 || this.props.comment.stream_contributor_id %2 !== 0) {
             referenceTextCommentClass = 'referenceTextCommentContainerContrib1'
         } else {

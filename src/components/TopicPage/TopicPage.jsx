@@ -157,28 +157,32 @@ class TopicPage extends Component {
 
     //CHANGING ARENA CONTENT BASED ON SELECTED CONTRIBUTOR
     // (can probably be refactored to something cleaner)
-    let arenaContainer = 'arenaContainer';
+
+    // let arenaContainer = 'arenaContainer';
+    // let arenaSummaryClass = 'arenaSummary';
+
     let streamContainerClass = "streamItemsContainer";
-    let arenaSummaryClass = 'arenaSummary';
     let arenaPhotoClass = 'arenaPhotoContrib1'
     let arenaPicture = this.props.topicPageContent.photo1; 
     let arenaProposal = this.props.topicPageContent.proposal1;
     let arenaProposalId = this.props.topicPageContent.proposal1DbId;
     let selectedContributor = this.props.topicPageContent.contributor1FirstName;
+
     if (this.state.contributorSelect === 'contributor1') {
-      arenaContainer = "arenaContainerContrib1"
+      // arenaContainer = "arenaContainerContrib1"
+      // arenaSummaryClass += " contrib1"
       streamContainerClass += " contrib1"
-      arenaSummaryClass += " contrib1"
       arenaPhotoClass = 'arenaPhotoContrib1'
       arenaPicture = this.props.topicPageContent.photo1  
       arenaProposal = this.props.topicPageContent.proposal1;
       arenaProposalId = this.props.topicPageContent.proposal1DbId;
       selectedContributor = this.props.topicPageContent.contributor1FirstName;
     }
+
     if (this.state.contributorSelect === 'contributor2') {
-      arenaContainer += " contrib2"
+      // arenaContainer += " contrib2"
+      // arenaSummaryClass += " contrib2"
       streamContainerClass += " contrib2"
-      arenaSummaryClass += " contrib2"
       arenaPhotoClass = 'arenaPhotoContrib2'
       arenaPicture = this.props.topicPageContent.photo2  
       arenaProposal = this.props.topicPageContent.proposal2;
@@ -258,11 +262,11 @@ class TopicPage extends Component {
 
                       <LikeButtonProposal id={arenaProposalId} />
                         <Button
-                          a href="/topicPage#commentPanelMaster"
+                          href="/topicPage#commentPanelMaster"
                           variant="light"
                           onClick={() => this.handleCommentProposal(arenaProposal, arenaProposalId)}
                           className="keyClaimFooterItem">
-                          <i class="far fa-comment"></i>
+                          <i className="far fa-comment"></i>
                         </Button>
                     </ButtonGroup>
                   </Card.Footer>

@@ -26,7 +26,7 @@ class LikeButtonProposal extends Component {
 
     componentWillReceiveProps = (nextProps) => {
 
-        if (this.props.id == !nextProps.id) {
+        if (this.props.id === !nextProps.id) {
             this.getProposalLikes(nextProps.id);
             console.log('nextProps', nextProps.id);
             console.log('this.props', nextProps.id);

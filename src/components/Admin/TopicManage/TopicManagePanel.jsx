@@ -58,10 +58,10 @@ class TopicManageCard extends Component {
   render() {
 
 //color/text of publish button based on topic.published status
-    let publishStyle = 'default';
-    if (this.props.topic.published) {
-      publishStyle = 'success'
-    }
+    // let publishStyle = 'default';
+    // if (this.props.topic.published) {
+    //   publishStyle = 'success'
+    // }
     let publishText = 'Unpublished';
     if (this.props.topic.published) {
       publishText = (
@@ -77,10 +77,10 @@ class TopicManageCard extends Component {
         </Button>);
     }
 //color/text of featured button based on topic.featured status
-    let featuredStyle = 'default';
-    if (this.props.topic.featured) {
-      featuredStyle = 'primary'
-    }
+    // let featuredStyle = 'default';
+    // if (this.props.topic.featured) {
+    //   featuredStyle = 'primary'
+    // }
     let featuredText = 'Set Featured';
     if (this.props.topic.featured) {
       featuredText = (

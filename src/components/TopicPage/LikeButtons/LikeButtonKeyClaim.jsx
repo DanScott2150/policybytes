@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import axios from 'axios';
 
-import { Panel, Button, ButtonGroup } from 'react-bootstrap';
+// import { Panel, Button, ButtonGroup } from 'react-bootstrap';
 
 import '../TopicPage.css'
 
@@ -28,7 +28,7 @@ class LikeButtonKeyClaim extends Component {
 
     componentWillReceiveProps = (nextProps) => {
 
-        if (this.props.id == !nextProps.id) {
+        if (this.props.id === !nextProps.id) {
             this.getKeyClaimLikes(nextProps.id);
             console.log('componentWillReceiveProps, nextProps', nextProps.id);
             console.log('componentWillReceiveProps, this.props', nextProps.id);

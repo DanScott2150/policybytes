@@ -50,7 +50,7 @@ class StreamItem extends Component {
 
     return (
       <div onClick={this.handleOpen} aria-controls="evidence-collapse-text">
-        <Card className={streamItemClass} expanded={this.state.open}>
+        <Card className={streamItemClass} expanded={this.state.open.toString()}>
           <Card.Body className="p-3">
             <Linkify tagName="div">{this.props.streamItem.streamComment }</Linkify>
 
@@ -66,11 +66,11 @@ class StreamItem extends Component {
                   <ButtonGroup className="keyClaimFooterButtons">
                     <LikeButtonStream id={this.props.streamItem.streamDbId} />
                     <Button 
-                      a href="/topicPage#commentCardMaster" 
+                      href="/topicPage#commentCardMaster" 
                       variant="light"
                       onClick={() => this.handleCommentStream(this.props.streamItem)} 
                       className="keyClaimFooterItem">
-                      <i class="far fa-comment"></i>
+                      <i className="far fa-comment"></i>
                     </Button>
                   </ButtonGroup>
                 </Card.Footer>

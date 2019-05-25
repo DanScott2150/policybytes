@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { USER_ACTIONS } from '../../../redux/actions/userActions';
+// import { USER_ACTIONS } from '../../../redux/actions/userActions';
 
-import { Card, Tab, Tabs, Button, ButtonGroup, Glyphicon, Form, FormGroup, ControlLabel, FormControl, Image, Well } from 'react-bootstrap';
+import { Card, Button, Form, FormGroup, FormControl, Image } from 'react-bootstrap';
 
 import './CommentSection.css'
 
@@ -87,7 +87,7 @@ class CommentAdd extends Component {
         // event.preventDefault(); 
         console.log('this.props.comments.streamComment.streamDbId', this.props.comments.streamComment.streamDbId);
         console.log('this.props.comments.keyClaimComment.claimDbId', this.props.comments.keyClaimComment.claimDbId);
-        if ((this.state.comment != '') && !this.props.isReply) {
+        if ((this.state.comment !== '') && !this.props.isReply) {
             this.setState({
                 personId: this.props.user.userInfo.id,
                 topic_id: this.props.topic_id,
@@ -103,7 +103,7 @@ class CommentAdd extends Component {
                 console.log('state key_claim_Id', this.state.key_claim_id);
 
             });
-        } else if ((this.state.comment != '') && this.props.isReply) {
+        } else if ((this.state.comment !== '') && this.props.isReply) {
             this.setState({
                 personId: this.props.user.userInfo.id,
                 topic_id: this.props.topic_id,
@@ -185,17 +185,18 @@ class CommentAdd extends Component {
                                             <span dangerouslySetInnerHTML={{ __html: proposalText}} />
                                                     
                                         </Card> : null}
-                                    <Image className='addCommentPic' circle src={fbPicture} />
+                            <Image className='addCommentPic' roundedCircle src={fbPicture} />
 
                                 <FormControl className='addCommentResponseField' 
-                                            componentClass="textarea" 
+                                            as="textarea" 
+                                            rows="3"
                                             value={this.state.comment} 
                                             onChange={this.handleTextChange} 
                                             placeholder={this.state.placeholder} />
                             </FormGroup>
                         </Form>
                     </div>
-                    <div className="addCommentButton"><Button bsStyle="primary" onClick={this.handleSubmit}>Submit</Button>
+                    <div className="addCommentButton"><Button variant="primary" onClick={this.handleSubmit}>Submit</Button>
                         {/* {this.props.isReply ? <Button style={{'display': 'inline-block'}} onClick={this.handleClose} >Cancel</Button> : null} */}
                     </div>
                 {/* </Card.Body> */}
