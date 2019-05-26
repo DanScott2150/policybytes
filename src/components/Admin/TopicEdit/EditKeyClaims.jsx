@@ -25,23 +25,11 @@ class EditKeyClaims extends Component {
     super(props);
 
     this.state = {
-      // submitAlert: false,
-      // photo1: '',
-      // photo2: '',
-      // topicReadMore: '',
-      // fireRedirect: false,
-      // edit: false,
       showStreamForClaim: undefined,
       keyClaimLocked: false,
       contributorSelect: this.props.contributorSelect,
-      // editTitle: false  // is this used?
     }
-
   }
-  
-  // componentWillUpdate() {
-  //   // keyClaimsArray = [];
-  // }
 
   handleHoverShowStream = (id) => {
     if (this.state.keyClaimLocked === false) {
@@ -64,7 +52,19 @@ class EditKeyClaims extends Component {
       showStreamForClaim: id,
       keyClaimLocked: !this.state.keyClaimLocked
     })
-    console.log("[EditKeyClaims.jsx] showStreamForClaim: ", this.state.showStreamForClaim);
+  }
+
+  addKeyClaim = () => {
+    const claimAddId = Object.keys(this.props.allKeyClaims).length;
+    const addPayload = {
+      id: claimAddId,
+      contributor: this.props.contributorSelect
+    }
+    // if (debug) { console.log(claimAddId); }
+    this.props.dispatch({
+      type: 'ADD_KEY_CLAIM',
+      payload: addPayload
+    })
   }
 
   // CHANGE_KEY_CLAIM_INFO => [atticusReducer] topicEditCache => updates Key Claim for given ID
@@ -107,17 +107,18 @@ class EditKeyClaims extends Component {
       <Container>
         <Row>
 
-          {/* Key Claim Panel */}
           <Col xs={4} style={{}}>
             <h4 className="text-center">{this.props.selectedContributor}'s Key Claims</h4>
             <div className="keyClaimsContainer">
               <SimpleBar style={{ height: '100%' }}>
+
                 {keyClaimsArray}
-                {/* {keyClaimForms} */}
                 <Button variant="primary" onClick={this.addKeyClaim}>Add Key Claim</Button>
+
               </SimpleBar>
             </div>
           </Col>
+
           <EditStreamFactory
             streamContainerClass={this.props.streamContainerClass}
             keyClaims={this.props.state.cacheEdit.topicEditCache.keyClaims}

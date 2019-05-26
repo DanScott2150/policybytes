@@ -12,6 +12,8 @@
         Also, couple Edit components with constructor function but nothing happening inside it. Needed?
     - mapStateToProps: better understanding
 
+5.26:
+    - Add Key Claim: front-end functionality added, clicking button will populate a new empty box in the key claim panel, as well as a new stream. Doesn't actually work though, need to fix server route for updating PSQL.
 
 5.24:
     - More refactoring & cleaning up for the Edit Key Claim & Edit Stream components. Next enable Add key claim & add stream item.

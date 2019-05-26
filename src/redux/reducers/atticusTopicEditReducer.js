@@ -103,9 +103,9 @@ const topicEditCache = (state = emptyTopicEditCache, action) => {
                 ...state,
                 keyClaims: {
                     ...state.keyClaims, 
-                    [action.payload]: { 
+                    [action.payload.id]: { 
                         claimDbId: '', //<-- was claimId: [action.payload]
-                        claimContributor: '',
+                        claimContributor: action.payload.contributor,
                         keyClaim: '',
                         streamData: {
                             0: {

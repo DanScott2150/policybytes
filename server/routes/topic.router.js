@@ -4,15 +4,14 @@ const router = express.Router();
 
 // Get all topics from database
 router.get('/alltopics', (req, res) => {
-
-    const queryText = `SELECT * from topic ORDER BY id asc;`
-    pool.query(queryText)
-        .then((result) => {
-            res.send(result.rows)
-        })
-        .catch((error) => {
-            console.log('Error in getting topics: ', error);
-        });
+  const queryText = `SELECT * from topic ORDER BY id asc;`
+  pool.query(queryText)
+    .then((result) => {
+      res.send(result.rows)
+    })
+    .catch((error) => {
+      console.log('Error in getting topics: ', error);
+    });
 });
 
 // Landing Page: Get featured topic
@@ -357,151 +356,156 @@ router.delete('/deleteTopic/:id', (req, res) => {
 
 // Update topic
 router.put('/updatetopic', (req, res) => {
-    let topic = req.body;
+  let topic = req.body;
+  console.log("TOPIC: ", topic);
 
-    (async () => {
-        const client = await pool.connect();
+  (async () => {
+    const client = await pool.connect();
 
-        try {
-            await client.query('BEGIN');
+      try {
+        await client.query('BEGIN');
 
-            //Post updates to contributor1 & contributor2
-            let queryText1 = `
-                UPDATE "contributor" 
-                SET "first_name" = $1, 
-                    "last_name" = $2, 
-                    "bio" = $3, 
-                    "photo_url" = $4
-                WHERE "id" = $5;`;
+        // Update Contributor 1 & Contributor 2 Data
+        let queryTextContributor1 = `
+            UPDATE "contributor" 
+            SET "first_name" = $1, 
+                "last_name" = $2, 
+                "bio" = $3, 
+                "photo_url" = $4
+            WHERE "id" = $5;`;
 
-            await client.query(queryText1, [
-                topic.contributor1FirstName,
-                topic.contributor1LastName, 
-                topic.bio1, 
-                topic.photo1, 
-                topic.contributor1DbId]);
+        await client.query(queryTextContributor1, [
+            topic.contributor1FirstName,
+            topic.contributor1LastName, 
+            topic.bio1, 
+            topic.photo1, 
+            topic.contributor1DbId]);
 
-            console.log('successfully updated contributor1');
+        console.log('Contributor 1 Data Updated');
 
-            let queryText2 = `
-                UPDATE "contributor" 
-                SET "first_name" = $1, 
-                    "last_name" = $2, 
-                    "bio" = $3, 
-                    "photo_url" = $4
-                WHERE "id" = $5;`;
-            
-            await client.query(queryText2, [
-                topic.contributor2FirstName,
-                topic.contributor2LastName, 
-                topic.bio2, 
-                topic.photo2, 
-                topic.contributor2DbId]);
+        let queryTextContributor2 = `
+            UPDATE "contributor" 
+            SET "first_name" = $1, 
+                "last_name" = $2, 
+                "bio" = $3, 
+                "photo_url" = $4
+            WHERE "id" = $5;`;
 
-            console.log('successfully updated contributor2');
+        await client.query(queryTextContributor2, [
+            topic.contributor2FirstName,
+            topic.contributor2LastName, 
+            topic.bio2, 
+            topic.photo2, 
+            topic.contributor2DbId]);
 
-            // Post update to topic info
-            let queryText = `
-                UPDATE "topic" 
-                SET "topic_title" = $1, 
-                    "premise" = $2, 
-                    "common_ground" = $3, 
-                    "archive_summary" = $4, 
-                    "icon_url" = $5 
-                WHERE "id" = $6;`;
+        console.log('Contributor 2 Data Updated');
 
-            await client.query(queryText, [
-                topic.topicTitle, 
-                topic.topicPremise, 
-                topic.topicCommonGround, 
-                topic.topicSummary, 
-                topic.topicReadMore, 
-                topic.topicDbId]);
+        // Update Topic Info
+        let queryTextTopicInfo = `
+            UPDATE "topic" 
+            SET "topic_title" = $1, 
+                "premise" = $2, 
+                "common_ground" = $3, 
+                "archive_summary" = $4, 
+                "icon_url" = $5 
+            WHERE "id" = $6;`;
 
-            console.log('successfully updated topic info');
+        await client.query(queryTextTopicInfo, [
+            topic.topicTitle, 
+            topic.topicPremise, 
+            topic.topicCommonGround, 
+            topic.topicSummary, 
+            topic.topicReadMore, 
+            topic.topicDbId]);
 
-            // Post update to Proposal
-            let queryText3 = `
-                UPDATE "proposal" 
-                SET "proposal" = $1 
-                WHERE "id" = $2;`;
+        console.log('Topic Info Updated');
 
-            await client.query(queryText3, [
-                topic.proposal1, 
-                topic.proposal1DbId]);
+        // Update Contributor Proposals
+        let queryTextProposal1 = `
+            UPDATE "proposal" 
+            SET "proposal" = $1 
+            WHERE "id" = $2;`;
 
-            console.log("Updated contributor1's proposal");
+        await client.query(queryTextProposal1, [
+          topic.proposal1, 
+          topic.proposal1DbId]);
 
-            let queryText4 = `
-                UPDATE "proposal" 
-                SET "proposal" = $1 
-                WHERE "id" = $2;`;
+        console.log("Contributor 1 Proposal Updated");
 
-            await client.query(queryText4, [
-                topic.proposal2, 
-                topic.proposal2DbId]);
+        let queryTextProposal2 = `
+            UPDATE "proposal" 
+            SET "proposal" = $1 
+            WHERE "id" = $2;`;
 
-            console.log("Updated contributor2's proposal");
+        await client.query(queryTextProposal2, [
+          topic.proposal2, 
+          topic.proposal2DbId]);
 
-            //Update Key claims
-            for (key in topic.keyClaims) {
+        console.log("Contributor 2 Proposal Updated");
 
-                let claim_order = key;  // Broken?
-                let keyData = topic.keyClaims[key]
+        // Update Key Claims
+        for (key in topic.keyClaims) {
+          console.log("for loop:", key);
+          let claimOrder = key;
+          let currentKeyClaim = topic.keyClaims[key];
+          
+          let keyClaimData = [];
 
-                let keyClaimData = [];
+          for (prop in currentKeyClaim) {
+            let keyDataProp = currentKeyClaim[prop]
+            keyClaimData.push(keyDataProp);
+          }
 
-                for (prop in keyData) {
-                    let keyDataProp = keyData[prop]
-                    keyClaimData.push(keyDataProp);
-                }
+          console.log("keyClaimData: ", keyClaimData);
 
-                let queryText5 = `
-                    UPDATE "key_claim" 
-                    SET "contributor_id" = $1, 
-                        "claim" = $2 
-                    WHERE "id" = $3;`;
+      let queryText5 = `
+          UPDATE "key_claim" 
+          SET "contributor_id" = $1, 
+              "claim" = $2,
+              "claim_order" = $3,
+          WHERE "id" = $4;`;
 
-                let contributor;
-                
-                if (keyClaimData[1] === 'contributor1') {
-                    contributor = topic.contributor1DbId
-                } else {
-                    contributor = topic.contributor2DbId
-                }
-                
-                const keyClaimResult = await client.query(queryText5, [
-                    contributor, 
-                    keyClaimData[2], 
-                    keyClaimData[0]]);
+      let contributor;
+      
+      if (keyClaimData[1] === 'contributor1') {
+          contributor = topic.contributor1DbId
+      } else {
+          contributor = topic.contributor2DbId
+      }
+      
+      const keyClaimResult = await client.query(queryText5, [
+          contributor, 
+          keyClaimData[2], 
+          keyClaimData[0],
+          keyClaimData[3]]);
 
 
-                let streamData = keyClaimData[3]
+      let streamData = keyClaimData[3]
 
-                for (stream in streamData) {
-                    let stream_order = stream;
+      for (stream in streamData) {
+          let stream_order = stream;
 
-                    let streamDataObj = streamData[stream];
+          let streamDataObj = streamData[stream];
 
-                    let queryText6 = `
-                        UPDATE "stream" 
-                        SET "contributor_id" = $1, 
-                            "stream_comment" = $2, 
-                            "stream_evidence" = $3 
-                        WHERE "id" = $4;`;
+          let queryText6 = `
+              UPDATE "stream" 
+              SET "contributor_id" = $1, 
+                  "stream_comment" = $2, 
+                  "stream_evidence" = $3 
+              WHERE "id" = $4;`;
 
-                    if (streamDataObj.streamContributor === 'contributor1') {
-                        contributor = topic.contributor1DbId;
-                    } else {
-                        contributor = topic.contributor2DbId
-                    }
-                    await client.query(queryText6, [
-                        contributor, 
-                        streamDataObj.streamComment, 
-                        streamDataObj.streamEvidence, 
-                        streamDataObj.streamDbId]);
-                }
-            }
+          if (streamDataObj.streamContributor === 'contributor1') {
+              contributor = topic.contributor1DbId;
+          } else {
+              contributor = topic.contributor2DbId
+          }
+          await client.query(queryText6, [
+              contributor, 
+              streamDataObj.streamComment, 
+              streamDataObj.streamEvidence, 
+              streamDataObj.streamDbId]);
+      }
+  }
 
             await client.query('COMMIT');
             res.sendStatus(201);
