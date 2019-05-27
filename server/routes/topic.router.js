@@ -443,69 +443,92 @@ router.put('/updatetopic', (req, res) => {
 
         console.log("Contributor 2 Proposal Updated");
 
-        // Update Key Claims
+    // Update Key Claims
+    // 1) Clear all existing key claims for the Topic ID
+    // 2) Re-create with updated data
+    // [There might be a better way to do this?]
+
+        // Clear key claims
+        let queryTextClearKeyClaims = `
+              DELETE FROM "key_claim"
+              WHERE "topic_id" = $1;`;
+
+        await client.query(queryTextClearKeyClaims, [topic.topicDbId]);
+
+        // Repopulate key claims
+        // [Same loop as in add route, break out into own function?]
         for (key in topic.keyClaims) {
-          console.log("for loop:", key);
-          let claimOrder = key;
-          let currentKeyClaim = topic.keyClaims[key];
-          
+          let claim_order = key;
+          let keyData = topic.keyClaims[key];
           let keyClaimData = [];
 
-          for (prop in currentKeyClaim) {
-            let keyDataProp = currentKeyClaim[prop]
+          for (prop in keyData) {
+            let keyDataProp = keyData[prop]
             keyClaimData.push(keyDataProp);
           }
 
-          console.log("keyClaimData: ", keyClaimData);
-
-      let queryText5 = `
-          UPDATE "key_claim" 
-          SET "contributor_id" = $1, 
-              "claim" = $2,
-              "claim_order" = $3,
-          WHERE "id" = $4;`;
-
-      let contributor;
-      
-      if (keyClaimData[1] === 'contributor1') {
-          contributor = topic.contributor1DbId
-      } else {
-          contributor = topic.contributor2DbId
-      }
-      
-      const keyClaimResult = await client.query(queryText5, [
-          contributor, 
-          keyClaimData[2], 
-          keyClaimData[0],
-          keyClaimData[3]]);
-
-
-      let streamData = keyClaimData[3]
-
-      for (stream in streamData) {
-          let stream_order = stream;
-
-          let streamDataObj = streamData[stream];
-
-          let queryText6 = `
-              UPDATE "stream" 
-              SET "contributor_id" = $1, 
-                  "stream_comment" = $2, 
-                  "stream_evidence" = $3 
-              WHERE "id" = $4;`;
-
-          if (streamDataObj.streamContributor === 'contributor1') {
-              contributor = topic.contributor1DbId;
+          // Establish which contributor the key claim is for
+          let contributor;
+          if (keyClaimData[1] === 'contributor1') {
+            contributor = topic.contributor1DbId;
           } else {
-              contributor = topic.contributor2DbId
+            contributor = topic.contributor2DbId;
           }
-          await client.query(queryText6, [
-              contributor, 
-              streamDataObj.streamComment, 
-              streamDataObj.streamEvidence, 
-              streamDataObj.streamDbId]);
-      }
-  }
+
+              // ^^Possible refactor:
+              // let contributor = keyClaimData[1] === 'contributor1' ? contributor1Id : contributor2Id;
+
+          // Insert Key Claim into database
+          let queryTextAddKeyClaim = `
+                INSERT INTO "key_claim" (
+                    "topic_id", 
+                    "contributor_id", 
+                    "claim", 
+                    "claim_order")
+                VALUES($1, $2, $3, $4) 
+                RETURNING "id";`;
+
+          const keyClaimResult = await client.query(queryTextAddKeyClaim, [
+                  topic.topicDbId,
+                  contributor,
+                  keyClaimData[2],    // "claim"
+                  claim_order]);
+
+          console.log("Key Claim added to database");
+
+          const keyClaimId = keyClaimResult.rows[0].id
+          let streamData = keyClaimData[3];   //"claim_order"
+
+          // Build out discussion stream for each key claim
+          for (stream in streamData) {
+            let stream_order = stream; //<-- local stream Id number
+            let streamDataObj = streamData[stream] //<--all content for a single stream
+
+            let queryTextAddStream = `
+                  INSERT INTO "stream" (
+                      "key_claim_id", 
+                      "contributor_id", 
+                      "stream_comment", 
+                      "stream_evidence", 
+                      "stream_order")
+                  VALUES ($1, $2, $3, $4, $5)`;
+
+            if (streamDataObj.streamContributor === 'contributor1') {
+                contributor = topic.contributor1DbId;
+            } else {
+                contributor = topic.contributor2DbId
+            }
+
+            await client.query(queryTextAddStream, [
+                  keyClaimId,
+                  contributor,
+                  streamDataObj.streamComment,
+                  streamDataObj.streamEvidence,
+                  stream_order]);
+
+          }   //for(stream in streamData)
+          
+        }//for(key in topic.keyClaims)
 
             await client.query('COMMIT');
             res.sendStatus(201);

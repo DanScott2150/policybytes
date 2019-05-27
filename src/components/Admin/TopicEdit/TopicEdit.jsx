@@ -97,6 +97,9 @@ class TopicEdit extends Component {
     let editTopicId = this.props.match.params.id;
 
     if (editTopicId) {
+      //UPDATE_TOPIC => [topicSaga] updateTopic() => API call to /api/topic/updatetopic route
+      //  => [topic.router] Update PSQL tables
+      
       this.props.dispatch({
         type: 'UPDATE_TOPIC',
         payload: this.props.state.cacheEdit.topicEditCache,

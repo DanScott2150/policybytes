@@ -50,7 +50,7 @@ class StreamItemEdit extends Component {
 
     return (
       <div aria-controls="evidence-collapse-text">
-        <Card className={streamItemClass} expanded={this.state.open}>
+        <Card className={streamItemClass} expanded={this.state.open.toString()}>
           <Card.Body className="p-3">
 
           {/* TOP SECTION: Stream Text Output */}

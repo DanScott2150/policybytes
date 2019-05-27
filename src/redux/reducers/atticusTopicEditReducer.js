@@ -132,7 +132,7 @@ const topicEditCache = (state = emptyTopicEditCache, action) => {
                         streamData: {
                             ...state.keyClaims[action.payload.claimId].streamData,
                             [action.payload.streamItemId]: {
-                                streamContributor: '', 
+                                streamContributor: action.payload.contributorId, 
                                 streamComment: '', 
                                 streamEvidence: '', 
                                 streamDbId: '',
