@@ -12,6 +12,9 @@
         Also, couple Edit components with constructor function but nothing happening inside it. Needed?
     - mapStateToProps: better understanding
 
+5.28:
+    - Delete Key Claim functionality.
+
 5.27:
     - Add Key Claim & Add Stream Item functional. Next will look into ability to easily re-order key claims & stream items. Click & drag ideal. Look into: https://www.npmjs.com/package/react-reorder
 

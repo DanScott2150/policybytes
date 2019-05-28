@@ -60,10 +60,24 @@ class EditKeyClaims extends Component {
       id: claimAddId,
       contributor: this.props.contributorSelect
     }
-    // if (debug) { console.log(claimAddId); }
+  
     this.props.dispatch({
       type: 'ADD_KEY_CLAIM',
       payload: addPayload
+    })
+  }
+
+  // Delete Key Claim
+  // DELETE_KEY_CLAIM => 
+  deleteKeyClaim = (id) => {
+    let payloadPackage = {
+      claimDbId: this.props.allKeyClaims[id].claimDbId,
+      keyClaimDbId: id
+    }
+    console.log("Delete Key Claim: ", this.props.allKeyClaims[id]);
+    this.props.dispatch({
+      type: 'DELETE_KEY_CLAIM',
+      payload: payloadPackage
     })
   }
 
@@ -98,7 +112,7 @@ class EditKeyClaims extends Component {
             key={"edit"+ keyClaimId}
             claimId={keyClaimId}
             handleKeyClaimChange={this.handleKeyClaimChange}
-            deleteKeyClaim={this.deleteKeyClaim} />
+            deleteKeyClaim={this.deleteKeyClaim.bind(this, keyClaimId)} />
         );
       }
     }
@@ -134,7 +148,7 @@ class EditKeyClaims extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  // keyClaims: state.cacheEdit.topicEditCache.keyClaims,
+  keyClaims: state.cacheEdit.topicEditCache.keyClaims,
   // contributorSelect: state.contributorSelect,
   state,
 
