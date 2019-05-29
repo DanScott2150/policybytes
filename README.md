@@ -1,6 +1,7 @@
 # PolicyBytes
 
-
+## 5.29.19
+- Admin Edit Topic Page: Add & Delete Key Claim, Add & Delete Stream Items now functional.
 
 ## 5.20.19
 V 1.0

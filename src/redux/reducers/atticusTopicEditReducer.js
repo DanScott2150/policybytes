@@ -102,19 +102,18 @@ const topicEditCache = (state = emptyTopicEditCache, action) => {
           [action.payload.id]: {
             claimDbId: '',
             claimContributor: action.payload.contributor,
-            keyClaim: '',
-            streamData: {
-              0: {
-                streamDbId: '',
-                streamContributor: '',
-                streamComment: '',
-                streamEvidence: '',
-              },
+            keyClaim: ''
+            // streamData: {
+            //   0: {
+            //     streamDbId: '',
+            //     streamContributor: action.payload.contributor,
+            //     streamComment: '',
+            //     streamEvidence: '',
+            //   },
             }
-          },
+          }
         }
-      }
-
+      
 // Delete Key Claim
     case 'DELETE_KEY_CLAIM':
       console.log('DELETE_KEY_CLAIM: ', action.payload);
@@ -159,6 +158,28 @@ const topicEditCache = (state = emptyTopicEditCache, action) => {
                   streamEvidence: '',
                   streamDbId: '',
               }
+            }
+          }
+        }
+      }
+
+    // Delete Stream Item
+    case 'DELETE_STREAM_ITEM':
+
+      const keyClaimId = action.payload.claimId;
+      const streamToRemove = action.payload.streamId;
+      let currentStream = state.keyClaims[keyClaimId].streamData;
+
+      const { [streamToRemove]: deletedStream, ...newStreamItems } = currentStream;
+
+      return {
+        ...state,
+        keyClaims: {
+          ...state.keyClaims,
+          [action.payload.claimId]: {
+            ...state.keyClaims[action.payload.claimId],
+            streamData: {
+              ...newStreamItems
             }
           }
         }

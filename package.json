@@ -1,6 +1,6 @@
 {
-  "name": "prime-solo-project",
-  "version": "0.1.0",
+  "name": "policybytes",
+  "version": "1.0.0",
   "private": true,
   "proxy": "https://localhost:5000",
   "dependencies": {
@@ -45,7 +45,7 @@
   },
   "scripts": {
     "start": "node server/server.js",
-    "client": "set HTTPS=true&&react-scripts start",
+    "client": "set HTTPS=true",
     "server": "nodemon --watch server server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

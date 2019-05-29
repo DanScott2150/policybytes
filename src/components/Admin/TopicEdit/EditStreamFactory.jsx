@@ -12,35 +12,27 @@ import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
 
 class EditStream extends Component {
-  // constructor(props) {
-  //   super(props)
 
-  //   this.state = {
-
-  //   }
-  // }
-  
-
+// Add Stream Item
   addStreamItem = (contributor) => {
     console.log("Add Stream for: ", contributor);
     let streamItemId = Object.keys(this.props.keyClaims[this.props.showStreamForClaim].streamData).length;
     let claimId = this.props.showStreamForClaim; //<-- local ID of the key claim that this lives in
-    // let contributorId = this.props.state.cacheEdit.topicEditCache.contributor1DbId
-        //packaging up the object to send to the reducer
-        let payloadObject = {
-            streamItemId: streamItemId,
-            claimId: claimId,
-            contributorId: contributor
-        }
-
-        this.props.dispatch({
-            type: 'ADD_STREAM_ITEM',
-            payload: payloadObject
-        })
+    
+    //packaging up the object to send to the reducer
+    let payloadObject = {
+      streamItemId: streamItemId,
+      claimId: claimId,
+      contributorId: contributor
     }
+    this.props.dispatch({
+      type: 'ADD_STREAM_ITEM',
+      payload: payloadObject
+    });
+  }
 
   render() {
-    console.log("props ", this.props);
+    // console.log("props ", this.props);
     let streamItemArray = [];
     let keyClaimIdArray = Object.keys(this.props.keyClaims); //How many Key Claims there are
 
@@ -78,6 +70,8 @@ class EditStream extends Component {
       }
     }
 
+    // Generate "Add Stream Item for [contributor]" buttons
+    // Probably a better way to do this.
     let addStreamItemButtons = [];
     if(this.props.showStreamForClaim){  //only show 'Add Stream Item' buttons if a Key Claim is selected
       addStreamItemButtons.push(

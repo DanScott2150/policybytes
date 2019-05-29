@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Collapse, Form } from 'react-bootstrap';
+import { Card, Collapse, Form, Button } from 'react-bootstrap';
 
 // import LikeButtonStream from './LikeButtons/LikeButtonStream.jsx'
 
@@ -14,10 +14,9 @@ class StreamItemEdit extends Component {
 
     this.state = {
       // Handles visibility for evidence section for given stream item
-      // For the EDITABLE stream component, the click-to-toggle functionality is disabled
+      // For the EDITABLE stream component (i.e. this file), the click-to-toggle functionality is disabled
       // Otherwise clicking into the form, or between form fields would cause it to toggle
-
-      open: true, //handles visibility for evidence section for given stream item
+      open: true,
     };
   }
 
@@ -31,6 +30,20 @@ class StreamItemEdit extends Component {
    // CHANGE_STREAM_ITEM_INFO => atticusReducer (updates const topicEditCache)
     this.props.dispatch({
       type: 'CHANGE_STREAM_ITEM_INFO',
+      payload: payloadPackage
+    });
+  }
+
+  deleteStreamItem = (event) => {
+    // console.log("delete stream props: ", this.props );
+    let payloadPackage = {
+      claimId: this.props.claimId,
+      streamId: this.props.streamId,
+      eventTarget: event.target
+    }
+
+    this.props.dispatch({
+      type: 'DELETE_STREAM_ITEM',
       payload: payloadPackage
     });
   }
@@ -104,6 +117,9 @@ class StreamItemEdit extends Component {
                       value={this.props.streamItem.streamEvidence}
                   />
               </Card.Body>
+
+                <Button variant="danger" onClick={this.deleteStreamItem}>Delete Stream Item</Button>
+
             </Card>
 
           </Card.Body>

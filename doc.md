@@ -46,7 +46,7 @@ npm run client >> launches index.js
 
 
 
-Deployment to Heroku:
+## Deployment to Heroku:
 server/server.js - comment lines in/out for server config
 package.json: scripts-client: "set HTTPS=true&&"react-scripts start
 npm run build

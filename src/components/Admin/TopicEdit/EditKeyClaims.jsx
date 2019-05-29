@@ -31,6 +31,7 @@ class EditKeyClaims extends Component {
     }
   }
 
+//Handle Mouse Hover & Click on Key Claims
   handleHoverShowStream = (id) => {
     if (this.state.keyClaimLocked === false) {
       this.setState({
@@ -53,7 +54,9 @@ class EditKeyClaims extends Component {
       keyClaimLocked: !this.state.keyClaimLocked
     })
   }
+// End of Key Claim Mouse event handlers
 
+  // Add Key Claim => atticusReducer
   addKeyClaim = () => {
     const claimAddId = Object.keys(this.props.allKeyClaims).length;
     const addPayload = {
@@ -64,11 +67,13 @@ class EditKeyClaims extends Component {
     this.props.dispatch({
       type: 'ADD_KEY_CLAIM',
       payload: addPayload
-    })
+    });
   }
 
   // Delete Key Claim
-  // DELETE_KEY_CLAIM => 
+  // DELETE_KEY_CLAIM => atticusReducer.jsx
+  // Uses ES6 destructuring to remove Key Claim object from state
+  // Changes the state of the topicEditCache, but does not hit the backend API 
   deleteKeyClaim = (id) => {
     let payloadPackage = {
       claimDbId: this.props.allKeyClaims[id].claimDbId,

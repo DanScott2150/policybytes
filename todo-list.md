@@ -1,7 +1,8 @@
 - Topic Edit:
     - Discussion Stream edit [Done]
-    - Add key claim / stream item
+    - Add & Delete key claim / stream item [Done]
     - Reorder key claims & stream items
+    - Add rich-text edit form
     - General refactoring, both Components & Redux flow
 
 - Add New Topic
@@ -11,6 +12,14 @@
     - constructor(props, context): was used in original version of StreamItemEdit.jsx. Why context?
         Also, couple Edit components with constructor function but nothing happening inside it. Needed?
     - mapStateToProps: better understanding
+
+- Bugs:
+    - Add New Key Claim (both contributors): Adds blank (non-styled) stream item to stream by default.
+    - Should clear discussion thread when user changes contributor tabs
+    - Discussion thread: Top stream item should populate to match the Key Claim by default? Or, when Admin creates a new Key Claim, it auto-generates the first stream item to have the same text.
+    - When deleting Stream Item & Key Claim: "Are you sure" modal?
+    - Laggy edit screen?
+    - Sometimes a react error when trying to delete a key claim? This happened once or twice but then seemed to magically fix itself when I tried to replicate it. Something relating to the StreamData associated with a KeyClaim
 
 5.28:
     - Delete Key Claim functionality.
