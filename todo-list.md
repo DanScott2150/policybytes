@@ -15,6 +15,7 @@
 
 - Bugs:
     - Add New Key Claim (both contributors): Adds blank (non-styled) stream item to stream by default.
+    - On live version, can't add stream item for newly-created Key Claim. Have to "save" changes first.
     - Should clear discussion thread when user changes contributor tabs
     - Discussion thread: Top stream item should populate to match the Key Claim by default? Or, when Admin creates a new Key Claim, it auto-generates the first stream item to have the same text.
     - When deleting Stream Item & Key Claim: "Are you sure" modal?

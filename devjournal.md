@@ -1,3 +1,23 @@
+
+## 5.29.19
+- Admin Edit Topic Page: Add & Delete Key Claim, Add & Delete Stream Items now functional.
+
+## 5.20.19
+V 1.0
+Sitewide
+- Major design updates to try and make everything cleaner & more intuitive. Also resulted in cleaner code which will be easier to update going forward. Major changes to the Landing Page, Topic Page, Admin Panel, and Topic Edit Page.
+
+Known issues:
+
+
+
+
+## 2.19
+Image upload & display functionality fixed
+
+## 2.15
+Original source code downloaded, project started
+
 ### 2.08
 
 Downloaded source code from github: https://github.com/davidthekesler/policybytes
